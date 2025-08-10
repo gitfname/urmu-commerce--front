@@ -239,7 +239,7 @@ const LoginRegister: React.FC = () => {
                             <a className="text-red-400 hover:text-red-500 transition" href="#">
                                 قوانین و مقررات
                             </a>{' '}
-                            بازرگانان بدون مرز - BBM میباشد.
+                            نارنجی توی میباشد.
                         </div>
                     )}
                 </div>

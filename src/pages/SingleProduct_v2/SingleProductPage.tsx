@@ -170,7 +170,7 @@ const SingleProductPage: React.FC<SingleProductPageProps> = ({
 
     if (loading) {
         return (
-            <div className="max-w-[1500px] mx-auto px-3 md:px-5 mt-9 md:mt-44">
+            <div className="max-w-[1500px] mx-auto px-3 md:px-5 mt-9 ">
                 <div className="flex justify-center items-center h-64">
                     <div className="text-lg text-gray-600">در حال بارگذاری...</div>
                 </div>
@@ -180,7 +180,7 @@ const SingleProductPage: React.FC<SingleProductPageProps> = ({
 
     if (error || !product) {
         return (
-            <div className="max-w-[1500px] mx-auto px-3 md:px-5 mt-9 md:mt-44">
+            <div className="max-w-[1500px] mx-auto px-3 md:px-5 mt-9 ">
                 <div className="flex justify-center items-center h-64">
                     <div className="text-lg text-red-600">خطا در بارگذاری محصول: {error}</div>
                 </div>
@@ -203,7 +203,7 @@ const SingleProductPage: React.FC<SingleProductPageProps> = ({
     const productFeatures = getProductFeatures();
 
     return (
-        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-9 md:mt-44">
+        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-9 ">
             <div className="my-8 lg:my-10 lg:px-5">
                 <div className="bg-white shadow-box-sm rounded-xl py-5 px-2 sm:px-6">
                     <div className="flex flex-col lg:flex-row gap-8">

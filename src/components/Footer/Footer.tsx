@@ -186,7 +186,7 @@ const Footer: React.FC<FooterProps> = ({
                 <div className="px-4 lg:flex pb-5">
                     <div className="lg:w-9/12">
                         <p className="mb-2 text-lg text-zinc-700">
-                            فروشگاه اینترنتی بازرگانان بدون مرز - BBM
+                            فروشگاه اینترنتی نارنجی توی
                         </p>
                         <p className="mb-7 text-zinc-600 text-sm leading-7 text-justify">
                             {companyDescription}

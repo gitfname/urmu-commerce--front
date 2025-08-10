@@ -142,74 +142,74 @@ const Home: React.FC = () => {
                     categories={[
                         {
                             id: '1',
-                            name: 'موبایل',
-                            image: 'assets/image/category/1.png',
+                            name: 'لگو پسرانه',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2021/11/lego-icon-8.png',
                             href: '#'
                         },
                         {
                             id: '2',
-                            name: 'کالای دیجیتال',
-                            image: 'assets/image/category/2.png',
+                            name: 'لگو دخترانه',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2021/11/lego-icon-9.png',
                             href: '#'
                         },
                         {
                             id: '3',
-                            name: 'لوازم خانه',
-                            image: 'assets/image/category/3.png',
+                            name: 'ربات حرفه‌ای',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/11/2-min-393x400-min.jpg',
                             href: '#'
                         },
                         {
                             id: '4',
-                            name: 'پوشاک',
-                            image: 'assets/image/category/4.png',
+                            name: 'تفنگ حرفه‌ای',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/1-min.png',
                             href: '#'
                         },
                         {
                             id: '5',
-                            name: 'کالای سوپرمارکت',
-                            image: 'assets/image/category/5.png',
+                            name: 'اکشن فیگور',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/5-min.png',
                             href: '#'
                         },
                         {
                             id: '6',
-                            name: 'دفتر و قلم',
-                            image: 'assets/image/category/6.png',
+                            name: 'ماشین فلزی',
+                            image: '	https://asbab-bazi.com/wp-content/uploads/2024/11/110-min-min.jpg',
                             href: '#'
                         },
                         {
                             id: '7',
-                            name: 'محصولات بهداشتی',
-                            image: 'assets/image/category/7.png',
+                            name: 'ماشین کنترلی',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/10/10.jpg',
                             href: '#'
                         },
                         {
                             id: '8',
-                            name: 'محصولات ورزشی',
-                            image: 'assets/image/category/8.png',
+                            name: 'کوادکوپتر',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/10/9.jpg',
                             href: '#'
                         },
                         {
                             id: '9',
-                            name: 'ابزارآلات',
-                            image: 'assets/image/category/9.png',
+                            name: 'هلیکوپتر کنترلی',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/11/65_71_11zon-1-min.jpg',
                             href: '#'
                         },
                         {
                             id: '10',
-                            name: 'موتور و تجهیزات',
-                            image: 'assets/image/category/10.png',
+                            name: 'هواپیما کنترلی',
+                            image: '	https://asbab-bazi.com/wp-content/uploads/2024/11/49-min-1-min-1.jpg',
                             href: '#'
                         },
                         {
                             id: '11',
-                            name: 'کالای سنتی',
-                            image: 'assets/image/category/11.png',
+                            name: 'قایق کنترلی',
+                            image: '		https://asbab-bazi.com/wp-content/uploads/2024/10/8.jpg',
                             href: '#'
                         },
                         {
                             id: '12',
-                            name: 'اسباب بازی',
-                            image: 'assets/image/category/12.png',
+                            name: 'عروسک پولیشی',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/0-min-400x400.png',
                             href: '#'
                         }
                     ]}
