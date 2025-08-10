@@ -1,0 +1,846 @@
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import PriceRangeSlider from '../components/PriceRangeSlider/PriceRangeSlider';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useQueryStrings } from '../hooks/useQueryStrings';
+import {
+    useFindManyAndCountProductsQuery,
+    useFindManyProductCategoriesQuery,
+    useFindThirdLevelProductCategoriesQuery,
+    useFindManyProductBrandsQuery,
+    getFindManyProductCategoriesQueryQueryKey,
+} from '../services/api/ecommerce--api';
+import { Env } from '../env';
+
+// Types
+interface FilterState {
+    onlyAvailable: boolean;
+    selectedCategory: number | null;
+    selectedBrand: number | null;
+    selectedSellers: string[];
+    priceRange: { min: number; max: number };
+    searchTerm: string;
+}
+
+interface SortOption {
+    key: string;
+    label: string;
+    active: boolean;
+    order?: 'ASC' | 'DESC';
+    priceOrder?: 'ASC' | 'DESC';
+}
+
+const ProductSearch: React.FC = () => {
+    // Constants
+    const MIN_PRICE = 0;
+    const MAX_PRICE = 100_000_000;
+    const PRODUCTS_PER_PAGE = 12;
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const queryStrings = useQueryStrings({
+        q: ""
+    });
+
+    // Get initial values from URL params
+    const categoryFromUrl = searchParams.get('category');
+    const brandFromUrl = searchParams.get('brand');
+    const minPriceFromUrl = searchParams.get('minPrice');
+    const maxPriceFromUrl = searchParams.get('maxPrice');
+    const parentCategoryId = searchParams.get('parentCategoryId');
+
+    const initialCategoryId = categoryFromUrl ? parseInt(categoryFromUrl, 10) : null;
+    const initialBrandId = brandFromUrl ? parseInt(brandFromUrl, 10) : null;
+    const initialMinPrice = minPriceFromUrl ? parseInt(minPriceFromUrl, 10) : MIN_PRICE;
+    const initialMaxPrice = maxPriceFromUrl ? parseInt(maxPriceFromUrl, 10) : MAX_PRICE;
+
+    // State management
+    const [filters, setFilters] = useState<FilterState>({
+        onlyAvailable: false,
+        selectedCategory: initialCategoryId,
+        selectedBrand: initialBrandId,
+        selectedSellers: [],
+        priceRange: { min: initialMinPrice, max: initialMaxPrice },
+        searchTerm: queryStrings.q
+    });
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [sortOptions, setSortOptions] = useState<SortOption[]>([
+        { key: 'oldest', label: 'قدیمی', active: false, priceOrder: 'ASC' },
+        { key: 'newest', label: 'جدیدترین', active: false, order: 'DESC' },
+    ]);
+
+    // Update filters when URL parameters change
+    useEffect(() => {
+        const categoryFromUrl = searchParams.get('category');
+        const brandFromUrl = searchParams.get('brand');
+        const minPriceFromUrl = searchParams.get('minPrice');
+        const maxPriceFromUrl = searchParams.get('maxPrice');
+
+        const categoryId = categoryFromUrl ? parseInt(categoryFromUrl, 10) : null;
+        const brandId = brandFromUrl ? parseInt(brandFromUrl, 10) : null;
+        const minPrice = minPriceFromUrl ? parseInt(minPriceFromUrl, 10) : MIN_PRICE;
+        const maxPrice = maxPriceFromUrl ? parseInt(maxPriceFromUrl, 10) : MAX_PRICE;
+
+        setFilters(prev => ({
+            ...prev,
+            selectedCategory: categoryId,
+            selectedBrand: brandId,
+            priceRange: { min: minPrice, max: maxPrice }
+        }));
+    }, [searchParams, MIN_PRICE, MAX_PRICE]);
+
+    // Fetch categories from API
+    const {
+        data: categoriesResponse,
+        isLoading: categoriesLoading,
+        error: categoriesError
+    } = useFindThirdLevelProductCategoriesQuery();
+
+    // Fetch brands from API
+    const {
+        data: brandsResponse,
+        isLoading: brandsLoading,
+        error: brandsError
+    } = useFindManyProductBrandsQuery({
+        skip: 0,
+        limit: 35
+    });
+
+    // Fetch product categories from API
+    const {
+        data: parentProductCategories,
+        refetch: refetchParentProductCategories
+    } = useFindManyProductCategoriesQuery({
+        limit: 12,
+        skip: 0,
+        parent: +parentCategoryId
+    }, {
+        query: {
+            queryKey: getFindManyProductCategoriesQueryQueryKey({ limit: 12, skip: 0, parent: +parentCategoryId }),
+            enabled: false,
+            retry: false,
+            refetchOnWindowFocus: false
+        }
+    })
+
+    useEffect(
+        () => {
+            if (!parentCategoryId) return
+            refetchParentProductCategories()
+        }, [parentCategoryId]
+    )
+
+    const categories = categoriesResponse?.data || [];
+    const brands = brandsResponse?.data?.data || [];
+
+    // Build API query parameters
+    const apiParams = useMemo(() => {
+        const skip = (currentPage - 1) * PRODUCTS_PER_PAGE;
+        const activeSort = sortOptions.find(option => option.active);
+
+        const params: any = {
+            limit: PRODUCTS_PER_PAGE,
+            skip: skip,
+        };
+
+        // Add search term
+        if (filters.searchTerm.trim()) {
+            params.title = filters.searchTerm.trim();
+        }
+
+        // Add price range filters
+        if (filters.priceRange.min > MIN_PRICE) {
+            params.minPrice = filters.priceRange.min;
+        }
+        if (filters.priceRange.max < MAX_PRICE) {
+            params.maxPrice = filters.priceRange.max;
+        }
+
+        // Add availability filter
+        if (filters.onlyAvailable) {
+            params.available = true;
+        }
+
+        // Add category filter (single category ID)
+        if (filters.selectedCategory !== null) {
+            params.category = filters.selectedCategory.toString();
+        }
+
+        // Add parentCategory filter (single category ID)
+        if (parentCategoryId) {
+            params.parentCategoryId = parentCategoryId;
+        }
+
+        // Add brand filter
+        if (filters.selectedBrand !== null) {
+            params.brand = filters.selectedBrand;
+        }
+
+        // Add sorting
+        if (activeSort) {
+            if (activeSort.order) {
+                params.order = activeSort.order;
+            }
+        }
+
+        return params;
+    }, [currentPage, filters, sortOptions, MIN_PRICE, MAX_PRICE, parentCategoryId]);
+
+    // Use the API hook
+    const {
+        data: apiResponse,
+        isLoading: loading,
+        error: apiError,
+        refetch
+    } = useFindManyAndCountProductsQuery(apiParams);
+
+    // Extract data from API response
+    const products = apiResponse?.data?.data || [];
+    const totalCount = apiResponse?.data?.count || 0;
+    const error = apiError ? 'خطا در بارگذاری محصولات' : null;
+
+    // Apply client-side filters that aren't handled by the API
+    const filteredProducts = useMemo(() => {
+        let filtered = [...products];
+
+        // Apply price-based sorting if needed (API might handle this)
+        const activeSort = sortOptions.find(option => option.active);
+        if (activeSort?.priceOrder) {
+            filtered.sort((a, b) => {
+                const priceA = parseInt(a.basePrice);
+                const priceB = parseInt(b.basePrice);
+                return activeSort.priceOrder === 'ASC' ? priceA - priceB : priceB - priceA;
+            });
+        }
+
+        return filtered;
+    }, [products, sortOptions]);
+
+    // Calculate pagination
+    const totalPages = Math.ceil(totalCount / PRODUCTS_PER_PAGE);
+    const paginationNumbers = useMemo(() => {
+        const pages = [];
+        const maxVisible = 5;
+
+        if (totalPages <= maxVisible) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            if (currentPage <= 3) {
+                for (let i = 1; i <= 4; i++) {
+                    pages.push(i);
+                }
+                pages.push('...');
+                pages.push(totalPages);
+            } else if (currentPage >= totalPages - 2) {
+                pages.push(1);
+                pages.push('...');
+                for (let i = totalPages - 3; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+            } else {
+                pages.push(1);
+                pages.push('...');
+                for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                    pages.push(i);
+                }
+                pages.push('...');
+                pages.push(totalPages);
+            }
+        }
+
+        return pages;
+    }, [currentPage, totalPages]);
+
+    // Event handlers
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setFilters(prev => ({ ...prev, searchTerm: value }));
+        setCurrentPage(1);
+    };
+
+    // Updated price range handler to update URL parameters
+    const handlePriceRangeChange = useCallback((min: number, max: number) => {
+        setFilters(prev => ({
+            ...prev,
+            priceRange: { min, max }
+        }));
+
+        // Update URL parameters
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        if (min > MIN_PRICE) {
+            newSearchParams.set('minPrice', min.toString());
+        } else {
+            newSearchParams.delete('minPrice');
+        }
+
+        if (max < MAX_PRICE) {
+            newSearchParams.set('maxPrice', max.toString());
+        } else {
+            newSearchParams.delete('maxPrice');
+        }
+
+        setSearchParams(newSearchParams);
+        setCurrentPage(1);
+    }, [searchParams, setSearchParams, MIN_PRICE, MAX_PRICE]);
+
+    const handleClearAllFilters = () => {
+        setFilters({
+            onlyAvailable: false,
+            selectedCategory: null,
+            selectedBrand: null,
+            selectedSellers: [],
+            priceRange: { min: MIN_PRICE, max: MAX_PRICE },
+            searchTerm: ''
+        });
+        setCurrentPage(1);
+        // Clear URL parameters
+        setSearchParams({});
+        // Clear sorting as well
+        setSortOptions(prev =>
+            prev.map(option => ({ ...option, active: false }))
+        );
+    };
+
+    const handleToggleFilter = (filterType: keyof FilterState) => {
+        setFilters(prev => {
+            if (filterType === 'onlyAvailable') {
+                return { ...prev, [filterType]: !prev[filterType] };
+            }
+            return prev;
+        });
+        setCurrentPage(1);
+    };
+
+    // Updated to handle single category selection and URL parameters
+    const handleCategoryChange = (categoryId: number) => {
+        const newCategoryId = filters.selectedCategory === categoryId ? null : categoryId;
+
+        setFilters(prev => ({
+            ...prev,
+            selectedCategory: newCategoryId
+        }));
+
+        // Update URL parameters
+        const newSearchParams = new URLSearchParams(searchParams);
+        if (newCategoryId !== null) {
+            newSearchParams.set('category', newCategoryId.toString());
+        } else {
+            newSearchParams.delete('category');
+        }
+        setSearchParams(newSearchParams);
+
+        setCurrentPage(1);
+    };
+
+    const handleParentCategoryClick = (categoryId: number) => {
+        // const newCategoryId = filters.selectedCategory === categoryId ? null : categoryId;
+
+        setFilters(prev => ({
+            ...prev,
+            selectedCategory: categoryId
+        }));
+
+        // Update URL parameters
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('category', categoryId.toString());
+        // if (newCategoryId !== null) {
+        //     newSearchParams.set('category', newCategoryId.toString());
+        // } else {
+        //     newSearchParams.delete('category');
+        // }
+        newSearchParams.delete("parentCategoryId")
+
+        setSearchParams(newSearchParams);
+
+        setCurrentPage(1);
+    };
+
+    // Brand change handler
+    const handleBrandChange = (brandId: number) => {
+        const newBrandId = filters.selectedBrand === brandId ? null : brandId;
+
+        setFilters(prev => ({
+            ...prev,
+            selectedBrand: newBrandId
+        }));
+
+        // Update URL parameters
+        const newSearchParams = new URLSearchParams(searchParams);
+        if (newBrandId !== null) {
+            newSearchParams.set('brand', newBrandId.toString());
+        } else {
+            newSearchParams.delete('brand');
+        }
+        setSearchParams(newSearchParams);
+
+        setCurrentPage(1);
+    };
+
+    const handleSellerChange = (sellerId: string, checked: boolean) => {
+        setFilters(prev => ({
+            ...prev,
+            selectedSellers: checked
+                ? [...prev.selectedSellers, sellerId]
+                : prev.selectedSellers.filter(id => id !== sellerId)
+        }));
+        setCurrentPage(1);
+    };
+
+    const handleSortChange = (sortKey: string) => {
+        setSortOptions(prev =>
+            prev.map(option => ({
+                ...option,
+                active: option.key === sortKey
+            }))
+        );
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    const formatPrice = (price: string) => {
+        return parseInt(price).toLocaleString('fa-IR');
+    };
+
+    const getImageUrl = (imageName: string) => {
+        return `https://jahanzar2.storage.iran.liara.space/ecommerce/products/thumbnail/${imageName}`;
+    };
+
+    // Get selected category and brand titles for display
+    const selectedCategoryTitle = useMemo(() => {
+        if (filters.selectedCategory === null) return null;
+        const category = categories.find(cat => cat.id === filters.selectedCategory);
+        return category?.title || null;
+    }, [filters.selectedCategory, categories]);
+
+    const selectedBrandTitle = useMemo(() => {
+        if (filters.selectedBrand === null) return null;
+        const brand = brands.find(b => b.id === filters.selectedBrand);
+        return brand?.title || null;
+    }, [filters.selectedBrand, brands]);
+
+    // Check if price range is custom (different from default)
+    const hasCustomPriceRange = filters.priceRange.min > MIN_PRICE || filters.priceRange.max < MAX_PRICE;
+
+    return (
+        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-[5rem] md:mt-44" dir="rtl">
+            {/* Search Bar */}
+            <div className="mb-2">
+                <div className="relative max-w-md mx-auto">
+                    <input
+                        type="text"
+                        value={filters.searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="جستجوی محصولات..."
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none"
+                        dir="rtl"
+                    />
+                    <svg
+                        className="absolute top-3.5 left-3 w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            {/* Show selected filters */}
+            {(selectedCategoryTitle || selectedBrandTitle || hasCustomPriceRange) && (
+                <div className="mb-4 text-center">
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {selectedCategoryTitle && (
+                            <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-lg">
+                                <span>دسته‌بندی: {selectedCategoryTitle}</span>
+                                <button
+                                    onClick={() => handleCategoryChange(filters.selectedCategory!)}
+                                    className="text-red-500 hover:text-red-700"
+                                    title="حذف فیلتر دسته‌بندی"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        )}
+                        {selectedBrandTitle && (
+                            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg">
+                                <span>برند: {selectedBrandTitle}</span>
+                                <button
+                                    onClick={() => handleBrandChange(filters.selectedBrand!)}
+                                    className="text-blue-500 hover:text-blue-700"
+                                    title="حذف فیلتر برند"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        )}
+                        {hasCustomPriceRange && (
+                            <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-lg">
+                                <span>
+                                    قیمت: {filters.priceRange.min.toLocaleString('fa-IR')} - {filters.priceRange.max.toLocaleString('fa-IR')} تومان
+                                </span>
+                                <button
+                                    onClick={() => handlePriceRangeChange(MIN_PRICE, MAX_PRICE)}
+                                    className="text-green-500 hover:text-green-700"
+                                    title="حذف فیلتر قیمت"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            <div className="my-8 max-md:mt-0 lg:my-10 py-5 lg:px-10 flex flex-col md:flex-row gap-5">
+                {/* Filters Sidebar */}
+                <div className="md:w-4/12 lg:w-3/12">
+                    <div className="mb-4 rounded-2xl bg-white shadow-box-md">
+                        <div className="flex flex-col overflow-y-auto overflow-x-hidden px-4 py-3">
+                            <div>
+                                {/* Filter Header */}
+                                <div className="mb-6 flex items-center justify-between">
+                                    <h3 className="text-zinc-700">فیلتر ها</h3>
+                                    <button
+                                        onClick={handleClearAllFilters}
+                                        className="py-2 text-sm text-red-400 hover:text-red-500 transition"
+                                    >
+                                        حذف همه
+                                    </button>
+                                </div>
+
+                                <ul className="space-y-6 divide-y">
+                                    {/* Category Filter */}
+                                    <li>
+                                        <details className="group">
+                                            <summary className="flex cursor-pointer items-center justify-between rounded-lg py-3 text-zinc-700">
+                                                <span>دسته بندی</span>
+                                                <span className="shrink-0 transition duration-200 group-open:rotate-90">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+                                                        <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                                                    </svg>
+                                                </span>
+                                            </summary>
+                                            <div className="mt-2 max-h-60 overflow-y-auto pr-1">
+                                                {categoriesLoading ? (
+                                                    <div className="text-center py-4">
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-500 mx-auto"></div>
+                                                        <span className="text-xs text-zinc-500 mt-2 block">در حال بارگذاری...</span>
+                                                    </div>
+                                                ) : categoriesError ? (
+                                                    <div className="text-center py-4">
+                                                        <span className="text-xs text-red-500">خطا در بارگذاری دسته‌بندی‌ها</span>
+                                                    </div>
+                                                ) : (
+                                                    <ul className="space-y-2 rounded-lg">
+                                                        {categories.map((category) => (
+                                                            <li key={category.id}>
+                                                                <label className="flex items-center gap-x-2 rounded-lg px-4 py-2 text-zinc-700 cursor-pointer">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="category"
+                                                                        checked={filters.selectedCategory === category.id}
+                                                                        onChange={() => handleCategoryChange(category.id)}
+                                                                        className="rounded border-gray-300 text-red-500 focus:ring-red-500"
+                                                                    />
+                                                                    <span>{category.title}</span>
+                                                                </label>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        </details>
+                                    </li>
+
+                                    {/* Brand Filter */}
+                                    <li>
+                                        <details className="group">
+                                            <summary className="flex cursor-pointer items-center justify-between rounded-lg py-3 text-zinc-700">
+                                                <span>برند</span>
+                                                <span className="shrink-0 transition duration-200 group-open:rotate-90">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+                                                        <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                                                    </svg>
+                                                </span>
+                                            </summary>
+                                            <div className="mt-2 max-h-60 overflow-y-auto pr-1">
+                                                {brandsLoading ? (
+                                                    <div className="text-center py-4">
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mx-auto"></div>
+                                                        <span className="text-xs text-zinc-500 mt-2 block">در حال بارگذاری...</span>
+                                                    </div>
+                                                ) : brandsError ? (
+                                                    <div className="text-center py-4">
+                                                        <span className="text-xs text-red-500">خطا در بارگذاری برندها</span>
+                                                    </div>
+                                                ) : (
+                                                    <ul className="space-y-2 rounded-lg">
+                                                        {brands.map((brand) => (
+                                                            <li key={brand.id}>
+                                                                <label className="flex items-center gap-x-2 rounded-lg px-4 py-2 text-zinc-700 cursor-pointer">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="brand"
+                                                                        checked={filters.selectedBrand === brand.id}
+                                                                        onChange={() => handleBrandChange(brand.id)}
+                                                                        className="rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+                                                                    />
+                                                                    <span>{brand.title}</span>
+                                                                </label>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        </details>
+                                    </li>
+
+                                    {/* Price Range Filter */}
+                                    <li>
+                                        <div className="pt-3">
+                                            <p className="mb-4 text-zinc-700">محدوده قیمت</p>
+                                            <div className="space-y-4">
+                                                <PriceRangeSlider
+                                                    min={1000}
+                                                    max={100_000_000}
+                                                    defaultMinValue={filters.priceRange.min}
+                                                    defaultMaxValue={filters.priceRange.max}
+                                                    rtl={true}
+                                                    step={10_000}
+                                                    currency=''
+                                                    onMinFormat={(value) => value.toLocaleString("fa")}
+                                                    onMaxFormat={(value) => value.toLocaleString("fa")}
+                                                    onRangeChange={handlePriceRangeChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    {/* Available Products Toggle */}
+                                    <li>
+                                        <label className="flex cursor-pointer items-center justify-between py-3" htmlFor="onlyAvailableDesktop">
+                                            <div className="text-zinc-700">
+                                                فقط کالا های موجود
+                                            </div>
+                                            <div className="relative inline-flex cursor-pointer items-center">
+                                                <input
+                                                    className="peer sr-only"
+                                                    id="onlyAvailableDesktop"
+                                                    type="checkbox"
+                                                    checked={filters.onlyAvailable}
+                                                    onChange={() => handleToggleFilter('onlyAvailable')}
+                                                />
+                                                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:right-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-400 peer-checked:after:-translate-x-full peer-focus:ring-red-400"></div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Main Content */}
+                <div className='md:w-8/12 lg:w-9/12'>
+                    {
+                        parentCategoryId
+                            ?
+                            <div className='w-full grid grid-cols-4 gap-3.5 mb-9 mt-6'>
+                                {
+                                    parentProductCategories?.data?.data?.map(category => (
+                                        <button
+                                            key={category.id}
+                                            className='p-5 bg-gray-100 rounded-lg'
+                                            onClick={() => handleParentCategoryClick(category.id)}
+                                        >
+                                            <img
+                                                alt={category.title}
+                                                loading='lazy'
+                                                src={Env.productCategoryImage + category.image}
+                                                className='w-28 mx-auto block'
+                                            />
+
+                                            <p className='text-sm text-center mt-4'>{category.title}</p>
+                                        </button>
+                                    ))
+                                }
+                            </div>
+                            :
+                            null
+                    }
+
+                    <div className="">
+                        {/* Sort Filter */}
+                        <div className="bg-white shadow-box-sm rounded-2xl grid place-items-start p-5">
+                            <div className="flex flex-wrap gap-5 justify-start items-center">
+                                <div className="text-zinc-600 text-sm">مرتب سازی:</div>
+                                {sortOptions.map((option) => (
+                                    <div
+                                        key={option.key}
+                                        onClick={() => handleSortChange(option.key)}
+                                        className={`text-xs hover:text-red-500 transition cursor-pointer ${option.active ? 'text-red-500' : 'text-zinc-500 hover:text-red-400'
+                                            }`}
+                                    >
+                                        {option.label}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Loading State */}
+                        {loading && (
+                            <div className="flex justify-center items-center py-12">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
+                                <span className="mr-3 text-zinc-600">در حال بارگذاری...</span>
+                            </div>
+                        )}
+
+                        {/* Error State */}
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-5">
+                                <p className="text-red-600 text-center">{error}</p>
+                                <button
+                                    onClick={() => refetch()}
+                                    className="mt-2 mx-auto block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                                >
+                                    تلاش مجدد
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Products Grid */}
+                        {!loading && !error && (
+                            <>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-5">
+                                    {filteredProducts.map((product) => (
+                                        <Link
+                                            to={"/products/" + product.id}
+                                            key={product.id}
+                                            className="bg-white rounded-xl shadow-box hover:drop-shadow-lg transition px-4 py-4"
+                                        >
+                                            <img
+                                                className="mx-auto w-full h-48 object-contain object-center rounded-lg"
+                                                src={getImageUrl(product.thumbnailImage)}
+                                                alt={product.title}
+                                                onError={(e) => {
+                                                    const target = e.target as HTMLImageElement;
+                                                    target.src = '/placeholder-image.jpg';
+                                                }}
+                                            />
+                                            <div className="text-zinc-600 text-sm mt-3 line-clamp-2">
+                                                {product.title}
+                                            </div>
+                                            <div className="text-zinc-500 text-xs mt-2 line-clamp-2">
+                                                {product.summary}
+                                            </div>
+                                            {/* Show brand name if available */}
+                                            {product.brand && (
+                                                <div className="text-zinc-400 text-xs mt-1">
+                                                    برند: {product.brand.title}
+                                                </div>
+                                            )}
+                                            <div className="flex items-center justify-between mt-3">
+                                                <div className="flex items-center gap-2">
+                                                    {product.hasVariants && (
+                                                        <div className="bg-blue-500 rounded-full px-2 py-1 text-white text-xs">
+                                                            تنوع
+                                                        </div>
+                                                    )}
+                                                    {product.stockQuantity > 0 ? (
+                                                        <div className="bg-green-500 rounded-full px-2 py-1 text-white text-xs">
+                                                            موجود
+                                                        </div>
+                                                    ) : (
+                                                        <div className="bg-gray-500 rounded-full px-2 py-1 text-white text-xs">
+                                                            ناموجود
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="flex justify-center gap-x-1 text-sm text-zinc-700">
+                                                    <div>{formatPrice(product.basePrice)}</div>
+                                                    <div>تومان</div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+
+                                {/* No Products Found */}
+                                {filteredProducts.length === 0 && !loading && (
+                                    <div className="text-center py-12">
+                                        <p className="text-zinc-500">محصولی یافت نشد</p>
+                                    </div>
+                                )}
+
+                                {/* Pagination */}
+                                {totalPages > 1 && (
+                                    <div className="mt-8">
+                                        <ul className="flex items-center justify-center gap-x-2 md:gap-x-3 h-8 text-sm">
+                                            <li>
+                                                <button
+                                                    onClick={() => handlePageChange(currentPage - 1)}
+                                                    disabled={currentPage === 1}
+                                                    className={`flex items-center justify-center transition shadow-lg px-3 h-8 rounded-lg ${currentPage === 1
+                                                        ? 'text-gray-300 bg-gray-100 cursor-not-allowed'
+                                                        : 'text-gray-500 bg-white hover:bg-red-100 hover:text-red-400'
+                                                        }`}
+                                                >
+                                                    <svg className="w-2.5 h-2.5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 6 10">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4"></path>
+                                                    </svg>
+                                                </button>
+                                            </li>
+
+                                            {paginationNumbers.map((page, index) => (
+                                                <li key={index}>
+                                                    {page === '...' ? (
+                                                        <span className="flex items-center justify-center px-3 h-8 text-gray-500">...</span>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => handlePageChange(page as number)}
+                                                            className={`flex items-center justify-center transition shadow-lg px-3 h-8 rounded-lg ${currentPage === page
+                                                                ? 'text-red-500 bg-red-200'
+                                                                : 'text-gray-500 bg-white hover:bg-red-100 hover:text-red-400'
+                                                                }`}
+                                                        >
+                                                            {page}
+                                                        </button>
+                                                    )}
+                                                </li>
+                                            ))}
+
+                                            <li>
+                                                <button
+                                                    onClick={() => handlePageChange(currentPage + 1)}
+                                                    disabled={currentPage === totalPages}
+                                                    className={`flex items-center justify-center transition shadow-lg px-3 h-8 rounded-lg ${currentPage === totalPages
+                                                        ? 'text-gray-300 bg-gray-100 cursor-not-allowed'
+                                                        : 'text-gray-500 bg-white hover:bg-red-100 hover:text-red-400'
+                                                        }`}
+                                                >
+                                                    <svg className="w-2.5 h-2.5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 6 10">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"></path>
+                                                    </svg>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </main >
+    );
+};
+
+export default ProductSearch;

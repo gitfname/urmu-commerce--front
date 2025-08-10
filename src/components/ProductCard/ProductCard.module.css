@@ -1,0 +1,16 @@
+/* components/ProductCard/ProductCard.css */
+.product-card {
+    position: relative;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+}

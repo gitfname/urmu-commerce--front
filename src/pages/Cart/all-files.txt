@@ -1,0 +1,684 @@
+================================== 
+Cart.tsx
+components\cart\CartItem.tsx
+components\cart\CartItems.tsx
+components\cart\CartSummary.tsx
+components\cart\ProductAttributes.tsx
+components\cart\ProgressIndicator.tsx
+components\cart\QuantitySelector.tsx
+src\pages\SingleProduct_v2\hooks\useShoppingCart.tsx
+ 
+================================== 
+FILE CONTENTS (8 files)
+================================== 
+
+
+- START FILE: useShoppingCart.tsx
+// src/pages/SingleProduct_v2/hooks/useShoppingCart.tsx
+import { useState, useEffect, createContext, useContext, type ReactNode } from 'react';
+
+const API_BASE_URL = 'https://urmu-commerce-prod.runflare.run';
+
+export interface CartItem {
+    id: number;
+    product: {
+        id: number;
+        title: string;
+        slug: string;
+        summary: string;
+        basePrice: string;
+        baseDiscount: number;
+        stockQuantity: number;
+        hasVariants: boolean;
+        thumbnailImage: string;
+        images: string[];
+        category?: {
+            id: number;
+            name: string;
+        };
+    };
+    price: number;
+    discount: number;
+    quantity: number;
+    finalPrice: number;
+    additionalProperties: {
+        variantId?: number;
+        [key: string]: any;
+    };
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface CartContextType {
+    cartItems: CartItem[];
+    cartLoading: boolean;
+    cartError: string | null;
+    addToCart: (productId: number, quantity: number, variantProperties?: Record<string, string>) => Promise<boolean>;
+    updateCartItem: (itemId: number, quantity: number) => Promise<boolean>;
+    removeFromCart: (itemId: number) => Promise<boolean>;
+    refreshCart: () => Promise<void>;
+    getTotalItems: () => number;
+    getTotalPrice: () => number;
+}
+
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export const useShoppingCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error('useShoppingCart must be used within a CartProvider');
+    }
+    return context;
+};
+
+interface CartProviderProps {
+    children: ReactNode;
+}
+
+export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [cartLoading, setCartLoading] = useState(false);
+    const [cartError, setCartError] = useState<string | null>(null);
+
+    const getAuthHeaders = () => ({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+    });
+
+    const fetchCartItems = async () => {
+        try {
+            setCartLoading(true);
+            setCartError(null);
+
+            const response = await fetch(`${API_BASE_URL}/shopping-cart-items/my-items`, {
+                method: 'GET',
+                headers: getAuthHeaders(),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch cart items');
+            }
+
+            const items: CartItem[] = await response.json();
+            setCartItems(items);
+        } catch (err) {
+            setCartError(err instanceof Error ? err.message : 'An error occurred');
+            console.error('Error fetching cart items:', err);
+        } finally {
+            setCartLoading(false);
+        }
+    };
+
+    const addToCart = async (
+        productId: number,
+        quantity: number = 1,
+        variantProperties?: Record<string, string>
+    ): Promise<boolean> => {
+        try {
+            setCartLoading(true);
+            setCartError(null);
+
+            let url = `${API_BASE_URL}/shopping-cart-items/add-to-cart?productId=${productId}`;
+
+            if (variantProperties && Object.keys(variantProperties).length > 0) {
+                const encodedVariants = encodeURIComponent(JSON.stringify(variantProperties));
+                url += `&variantProperties=${encodedVariants}`;
+            }
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({ quantity }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add item to cart');
+            }
+
+            // Refresh cart after successful addition
+            await fetchCartItems();
+            return true;
+        } catch (err) {
+            setCartError(err instanceof Error ? err.message : 'An error occurred');
+            console.error('Error adding to cart:', err);
+            return false;
+        } finally {
+            setCartLoading(false);
+        }
+    };
+
+    const updateCartItem = async (itemId: number, quantity: number): Promise<boolean> => {
+        try {
+            setCartLoading(true);
+            setCartError(null);
+
+            const response = await fetch(`${API_BASE_URL}/shopping-cart-items/${itemId}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({ quantity }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update cart item');
+            }
+
+            // Refresh cart after successful update
+            await fetchCartItems();
+            return true;
+        } catch (err) {
+            setCartError(err instanceof Error ? err.message : 'An error occurred');
+            console.error('Error updating cart item:', err);
+            return false;
+        } finally {
+            setCartLoading(false);
+        }
+    };
+
+    const removeFromCart = async (itemId: number): Promise<boolean> => {
+        return await updateCartItem(itemId, 0);
+    };
+
+    const refreshCart = async () => {
+        await fetchCartItems();
+    };
+
+    const getTotalItems = (): number => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+    };
+
+    const getTotalPrice = (): number => {
+        return cartItems.reduce((total, item) => total + item.finalPrice, 0);
+    };
+
+    useEffect(() => {
+        // Check if user is authenticated before fetching cart
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            fetchCartItems();
+        }
+    }, []);
+
+    const value: CartContextType = {
+        cartItems,
+        cartLoading,
+        cartError,
+        addToCart,
+        updateCartItem,
+        removeFromCart,
+        refreshCart,
+        getTotalItems,
+        getTotalPrice,
+    };
+
+    return (
+        <CartContext.Provider value={value} >
+            {children}
+        </CartContext.Provider>
+    );
+};
+- END FILE: useShoppingCart.tsx
+
+
+- START FILE: Cart.tsx 
+// src/pages/CartPage.tsx
+import React from 'react';
+import ProgressIndicator from './components/cart/ProgressIndicator';
+import CartItems from './components/cart/CartItems';
+import CartSummary from './components/cart/CartSummary';
+
+const Cart: React.FC = () => {
+    return (
+        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-44 md:mt-32">
+            <ProgressIndicator />
+
+            <div className="my-8 lg:my-10 py-5 lg:px-20 md:flex gap-5">
+                <CartItems />
+                <CartSummary />
+            </div>
+        </main>
+    );
+};
+
+export default Cart; 
+- END FILE: Cart.tsx 
+
+
+- START FILE: components\cart\CartItem.tsx 
+// src/components/cart/CartItem.tsx
+import React, { useState } from 'react';
+import QuantitySelector from './QuantitySelector';
+import ProductAttributes from './ProductAttributes';
+
+interface CartItemProps {
+    item: {
+        id: string;
+        title: string;
+        image: string;
+        price: number;
+        quantity: number;
+        color: string;
+        attributes: string[];
+        stockRemaining: number;
+    };
+    isLast?: boolean;
+}
+
+const CartItem: React.FC<CartItemProps> = ({ item, isLast = false }) => {
+    const [quantity, setQuantity] = useState(item.quantity);
+
+    const handleQuantityChange = (newQuantity: number) => {
+        setQuantity(newQuantity);
+        // Here you would typically update the cart in your state management
+    };
+
+    const handleMoveToLater = () => {
+        // Handle move to later functionality
+        console.log('Move to later:', item.id);
+    };
+
+    return (
+        <div className={`mt-7 flex flex-col md:flex-row gap-y-5 ${!isLast ? 'border-b' : ''} pb-4`}>
+            <div className="w-10/12 mx-auto md:max-w-32">
+                <img src={item.image} alt={item.title} />
+                <QuantitySelector
+                    quantity={quantity}
+                    onQuantityChange={handleQuantityChange}
+                />
+            </div>
+
+            <div className="mr-2 md:mr-5 w-full">
+                <div className="text-xs sm:text-sm text-zinc-700">{item.title}</div>
+
+                <div className="w-full space-y-2 mt-5">
+                    <div className="flex items-center gap-x-2 text-xs text-zinc-500">
+                        <div className="flex items-center gap-x-2">
+                            <span className="h-4 w-4 rounded-full bg-gray-900"></span>
+                            <span>{item.color}</span>
+                        </div>
+                    </div>
+
+                    <ProductAttributes attributes={item.attributes} />
+
+                    <div className="text-gray-700 pt-4">
+                        <span className="text-xl font-bold">{item.price.toLocaleString()}</span>
+                        <span className="text-sm">تومان</span>
+                        <div className="text-xs text-red-400 mt-3">
+                            تنها {item.stockRemaining} عدد در انبار باقی مانده
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end">
+                        <button
+                            onClick={handleMoveToLater}
+                            className="text-blue-500 hover:text-blue-400 transition text-sm flex items-center w-fit"
+                        >
+                            انتقال به خرید بعدی
+                            <svg className="fill-blue-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" viewBox="0 0 256 256">
+                                <path d="M164.24,203.76a6,6,0,1,1-8.48,8.48l-80-80a6,6,0,0,1,0-8.48l80-80a6,6,0,0,1,8.48,8.48L88.49,128Z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CartItem; 
+- END FILE: components\cart\CartItem.tsx 
+ 
+ 
+- START FILE: components\cart\CartItems.tsx 
+// src/components/cart/CartItems.tsx
+import React from 'react';
+import CartItem from './CartItem';
+
+interface CartItemData {
+    id: string;
+    title: string;
+    image: string;
+    price: number;
+    quantity: number;
+    color: string;
+    attributes: string[];
+    stockRemaining: number;
+}
+
+const CartItems: React.FC = () => {
+    const cartItems: CartItemData[] = [
+        {
+            id: '1',
+            title: 'لپ تاپ ایسوس مدل ProArt Display PA329CV سایز 32 اینچ',
+            image: 'assets/image/products/1.webp',
+            price: 1800000,
+            quantity: 1,
+            color: 'مشکی',
+            attributes: [
+                'ارسال پست پیشتاز',
+                'گارانتی 36 ماهه حامی خدمات رایانه و همراه پارت',
+                'مای کامپیوتر',
+                'ارسال فروشنده'
+            ],
+            stockRemaining: 2
+        },
+        {
+            id: '2',
+            title: 'لپ تاپ ایسوس مدل ProArt Display PA329CV سایز 32 اینچ',
+            image: 'assets/image/products/1.webp',
+            price: 1800000,
+            quantity: 1,
+            color: 'مشکی',
+            attributes: [
+                'ارسال پست پیشتاز',
+                'گارانتی 36 ماهه حامی خدمات رایانه و همراه پارت',
+                'مای کامپیوتر',
+                'ارسال فروشنده'
+            ],
+            stockRemaining: 2
+        }
+    ];
+
+    return (
+        <div className="md:w-8/12 bg-white shadow-box-md rounded-xl py-5 px-2 sm:px-6">
+            <div className="text-zinc-700">سبد خرید شما</div>
+            <div className="text-zinc-400 text-xs mt-2">{cartItems.length} کالا</div>
+
+            {cartItems.map((item, index) => (
+                <CartItem
+                    key={item.id}
+                    item={item}
+                    isLast={index === cartItems.length - 1}
+                />
+            ))}
+        </div>
+    );
+};
+
+export default CartItems; 
+- END FILE: components\cart\CartItems.tsx 
+ 
+ 
+- START FILE: components\cart\CartSummary.tsx 
+// src/components/cart/CartSummary.tsx
+import React from 'react';
+
+interface CartSummaryData {
+    itemsPrice: number;
+    discount: number;
+    total: number;
+    itemCount: number;
+}
+
+const CartSummary: React.FC = () => {
+    const summaryData: CartSummaryData = {
+        itemsPrice: 1700000,
+        discount: 400000,
+        total: 3400000,
+        itemCount: 2
+    };
+
+    const handleCheckout = () => {
+        // Handle checkout functionality
+        console.log('Proceeding to checkout');
+    };
+
+    return (
+        <div className="md:w-4/12 mt-8 md:mt-0">
+            <div className="px-2 sm:px-6 py-3 bg-white rounded-xl shadow-box-sm">
+                <div className="flex gap-x-1 items-center text-zinc-700">
+                    <svg className="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256">
+                        <path d="M216,66H174V64a46,46,0,0,0-92,0v2H40A14,14,0,0,0,26,80V200a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V80A14,14,0,0,0,216,66ZM94,64a34,34,0,0,1,68,0v2H94ZM218,200a2,2,0,0,1-2,2H40a2,2,0,0,1-2-2V80a2,2,0,0,1,2-2H216a2,2,0,0,1,2,2Z"></path>
+                    </svg>
+                    سبد شما
+                </div>
+
+                <div className="flex gap-x-1 justify-between items-center text-zinc-600 mt-5 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+                    <div>قیمت کالاها ({summaryData.itemCount})</div>
+                    <div className="flex gap-x-1">
+                        <div>{summaryData.itemsPrice.toLocaleString()}</div>
+                        <div>تومان</div>
+                    </div>
+                </div>
+
+                <div className="flex gap-x-1 justify-between items-center text-zinc-600 mt-3 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+                    <div>تخفیف</div>
+                    <div className="flex gap-x-1">
+                        <div>{summaryData.discount.toLocaleString()}</div>
+                        <div>تومان</div>
+                    </div>
+                </div>
+
+                <div className="flex gap-x-1 justify-between items-center text-zinc-800 mt-3 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+                    <div>جمع سبد خرید</div>
+                    <div className="flex gap-x-1">
+                        <div>{summaryData.total.toLocaleString()}</div>
+                        <div>تومان</div>
+                    </div>
+                </div>
+
+                <button
+                    onClick={handleCheckout}
+                    className="mx-auto w-full px-2 py-3 mt-5 text-sm bg-red-500 hover:bg-red-400 transition text-gray-100 rounded-lg"
+                >
+                    تایید و تکمیل سفارش
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default CartSummary; 
+- END FILE: components\cart\CartSummary.tsx 
+ 
+ 
+- START FILE: components\cart\ProductAttributes.tsx 
+// src/components/cart/ProductAttributes.tsx
+import React from 'react';
+
+interface ProductAttributesProps {
+    attributes: string[];
+}
+
+const ProductAttributes: React.FC<ProductAttributesProps> = ({ attributes }) => {
+    const getAttributeIcon = (attribute: string) => {
+        if (attribute.includes('ارسال پست')) {
+            return (
+                <svg className="fill-zinc-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="" viewBox="0 0 256 256">
+                    <path d="M245.57,117.78l-14-35a13.93,13.93,0,0,0-13-8.8H182V64a6,6,0,0,0-6-6H24A14,14,0,0,0,10,72V184a14,14,0,0,0,14,14H42.6a30,30,0,0,0,58.8,0h53.2a30,30,0,0,0,58.8,0H232a14,14,0,0,0,14-14V120A6,6,0,0,0,245.57,117.78ZM182,86h36.58a2,2,0,0,1,1.86,1.26L231.14,114H182ZM22,72a2,2,0,0,1,2-2H170v68H22ZM72,210a18,18,0,1,1,18-18A18,18,0,0,1,72,210Zm82.6-24H101.4a30,30,0,0,0-58.8,0H24a2,2,0,0,1-2-2V150H170v15.48A30.1,30.1,0,0,0,154.6,186ZM184,210a18,18,0,1,1,18-18A18,18,0,0,1,184,210Zm50-26a2,2,0,0,1-2,2H213.4A30.05,30.05,0,0,0,184,162c-.67,0-1.34,0-2,.07V126h52Z"></path>
+                </svg>
+            );
+        }
+        if (attribute.includes('گارانتی')) {
+            return (
+                <svg className="fill-zinc-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="" viewBox="0 0 256 256">
+                    <path d="M208,42H48A14,14,0,0,0,34,56v58.77c0,88.24,74.68,117.52,89.65,122.49a13.5,13.5,0,0,0,8.7,0c15-5,89.65-34.25,89.65-122.49V56A14,14,0,0,0,208,42Zm2,72.79c0,80-67.84,106.59-81.44,111.1a1.55,1.55,0,0,1-1.12,0C113.84,221.38,46,194.79,46,114.79V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2Z"></path>
+                </svg>
+            );
+        }
+        if (attribute.includes('مای کامپیوتر')) {
+            return (
+                <svg className="fill-zinc-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="" viewBox="0 0 256 256">
+                    <path d="M230,96a6.19,6.19,0,0,0-.22-1.65l-14.34-50.2A14.07,14.07,0,0,0,202,34H54A14.07,14.07,0,0,0,40.57,44.15L26.23,94.35A6.19,6.19,0,0,0,26,96v16A38,38,0,0,0,42,143V208a14,14,0,0,0,14,14H200a14,14,0,0,0,14-14V143A38,38,0,0,0,230,112ZM52.11,47.45A2,2,0,0,1,54,46H202a2,2,0,0,1,1.92,1.45L216.05,90H40ZM102,102h52v10a26,26,0,0,1-52,0Zm-64,0H90v10a26,26,0,0,1-52,0ZM202,208a2,2,0,0,1-2,2H56a2,2,0,0,1-2-2V148.66a38,38,0,0,0,42-16.21,37.95,37.95,0,0,0,64,0,38,38,0,0,0,42,16.21Zm-10-70a26,26,0,0,1-26-26V102h52v10A26,26,0,0,1,192,138Z"></path>
+                </svg>
+            );
+        }
+        if (attribute.includes('ارسال فروشنده')) {
+            return (
+                <svg className="fill-orange-700" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="" viewBox="0 0 256 256">
+                    <path d="M243.6,148.8a6,6,0,0,1-8.4-1.2A53.58,53.58,0,0,0,192,126a6,6,0,0,1,0-12,26,26,0,1,0-25.18-32.5,6,6,0,0,1-11.62-3,38,38,0,1,1,59.91,39.63A65.69,65.69,0,0,1,244.8,140.4,6,6,0,0,1,243.6,148.8ZM189.19,213a6,6,0,0,1-2.19,8.2,5.9,5.9,0,0,1-3,.81,6,6,0,0,1-5.2-3,59,59,0,0,0-101.62,0,6,6,0,1,1-10.38-6A70.1,70.1,0,0,1,103,182.55a46,46,0,1,1,50.1,0A70.1,70.1,0,0,1,189.19,213ZM128,178a34,34,0,1,0-34-34A34,34,0,0,0,128,178ZM70,120a6,6,0,0,0-6-6A26,26,0,1,1,89.18,81.49a6,6,0,1,0,11.62-3,38,38,0,1,0-59.91,39.63A65.69,65.69,0,0,0,11.2,140.4a6,6,0,1,0,9.6,7.2A53.58,53.58,0,0,1,64,126,6,6,0,0,0,70,120Z"></path>
+                </svg>
+            );
+        }
+        return null;
+    };
+
+    return (
+        <>
+            {attributes.map((attribute, index) => (
+                <div key={index} className="flex items-center gap-x-2 text-xs text-zinc-500">
+                    <div className="flex items-center gap-x-2">
+                        {getAttributeIcon(attribute)}
+                        <span>{attribute}</span>
+                    </div>
+                </div>
+            ))}
+        </>
+    );
+};
+
+export default ProductAttributes; 
+- END FILE: components\cart\ProductAttributes.tsx 
+ 
+ 
+- START FILE: components\cart\ProgressIndicator.tsx 
+// src/components/cart/ProgressIndicator.tsx
+import React from 'react';
+
+interface Step {
+    id: number;
+    title: string;
+    isActive: boolean;
+    isCompleted: boolean;
+}
+
+const ProgressIndicator: React.FC = () => {
+    const steps: Step[] = [
+        { id: 1, title: 'سبد خرید', isActive: true, isCompleted: false },
+        { id: 2, title: 'جزئیات پرداخت', isActive: false, isCompleted: false },
+        { id: 3, title: 'تکمیل سفارش', isActive: false, isCompleted: false },
+    ];
+
+    return (
+        <div className="container mx-auto w-full h-full pt-9">
+            <div className="relative pl-3 h-full">
+                {/* Progress Lines */}
+                <div className="flex pt-3 *:border-2 md:*:border-4">
+                    <div className="border-opacity-90 border-green-500 w-1/4"></div>
+                    <div className="border-opacity-90 border-gray-300 w-1/4"></div>
+                    <div className="border-opacity-90 border-gray-300 w-1/4"></div>
+                    <div className="border-opacity-90 border-gray-300 w-1/4"></div>
+                </div>
+
+                {/* Step Labels */}
+                <div className="absolute -top-10 inline-flex w-full justify-between">
+                    <div className="">
+                        <div className="w-8 h-8"></div>
+                    </div>
+
+                    {steps.map((step, index) => (
+                        <div key={step.id} className="flex items-center">
+                            <div className="z-20 flex items-center order-1">
+                                <h1 className={`mx-auto md:font-semibold ${step.isActive ? 'text-zinc-700' : 'text-zinc-500'
+                                    } ${index === 0 ? 'pr-6' : index === 1 ? 'pr-4' : 'pr-1 pl-2'} text-xs md:text-base`}>
+                                    {step.title}
+                                </h1>
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="pl-3">
+                        <div className="w-8 h-8"></div>
+                    </div>
+                </div>
+
+                {/* Step Dots */}
+                <div className="absolute top-0 md:-top-1 inline-flex w-full justify-between">
+                    <div className="flex items-center *:w-6 *:h-6 md:*:w-8 *:md:h-8">
+                        <div className="z-20 flex items-center order-1 bg-gray-200 shadow-box-md rounded-full">
+                            <h1 className="mx-auto font-semibold text-lg text-zinc-700"></h1>
+                        </div>
+                    </div>
+
+                    {steps.map((step) => (
+                        <div key={step.id} className="flex items-center *:w-6 *:h-6 md:*:w-8 *:md:h-8">
+                            <div className={`z-20 flex items-center order-1 shadow-box-md rounded-full ${step.isActive ? 'bg-green-400' : 'bg-white'
+                                }`}>
+                                <h1 className={`mx-auto font-semibold text-base md:text-lg ${step.isActive ? 'text-white' : 'text-zinc-700'
+                                    }`}>
+                                    {step.id}
+                                </h1>
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="flex items-center pl-3 *:w-6 *:h-6 md:*:w-8 *:md:h-8">
+                        <div className="z-20 flex items-center order-1 bg-gray-200 shadow-box-md rounded-full">
+                            <h1 className="mx-auto font-semibold text-lg text-zinc-700"></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProgressIndicator; 
+- END FILE: components\cart\ProgressIndicator.tsx 
+ 
+ 
+- START FILE: components\cart\QuantitySelector.tsx 
+// src/components/cart/QuantitySelector.tsx
+import React from 'react';
+
+interface QuantitySelectorProps {
+    quantity: number;
+    onQuantityChange: (quantity: number) => void;
+    min?: number;
+    max?: number;
+}
+
+const QuantitySelector: React.FC<QuantitySelectorProps> = ({
+    quantity,
+    onQuantityChange,
+    min = 1,
+    max = 99
+}) => {
+    const handleIncrement = () => {
+        if (quantity < max) {
+            onQuantityChange(quantity + 1);
+        }
+    };
+
+    const handleDecrement = () => {
+        if (quantity > min) {
+            onQuantityChange(quantity - 1);
+        }
+    };
+
+    return (
+        <div className="flex h-10 w-24 items-center justify-between rounded-lg border border-gray-100 px-2 py-1 mt-5 mx-auto">
+            <button
+                type="button"
+                onClick={handleIncrement}
+                disabled={quantity >= max}
+                className="disabled:opacity-50"
+            >
+                <svg className="fill-green-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#4d4d4d" viewBox="0 0 256 256">
+                    <path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"></path>
+                </svg>
+            </button>
+
+            <input
+                value={quantity}
+                disabled
+                type="number"
+                className="flex h-5 w-full grow select-none items-center justify-center bg-transparent text-center text-sm text-zinc-700 outline-none"
+                readOnly
+            />
+
+            <button
+                type="button"
+                onClick={handleDecrement}
+                disabled={quantity <= min}
+                className="disabled:opacity-50"
+            >
+                <svg className="fill-red-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="" viewBox="0 0 256 256">
+                    <path d="M222,128a6,6,0,0,1-6,6H40a6,6,0,0,1,0-12H216A6,6,0,0,1,222,128Z"></path>
+                </svg>
+            </button>
+        </div>
+    );
+};
+
+export default QuantitySelector; 
+- END FILE: components\cart\QuantitySelector.tsx
