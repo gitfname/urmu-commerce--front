@@ -30,7 +30,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ onSearchFocusChange }) => {
                 {/* logo */}
                 <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
                     <Link to='/' className='m-0'>
-                        <img alt="Logo" className="h-12 w-full rounded-lg xs:h-10 m-0" src="/logo.webp" />
+                        <img alt="Logo" className="h-12 w-full rounded-lg xs:h-10 m-0" src="/assets/image/Logo.jpg" />
                     </Link>
                 </div>
 

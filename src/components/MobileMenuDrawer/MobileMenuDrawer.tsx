@@ -43,7 +43,7 @@ const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({
     isOpen,
 
     onClose,
-    logoSrc = "/logo.webp",
+    logoSrc = "/assets/image/Logo.jpg",
     logoAlt = "Logo",
     logoHref = "#",
     menuItems = [],

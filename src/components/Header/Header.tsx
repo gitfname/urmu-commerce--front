@@ -14,7 +14,7 @@ const Header: React.FC = () => {
 
     return (
         <header>
-            <div className="fixed left-0 right-0 top-0 z-50 bg-white">
+            <div className="sticky top-0 z-50 bg-white">
                 <div className='max-md:hidden'>
                     <DesktopHeader onSearchFocusChange={handleSearchFocusChange} />
                     <DesktopHeaderBottom />

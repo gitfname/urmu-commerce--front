@@ -50,7 +50,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     })
 
     return (
-        <div className="mt-9 md:mt-32">
+        <div className="mt-9 ">
             {/* Desktop Slider */}
             <div className="heroSlider hidden md:block">
                 <Swiper {...swiperConfig} className="swiper">
@@ -101,7 +101,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 const defaultSlides: SlideData[] = [
     {
         id: 1,
-        desktopImage: "assets/image/heroSlider/1.jpg",
+        desktopImage: "https://cdnfa.com/piccotoys/17bc/files/normal/12371531.jpg",
         mobileImage: "assets/image/heroSlider/1m.png",
         alt: "Hero Slide 1"
     },

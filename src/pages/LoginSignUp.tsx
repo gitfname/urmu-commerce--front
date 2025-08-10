@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Env } from '../env';
+import React, { useEffect, useState } from 'react';
 import {
-    useSendPhoneVerificationOtpCodeMutation,
-    useVerifyPhoneVerificationOtpCodeMutation,
     useLogin,
+    useSendPhoneVerificationOtpCodeMutation,
     useSignupUserMutation,
-    type SendOtpCodeToPhoneDto,
-    type VerifyOtpCodeToPhoneDto,
-    type SignUpDto
-} from "../services/api/ecommerce--api"
+    useVerifyPhoneVerificationOtpCodeMutation
+} from "../services/api/ecommerce--api";
 
 type Step = 'phone' | 'otp' | 'signup';
 
@@ -354,7 +350,7 @@ const LoginSignUp: React.FC = () => {
         <div className="bg-[#fcfcfc] mt-8 md:mt-28">
             <div className="h-screen flex justify-center items-center">
                 <div className="bg-white rounded-2xl border border-gray-200 shadow-box-sm w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 xl:w-3/12 h-auto py-5 px-4">
-                    <img className="w-32 mx-auto" src="/logo.webp" alt="لوگو" />
+                    <img className="w-32 mx-auto" src="/assets/image/Logo.jpg" alt="لوگو" />
 
                     {currentStep === 'phone' && renderPhoneStep()}
                     {currentStep === 'otp' && renderOtpStep()}

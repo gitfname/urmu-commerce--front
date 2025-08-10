@@ -1,19 +1,21 @@
-import React, { lazy, Suspense } from 'react';
-import HeroSlider from '../components/HeroSlider/HeroSlider';
-import { getFindManyApplicationBannersQueryQueryKey, useFindManyApplicationBannersQuery } from '../services/api/ecommerce--api';
 import { useMediaQuery } from '@uidotdev/usehooks';
-import { Env } from '../env';
-import NewestProductsSlider from '../components/NewestProductsSlider';
+import React, { lazy, Suspense } from 'react';
+import CategoryGrid2 from '../components/CategoryGrid2/CategoryGrid2';
+import HeroSlider from '../components/HeroSlider/HeroSlider';
 import MostDiscountedProductsSlider from '../components/MostDiscountedProductsSlider';
+import NewestProductsSlider from '../components/NewestProductsSlider';
+import ProductSlider from '../components/ProductSlider/ProductSlider';
+import { Env } from '../env';
+import { getFindManyApplicationBannersQueryQueryKey, useFindManyApplicationBannersQuery } from '../services/api/ecommerce--api';
 // import PartnerCompanySection from '../components/PartnerCompanySection/PartnerCompanySection';
 // import LatestArticles from '../components/BlogSection/LatestArticles';
 // import Categories from '../components/Categories';
 // import CompanyDescription from '../components/CompanyDescription';
 // const MostDiscountedProductsSlider = lazy(() => import("../components/MostDiscountedProductsSlider"))
-const PartnerCompanySection = lazy(() => import("../components/PartnerCompanySection/PartnerCompanySection"))
-const LatestArticles = lazy(() => import("../components/BlogSection/LatestArticles"))
+// const PartnerCompanySection = lazy(() => import("../components/PartnerCompanySection/PartnerCompanySection"))
+// const LatestArticles = lazy(() => import("../components/BlogSection/LatestArticles"))
 const Categories = lazy(() => import("../components/Categories"))
-const CompanyDescription = lazy(() => import("../components/CompanyDescription"))
+// const CompanyDescription = lazy(() => import("../components/CompanyDescription"))
 
 
 const Home: React.FC = () => {
@@ -136,7 +138,7 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                {/* <CategoryGrid2
+                <CategoryGrid2
                     categories={[
                         {
                             id: '1',
@@ -211,13 +213,13 @@ const Home: React.FC = () => {
                             href: '#'
                         }
                     ]}
-                /> */}
+                />
 
                 <Suspense>
                     <Categories />
                 </Suspense>
 
-                {/* <ProductSlider
+                <ProductSlider
                     title='پرتخفیف ترین'
                     titleIcon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#dc2626" viewBox="0 0 256 256">
@@ -231,7 +233,7 @@ const Home: React.FC = () => {
                                     : isXl ? 3.85
                                         : 4.8
                     }
-                /> */}
+                />
 
                 <Suspense>
                     <MostDiscountedProductsSlider />
@@ -291,7 +293,7 @@ const Home: React.FC = () => {
                     ]}
                 /> */}
 
-                <section className='mt-10'>
+                {/* <section className='mt-10'>
                     <Suspense>
                         <LatestArticles />
                     </Suspense>
@@ -305,7 +307,7 @@ const Home: React.FC = () => {
                     <Suspense>
                         <CompanyDescription />
                     </Suspense>
-                </section>
+                </section> */}
             </section>
         </div >
     );
