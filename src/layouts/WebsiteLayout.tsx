@@ -12,7 +12,7 @@ function WebsiteLayout({ children }: Props) {
 
 
     return (
-        <div dir="rtl">
+        <div dir="rtl" className="relative">
             <Header />
 
             {children}
