@@ -39,6 +39,42 @@ const Home: React.FC = () => {
         <div className='max-md:mt-20'>
             <HeroSlider />
 
+
+            <section className='my-10'>
+                <div className='grid grid-cols-2 gap-5'>
+                    {
+                        homeBanners1?.data?.data?.data?.slice(0, 2).map(banner => (
+                            <a href={banner.linkUrl} key={banner.id}>
+                                <img
+                                    alt={banner.title || ""}
+                                    src={Env.applicationBanners + banner.image}
+                                    className='rounded-xl max-sm:min-h-28 object-cover object-center w-full h-full'
+                                />
+                            </a>
+                        ))
+                    }
+                    
+                    {/* Fallback: If no banners from API, show placeholder images */}
+                    {(!homeBanners1?.data?.data?.data || homeBanners1?.data?.data?.data?.length === 0) && (
+                        <>
+                            <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
+                                <span className='text-gray-500 text-sm'>بنر 1</span>
+                            </div>
+                            <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
+                                <span className='text-gray-500 text-sm'>بنر 2</span>
+                            </div>
+                        </>
+                    )}
+                    
+                    {/* If only one banner, show placeholder for second */}
+                    {homeBanners1?.data?.data?.data?.length === 1 && (
+                        <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
+                            <span className='text-gray-500 text-sm'>بنر 2</span>
+                        </div>
+                    )}
+                </div>
+            </section>
+
             <section className='max-w-[1500px] mx-auto px-3 xl:px-5'>
                 {/* <AmazingSlider
                     slidesPerView={
@@ -119,24 +155,7 @@ const Home: React.FC = () => {
                     ]}
                 /> */}
 
-                <section className='my-10'>
-                    <div className='grid sm:grid-cols-2 gap-5'>
-                        {
-                            homeBanners1?.data?.data?.data?.map(banner => (
-                                <a href={banner.linkUrl} key={banner.id}>
-                                    <img
-                                        alt={banner.title || ""}
-                                        src={Env.applicationBanners + banner.image}
-                                        className='rounded-xl max-sm:min-h-28 object-cover object-center'
-                                    />
-                                </a>
-                            ))
-                        }
-
-                        {/* <img alt='' src='assets/image/sectionImage/7.webp' className='rounded-xl' />
-                        <img alt='' src='assets/image/sectionImage/8.webp' className='rounded-xl' /> */}
-                    </div>
-                </section>
+              
 
                 <CategoryGrid2
                     categories={[

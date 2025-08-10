@@ -61,6 +61,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
                                     src={Env.heroBanners + slide.image}
                                     alt={slide.linkUrl}
                                     loading="lazy"
+                                    className=' object-cover w-full'
                                 />
                             </a>
                         </SwiperSlide>
