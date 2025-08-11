@@ -5,6 +5,7 @@ import HeroSlider from '../components/HeroSlider/HeroSlider';
 import MostDiscountedProductsSlider from '../components/MostDiscountedProductsSlider';
 import NewestProductsSlider from '../components/NewestProductsSlider';
 import ProductSlider from '../components/ProductSlider/ProductSlider';
+import Story from '../components/Story';
 import { Env } from '../env';
 import { getFindManyApplicationBannersQueryQueryKey, useFindManyApplicationBannersQuery } from '../services/api/ecommerce--api';
 // import PartnerCompanySection from '../components/PartnerCompanySection/PartnerCompanySection';
@@ -36,10 +37,9 @@ const Home: React.FC = () => {
     })
 
     return (
-        <div className='max-md:mt-20'>
+        <div className=''>
+            <Story />
             <HeroSlider />
-
-
             <section className='my-10'>
                 <div className='grid grid-cols-2 gap-5'>
                     {
