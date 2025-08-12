@@ -791,8 +791,8 @@ export default WholeSaledProductsSearch;
 //     const MIN_PRICE = 0;
 //     const MAX_PRICE = 100_000_0000;
 //     const PRODUCTS_PER_PAGE = 12;
-//     const API_BASE_URL = 'https://urmu-commerce-prod.runflare.run';
-//     // const API_BASE_URL = 'https://urmu-commerce-prod.runflare.run';
+//     const API_BASE_URL = 'https://ur-commerce.runflare.run';
+//     // const API_BASE_URL = 'https://ur-commerce.runflare.run';
 
 //     // State management
 //     const [products, setProducts] = useState<Product[]>([]);

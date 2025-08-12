@@ -44,7 +44,7 @@ const ProductSearchContainer: React.FC<ProductSearchContainerProps> = ({
         setIsSearching(true);
         try {
             const response = await fetch(
-                `https://urmu-commerce-prod.runflare.run/products?limit=10&skip=0&title=${encodeURIComponent(query)}`
+                `https://ur-commerce.runflare.run/products?limit=10&skip=0&title=${encodeURIComponent(query)}`
             );
             const data: ProductSearchResponse = await response.json();
 
