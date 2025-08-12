@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Env } from '../env';
+import React, { useEffect, useState } from 'react';
 import {
-    useSendPhoneVerificationOtpCodeMutation,
-    useVerifyPhoneVerificationOtpCodeMutation,
     useLogin,
+    useSendPhoneVerificationOtpCodeMutation,
     useSignupUserMutation,
-    type SendOtpCodeToPhoneDto,
-    type VerifyOtpCodeToPhoneDto,
-    type SignUpDto
-} from "../services/api/ecommerce--api"
+    useVerifyPhoneVerificationOtpCodeMutation
+} from "../services/api/ecommerce--api";
 
 type Step = 'phone' | 'otp' | 'signup';
 
@@ -38,7 +34,7 @@ const LoginSignUp: React.FC = () => {
     const [waitTime, setWaitTime] = useState<number>(0);
     const [canResend, setCanResend] = useState<boolean>(true);
     const [shortTermToken, setShortTermToken] = useState<string>('');
-    const [isExistingUser, setIsExistingUser] = useState<boolean>(false);
+
 
     // API Mutations
     const sendOtpMutation = useSendPhoneVerificationOtpCodeMutation();
@@ -62,7 +58,7 @@ const LoginSignUp: React.FC = () => {
 
     // Timer effect
     useEffect(() => {
-        let interval: any;
+        let interval: number | undefined;
 
         if (waitTime > 0) {
             interval = setInterval(() => {
@@ -106,8 +102,9 @@ const LoginSignUp: React.FC = () => {
             setCurrentStep('otp');
             setWaitTime(OTP_CONFIG.WAIT_TIME);
             setCanResend(false);
-        } catch (error: any) {
-            setError(error.response?.data?.message || 'خطا در ارسال کد تایید');
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'خطا در ارسال کد تایید';
+            setError(errorMessage);
         }
     };
 
@@ -123,8 +120,9 @@ const LoginSignUp: React.FC = () => {
             setWaitTime(OTP_CONFIG.WAIT_TIME);
             setCanResend(false);
             setOtpCode('');
-        } catch (error: any) {
-            setError(error.response?.data?.message || 'خطا در ارسال مجدد کد تایید');
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'خطا در ارسال مجدد کد تایید';
+            setError(errorMessage);
         }
     };
 
@@ -151,22 +149,21 @@ const LoginSignUp: React.FC = () => {
                 setShortTermToken(shortTermAccessToken);
             }
 
-            setIsExistingUser(isLoggedIn || false);
-
             if (isLoggedIn) {
                 // User exists, proceed to login
-                await handleLogin(shortTermAccessToken || '');
+                await handleLogin();
             } else {
                 // New user, show signup form
                 setCurrentStep('signup');
             }
-        } catch (error: any) {
-            setError(error.response?.data?.message || 'کد تایید اشتباه است');
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'کد تایید اشتباه است';
+            setError(errorMessage);
         }
     };
 
     // Handle login (get long-term token)
-    const handleLogin = async (shortToken: string) => {
+    const handleLogin = async () => {
         try {
             const response = await new Promise(resolve => {
                 setTimeout(async () => {
@@ -174,18 +171,18 @@ const LoginSignUp: React.FC = () => {
                 }, 75);
             })
 
-            const accessToken = (response as any)?.data.access_token;
+            const accessToken = (response as { data: { access_token: string } })?.data.access_token;
             
             // Save token to localStorage
             localStorage.setItem('access_token', accessToken);
 
             if (accessToken) {
-
                 // Redirect to home page
                 window.location.href = '/';
             }
-        } catch (error: any) {
-            setError(error.response?.data?.message || 'خطا در ورود');
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'خطا در ورود';
+            setError(errorMessage);
         }
     };
 
@@ -209,9 +206,10 @@ const LoginSignUp: React.FC = () => {
             });
 
             // Then login to get long-term token
-            await handleLogin(shortTermToken);
-        } catch (error: any) {
-            setError(error.response?.data?.message || 'خطا در ثبت نام');
+            await handleLogin();
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'خطا در ثبت نام';
+            setError(errorMessage);
         }
     };
 
@@ -354,7 +352,7 @@ const LoginSignUp: React.FC = () => {
         <div className="bg-[#fcfcfc] mt-8 md:mt-28">
             <div className="h-screen flex justify-center items-center">
                 <div className="bg-white rounded-2xl border border-gray-200 shadow-box-sm w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 xl:w-3/12 h-auto py-5 px-4">
-                    <img className="w-32 mx-auto" src="/logo.webp" alt="لوگو" />
+                    <img className="w-32 mx-auto" src="/assets/image/Logo.jpg" alt="لوگو" />
 
                     {currentStep === 'phone' && renderPhoneStep()}
                     {currentStep === 'otp' && renderOtpStep()}
@@ -366,7 +364,7 @@ const LoginSignUp: React.FC = () => {
                             <a className="text-red-400 hover:text-red-500 transition" href="#">
                                 قوانین و مقررات
                             </a>{' '}
-                            بازرگانان بدون مرز - BBM میباشد.
+                            نارنجی توی میباشد.
                         </div>
                     )}
                 </div>

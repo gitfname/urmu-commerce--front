@@ -13,15 +13,13 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header>
-            <div className="fixed left-0 right-0 top-0 z-50 bg-white">
-                <div className='max-md:hidden'>
-                    <DesktopHeader onSearchFocusChange={handleSearchFocusChange} />
-                    <DesktopHeaderBottom />
-                </div>
-
-                <MobileHeader onSearchFocusChange={handleSearchFocusChange} />
+        <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
+            <div className='max-md:hidden'>
+                <DesktopHeader onSearchFocusChange={handleSearchFocusChange} />
+                <DesktopHeaderBottom />
             </div>
+
+            <MobileHeader onSearchFocusChange={handleSearchFocusChange} />
 
             {/* background gray overlay */}
             {isSearchFocused && (

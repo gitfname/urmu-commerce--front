@@ -227,7 +227,7 @@ const LoginRegister: React.FC = () => {
         <div className="bg-[#fcfcfc]">
             <div className="h-screen flex justify-center items-center">
                 <div className="bg-white rounded-2xl shadow-box-sm w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 xl:w-3/12 h-auto py-5 px-4">
-                    <img className="w-48 mx-auto" src="assets/image/logo.webp" alt="لوگو" />
+                    <img className="w-48 mx-auto" src="assets/image/logo.png" alt="لوگو" />
 
                     {currentStep === 'phone' && renderPhoneStep()}
                     {currentStep === 'otp' && renderOtpStep()}
@@ -239,7 +239,7 @@ const LoginRegister: React.FC = () => {
                             <a className="text-red-400 hover:text-red-500 transition" href="#">
                                 قوانین و مقررات
                             </a>{' '}
-                            بازرگانان بدون مرز - BBM میباشد.
+                            نارنجی توی میباشد.
                         </div>
                     )}
                 </div>

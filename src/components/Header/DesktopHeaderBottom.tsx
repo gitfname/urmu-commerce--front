@@ -50,7 +50,7 @@ const DesktopHeaderBottom: React.FC<DesktopHeaderBottomProps> = ({
     ]
 }) => {
     return (
-        <div className="absolute left-0 right-0 top-full z-20 bg-white shadow-sm transition-transform duration-300" id="desktop-header-bottom">
+        <div className="  z-20 bg-white shadow-sm transition-transform duration-300" id="desktop-header-bottom">
             <div className="container relative flex max-w-[1680px] items-center gap-x-2 px-5 pb-2">
                 {/* Categories Menu */}
                 <MegaMenu />

@@ -1,19 +1,22 @@
-import React, { lazy, Suspense } from 'react';
-import HeroSlider from '../components/HeroSlider/HeroSlider';
-import { getFindManyApplicationBannersQueryQueryKey, useFindManyApplicationBannersQuery } from '../services/api/ecommerce--api';
 import { useMediaQuery } from '@uidotdev/usehooks';
-import { Env } from '../env';
-import NewestProductsSlider from '../components/NewestProductsSlider';
+import React, { lazy, Suspense } from 'react';
+import CategoryGrid2 from '../components/CategoryGrid2/CategoryGrid2';
+import HeroSlider from '../components/HeroSlider/HeroSlider';
 import MostDiscountedProductsSlider from '../components/MostDiscountedProductsSlider';
+import NewestProductsSlider from '../components/NewestProductsSlider';
+import ProductSlider from '../components/ProductSlider/ProductSlider';
+import Story from '../components/Story';
+import { Env } from '../env';
+import { getFindManyApplicationBannersQueryQueryKey, useFindManyApplicationBannersQuery } from '../services/api/ecommerce--api';
 // import PartnerCompanySection from '../components/PartnerCompanySection/PartnerCompanySection';
 // import LatestArticles from '../components/BlogSection/LatestArticles';
 // import Categories from '../components/Categories';
 // import CompanyDescription from '../components/CompanyDescription';
 // const MostDiscountedProductsSlider = lazy(() => import("../components/MostDiscountedProductsSlider"))
-const PartnerCompanySection = lazy(() => import("../components/PartnerCompanySection/PartnerCompanySection"))
-const LatestArticles = lazy(() => import("../components/BlogSection/LatestArticles"))
+// const PartnerCompanySection = lazy(() => import("../components/PartnerCompanySection/PartnerCompanySection"))
+// const LatestArticles = lazy(() => import("../components/BlogSection/LatestArticles"))
 const Categories = lazy(() => import("../components/Categories"))
-const CompanyDescription = lazy(() => import("../components/CompanyDescription"))
+// const CompanyDescription = lazy(() => import("../components/CompanyDescription"))
 
 
 const Home: React.FC = () => {
@@ -34,8 +37,43 @@ const Home: React.FC = () => {
     })
 
     return (
-        <div className='max-md:mt-20'>
+        <div className=''>
+            <Story />
             <HeroSlider />
+            <section className='my-10'>
+                <div className='grid grid-cols-2 gap-5'>
+                    {
+                        homeBanners1?.data?.data?.data?.slice(0, 2).map(banner => (
+                            <a href={banner.linkUrl} key={banner.id}>
+                                <img
+                                    alt={banner.title || ""}
+                                    src={Env.applicationBanners + banner.image}
+                                    className='rounded-xl max-sm:min-h-28 object-cover object-center w-full h-full'
+                                />
+                            </a>
+                        ))
+                    }
+                    
+                    {/* Fallback: If no banners from API, show placeholder images */}
+                    {(!homeBanners1?.data?.data?.data || homeBanners1?.data?.data?.data?.length === 0) && (
+                        <>
+                            <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
+                                <span className='text-gray-500 text-sm'>بنر 1</span>
+                            </div>
+                            <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
+                                <span className='text-gray-500 text-sm'>بنر 2</span>
+                            </div>
+                        </>
+                    )}
+                    
+                    {/* If only one banner, show placeholder for second */}
+                    {homeBanners1?.data?.data?.data?.length === 1 && (
+                        <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
+                            <span className='text-gray-500 text-sm'>بنر 2</span>
+                        </div>
+                    )}
+                </div>
+            </section>
 
             <section className='max-w-[1500px] mx-auto px-3 xl:px-5'>
                 {/* <AmazingSlider
@@ -117,107 +155,90 @@ const Home: React.FC = () => {
                     ]}
                 /> */}
 
-                <section className='my-10'>
-                    <div className='grid sm:grid-cols-2 gap-5'>
-                        {
-                            homeBanners1?.data?.data?.data?.map(banner => (
-                                <a href={banner.linkUrl} key={banner.id}>
-                                    <img
-                                        alt={banner.title || ""}
-                                        src={Env.applicationBanners + banner.image}
-                                        className='rounded-xl max-sm:min-h-28 object-cover object-center'
-                                    />
-                                </a>
-                            ))
-                        }
+              
 
-                        {/* <img alt='' src='assets/image/sectionImage/7.webp' className='rounded-xl' />
-                        <img alt='' src='assets/image/sectionImage/8.webp' className='rounded-xl' /> */}
-                    </div>
-                </section>
-
-                {/* <CategoryGrid2
+                <CategoryGrid2
                     categories={[
                         {
                             id: '1',
-                            name: 'موبایل',
-                            image: 'assets/image/category/1.png',
+                            name: 'لگو پسرانه',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2021/11/lego-icon-8.png',
                             href: '#'
                         },
                         {
                             id: '2',
-                            name: 'کالای دیجیتال',
-                            image: 'assets/image/category/2.png',
+                            name: 'لگو دخترانه',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2021/11/lego-icon-9.png',
                             href: '#'
                         },
                         {
                             id: '3',
-                            name: 'لوازم خانه',
-                            image: 'assets/image/category/3.png',
+                            name: 'ربات حرفه‌ای',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/11/2-min-393x400-min.jpg',
                             href: '#'
                         },
                         {
                             id: '4',
-                            name: 'پوشاک',
-                            image: 'assets/image/category/4.png',
+                            name: 'تفنگ حرفه‌ای',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/1-min.png',
                             href: '#'
                         },
                         {
                             id: '5',
-                            name: 'کالای سوپرمارکت',
-                            image: 'assets/image/category/5.png',
+                            name: 'اکشن فیگور',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/5-min.png',
                             href: '#'
                         },
                         {
                             id: '6',
-                            name: 'دفتر و قلم',
-                            image: 'assets/image/category/6.png',
+                            name: 'ماشین فلزی',
+                            image: '	https://asbab-bazi.com/wp-content/uploads/2024/11/110-min-min.jpg',
                             href: '#'
                         },
                         {
                             id: '7',
-                            name: 'محصولات بهداشتی',
-                            image: 'assets/image/category/7.png',
+                            name: 'ماشین کنترلی',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/10/10.jpg',
                             href: '#'
                         },
                         {
                             id: '8',
-                            name: 'محصولات ورزشی',
-                            image: 'assets/image/category/8.png',
+                            name: 'کوادکوپتر',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/10/9.jpg',
                             href: '#'
                         },
                         {
                             id: '9',
-                            name: 'ابزارآلات',
-                            image: 'assets/image/category/9.png',
+                            name: 'هلیکوپتر کنترلی',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/11/65_71_11zon-1-min.jpg',
                             href: '#'
                         },
                         {
                             id: '10',
-                            name: 'موتور و تجهیزات',
-                            image: 'assets/image/category/10.png',
+                            name: 'هواپیما کنترلی',
+                            image: '	https://asbab-bazi.com/wp-content/uploads/2024/11/49-min-1-min-1.jpg',
                             href: '#'
                         },
                         {
                             id: '11',
-                            name: 'کالای سنتی',
-                            image: 'assets/image/category/11.png',
+                            name: 'قایق کنترلی',
+                            image: '		https://asbab-bazi.com/wp-content/uploads/2024/10/8.jpg',
                             href: '#'
                         },
                         {
                             id: '12',
-                            name: 'اسباب بازی',
-                            image: 'assets/image/category/12.png',
+                            name: 'عروسک پولیشی',
+                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/0-min-400x400.png',
                             href: '#'
                         }
                     ]}
-                /> */}
+                />
 
                 <Suspense>
                     <Categories />
                 </Suspense>
 
-                {/* <ProductSlider
+                <ProductSlider
                     title='پرتخفیف ترین'
                     titleIcon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#dc2626" viewBox="0 0 256 256">
@@ -231,7 +252,7 @@ const Home: React.FC = () => {
                                     : isXl ? 3.85
                                         : 4.8
                     }
-                /> */}
+                />
 
                 <Suspense>
                     <MostDiscountedProductsSlider />
@@ -291,7 +312,7 @@ const Home: React.FC = () => {
                     ]}
                 /> */}
 
-                <section className='mt-10'>
+                {/* <section className='mt-10'>
                     <Suspense>
                         <LatestArticles />
                     </Suspense>
@@ -305,7 +326,7 @@ const Home: React.FC = () => {
                     <Suspense>
                         <CompanyDescription />
                     </Suspense>
-                </section>
+                </section> */}
             </section>
         </div >
     );

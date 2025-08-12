@@ -1,25 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { getFindManyHeroBannersQueryQueryKey, useFindManyHeroBannersQuery } from '../../services/api/ecommerce--api';
 import { Env } from '../../env';
+import { getFindManyHeroBannersQueryQueryKey, useFindManyHeroBannersQuery } from '../../services/api/ecommerce--api';
 
-interface SlideData {
-    id: number;
-    desktopImage: string;
-    mobileImage: string;
-    alt: string;
-    href?: string;
-}
+
 
 interface HeroSliderProps {
-    slides?: SlideData[];
     autoplay?: boolean;
     autoplayDelay?: number;
 }
 
 const HeroSlider: React.FC<HeroSliderProps> = ({
-    slides = defaultSlides,
     autoplay = true,
     autoplayDelay = 5000
 }) => {
@@ -50,7 +42,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     })
 
     return (
-        <div className="mt-9 md:mt-32">
+        <div className="mt-9 ">
             {/* Desktop Slider */}
             <div className="heroSlider hidden md:block">
                 <Swiper {...swiperConfig} className="swiper">
@@ -61,6 +53,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
                                     src={Env.heroBanners + slide.image}
                                     alt={slide.linkUrl}
                                     loading="lazy"
+                                    className=' object-cover w-full'
                                 />
                             </a>
                         </SwiperSlide>
@@ -97,38 +90,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     );
 };
 
-// Default slides data
-const defaultSlides: SlideData[] = [
-    {
-        id: 1,
-        desktopImage: "assets/image/heroSlider/1.jpg",
-        mobileImage: "assets/image/heroSlider/1m.png",
-        alt: "Hero Slide 1"
-    },
-    {
-        id: 2,
-        desktopImage: "assets/image/heroSlider/2.webp",
-        mobileImage: "assets/image/heroSlider/2m.png",
-        alt: "Hero Slide 2"
-    },
-    {
-        id: 3,
-        desktopImage: "assets/image/heroSlider/3.webp",
-        mobileImage: "assets/image/heroSlider/3m.png",
-        alt: "Hero Slide 3"
-    },
-    {
-        id: 4,
-        desktopImage: "assets/image/heroSlider/4.webp",
-        mobileImage: "assets/image/heroSlider/4m.png",
-        alt: "Hero Slide 4"
-    },
-    {
-        id: 5,
-        desktopImage: "assets/image/heroSlider/5.webp",
-        mobileImage: "assets/image/heroSlider/5m.png",
-        alt: "Hero Slide 5"
-    }
-];
+    // Default slides data
+
 
 export default HeroSlider;

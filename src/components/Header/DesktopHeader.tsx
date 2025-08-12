@@ -15,7 +15,7 @@ const DesktopHeader: React.FC<DesktopHeaderProps> = ({ onSearchFocusChange }) =>
             <div className="container relative px-5 z-30 flex max-w-[1680px] items-center justify-between gap-x-4 bg-white py-4">        {/* LOGO */}
                 <div className="z-0">
                     <Link to='/'>
-                        <img alt="Logo" className="w-40" src="/logo.webp" />
+                        <img alt="Logo" className="w-40" src="/assets/image/Logo.jpg" />
                     </Link>
                 </div>
 

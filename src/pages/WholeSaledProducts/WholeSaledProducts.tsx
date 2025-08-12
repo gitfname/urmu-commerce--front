@@ -195,7 +195,7 @@ const WholeSaledProductsSearch: React.FC = () => {
     ];
 
     const sellerTypes = [
-        { id: 'medkala', name: 'بازرگانان بدون مرز - BBM' },
+        { id: 'medkala', name: 'نارنجی توی' },
         { id: 'official', name: 'فروشنده رسمی' }
     ];
 
@@ -837,7 +837,7 @@ export default WholeSaledProductsSearch;
 //     ];
 
 //     const sellerTypes = [
-//         { id: 'medkala', name: 'بازرگانان بدون مرز - BBM' },
+//         { id: 'medkala', name: 'نارنجی توی' },
 //         { id: 'official', name: 'فروشنده رسمی' }
 //     ];
 

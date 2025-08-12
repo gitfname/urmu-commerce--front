@@ -4,12 +4,9 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useQueryStrings } from '../hooks/useQueryStrings';
 import {
     useFindManyAndCountProductsQuery,
-    useFindManyProductCategoriesQuery,
     useFindThirdLevelProductCategoriesQuery,
     useFindManyProductBrandsQuery,
-    getFindManyProductCategoriesQueryQueryKey,
 } from '../services/api/ecommerce--api';
-import { Env } from '../env';
 
 // Types
 interface FilterState {
@@ -45,7 +42,6 @@ const ProductSearch: React.FC = () => {
     const brandFromUrl = searchParams.get('brand');
     const minPriceFromUrl = searchParams.get('minPrice');
     const maxPriceFromUrl = searchParams.get('maxPrice');
-    const parentCategoryId = searchParams.get('parentCategoryId');
 
     const initialCategoryId = categoryFromUrl ? parseInt(categoryFromUrl, 10) : null;
     const initialBrandId = brandFromUrl ? parseInt(brandFromUrl, 10) : null;
@@ -105,29 +101,7 @@ const ProductSearch: React.FC = () => {
         limit: 35
     });
 
-    // Fetch product categories from API
-    const {
-        data: parentProductCategories,
-        refetch: refetchParentProductCategories
-    } = useFindManyProductCategoriesQuery({
-        limit: 12,
-        skip: 0,
-        parent: +parentCategoryId
-    }, {
-        query: {
-            queryKey: getFindManyProductCategoriesQueryQueryKey({ limit: 12, skip: 0, parent: +parentCategoryId }),
-            enabled: false,
-            retry: false,
-            refetchOnWindowFocus: false
-        }
-    })
 
-    useEffect(
-        () => {
-            if (!parentCategoryId) return
-            refetchParentProductCategories()
-        }, [parentCategoryId]
-    )
 
     const categories = categoriesResponse?.data || [];
     const brands = brandsResponse?.data?.data || [];
@@ -166,9 +140,7 @@ const ProductSearch: React.FC = () => {
         }
 
         // Add parentCategory filter (single category ID)
-        if (parentCategoryId) {
-            params.parentCategoryId = parentCategoryId;
-        }
+
 
         // Add brand filter
         if (filters.selectedBrand !== null) {
@@ -183,7 +155,7 @@ const ProductSearch: React.FC = () => {
         }
 
         return params;
-    }, [currentPage, filters, sortOptions, MIN_PRICE, MAX_PRICE, parentCategoryId]);
+    }, [currentPage, filters, sortOptions, MIN_PRICE, MAX_PRICE]);
 
     // Use the API hook
     const {
@@ -334,28 +306,7 @@ const ProductSearch: React.FC = () => {
         setCurrentPage(1);
     };
 
-    const handleParentCategoryClick = (categoryId: number) => {
-        // const newCategoryId = filters.selectedCategory === categoryId ? null : categoryId;
 
-        setFilters(prev => ({
-            ...prev,
-            selectedCategory: categoryId
-        }));
-
-        // Update URL parameters
-        const newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.set('category', categoryId.toString());
-        // if (newCategoryId !== null) {
-        //     newSearchParams.set('category', newCategoryId.toString());
-        // } else {
-        //     newSearchParams.delete('category');
-        // }
-        newSearchParams.delete("parentCategoryId")
-
-        setSearchParams(newSearchParams);
-
-        setCurrentPage(1);
-    };
 
     // Brand change handler
     const handleBrandChange = (brandId: number) => {
@@ -378,15 +329,7 @@ const ProductSearch: React.FC = () => {
         setCurrentPage(1);
     };
 
-    const handleSellerChange = (sellerId: string, checked: boolean) => {
-        setFilters(prev => ({
-            ...prev,
-            selectedSellers: checked
-                ? [...prev.selectedSellers, sellerId]
-                : prev.selectedSellers.filter(id => id !== sellerId)
-        }));
-        setCurrentPage(1);
-    };
+
 
     const handleSortChange = (sortKey: string) => {
         setSortOptions(prev =>
@@ -413,93 +356,13 @@ const ProductSearch: React.FC = () => {
         return `https://jahanzar2.storage.iran.liara.space/ecommerce/products/thumbnail/${imageName}`;
     };
 
-    // Get selected category and brand titles for display
-    const selectedCategoryTitle = useMemo(() => {
-        if (filters.selectedCategory === null) return null;
-        const category = categories.find(cat => cat.id === filters.selectedCategory);
-        return category?.title || null;
-    }, [filters.selectedCategory, categories]);
 
-    const selectedBrandTitle = useMemo(() => {
-        if (filters.selectedBrand === null) return null;
-        const brand = brands.find(b => b.id === filters.selectedBrand);
-        return brand?.title || null;
-    }, [filters.selectedBrand, brands]);
 
     // Check if price range is custom (different from default)
-    const hasCustomPriceRange = filters.priceRange.min > MIN_PRICE || filters.priceRange.max < MAX_PRICE;
 
     return (
-        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-[5rem] md:mt-44" dir="rtl">
-            {/* Search Bar */}
-            <div className="mb-2">
-                <div className="relative max-w-md mx-auto">
-                    <input
-                        type="text"
-                        value={filters.searchTerm}
-                        onChange={handleSearchChange}
-                        placeholder="جستجوی محصولات..."
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none"
-                        dir="rtl"
-                    />
-                    <svg
-                        className="absolute top-3.5 left-3 w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-            </div>
-
-            {/* Show selected filters */}
-            {(selectedCategoryTitle || selectedBrandTitle || hasCustomPriceRange) && (
-                <div className="mb-4 text-center">
-                    <div className="flex flex-wrap justify-center gap-2">
-                        {selectedCategoryTitle && (
-                            <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-lg">
-                                <span>دسته‌بندی: {selectedCategoryTitle}</span>
-                                <button
-                                    onClick={() => handleCategoryChange(filters.selectedCategory!)}
-                                    className="text-red-500 hover:text-red-700"
-                                    title="حذف فیلتر دسته‌بندی"
-                                >
-                                    ×
-                                </button>
-                            </div>
-                        )}
-                        {selectedBrandTitle && (
-                            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg">
-                                <span>برند: {selectedBrandTitle}</span>
-                                <button
-                                    onClick={() => handleBrandChange(filters.selectedBrand!)}
-                                    className="text-blue-500 hover:text-blue-700"
-                                    title="حذف فیلتر برند"
-                                >
-                                    ×
-                                </button>
-                            </div>
-                        )}
-                        {hasCustomPriceRange && (
-                            <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-lg">
-                                <span>
-                                    قیمت: {filters.priceRange.min.toLocaleString('fa-IR')} - {filters.priceRange.max.toLocaleString('fa-IR')} تومان
-                                </span>
-                                <button
-                                    onClick={() => handlePriceRangeChange(MIN_PRICE, MAX_PRICE)}
-                                    className="text-green-500 hover:text-green-700"
-                                    title="حذف فیلتر قیمت"
-                                >
-                                    ×
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-
-            <div className="my-8 max-md:mt-0 lg:my-10 py-5 lg:px-10 flex flex-col md:flex-row gap-5">
+        <main className="max-w-[1500px] mx-auto px-3 md:px-5 " dir="rtl">
+            <div className="mb-8 max-md:mt-0 lg:mb-10 py-5 lg:px-10 flex flex-col md:flex-row gap-5">
                 {/* Filters Sidebar */}
                 <div className="md:w-4/12 lg:w-3/12">
                     <div className="mb-4 rounded-2xl bg-white shadow-box-md">
@@ -650,32 +513,7 @@ const ProductSearch: React.FC = () => {
 
                 {/* Main Content */}
                 <div className='md:w-8/12 lg:w-9/12'>
-                    {
-                        parentCategoryId
-                            ?
-                            <div className='w-full grid grid-cols-4 gap-3.5 mb-9 mt-6'>
-                                {
-                                    parentProductCategories?.data?.data?.map(category => (
-                                        <button
-                                            key={category.id}
-                                            className='p-5 bg-gray-100 rounded-lg'
-                                            onClick={() => handleParentCategoryClick(category.id)}
-                                        >
-                                            <img
-                                                alt={category.title}
-                                                loading='lazy'
-                                                src={Env.productCategoryImage + category.image}
-                                                className='w-28 mx-auto block'
-                                            />
 
-                                            <p className='text-sm text-center mt-4'>{category.title}</p>
-                                        </button>
-                                    ))
-                                }
-                            </div>
-                            :
-                            null
-                    }
 
                     <div className="">
                         {/* Sort Filter */}

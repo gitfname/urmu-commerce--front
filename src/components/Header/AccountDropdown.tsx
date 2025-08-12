@@ -62,7 +62,7 @@ const AccountDropdown = () => {
             </div>
 
             {isOpen && (
-                <div className="absolute z-50 !-ml-5 mt-2 hidden md:block w-60 rounded-lg bg-white shadow-lg translate-x-[30%]">
+                <div className="absolute z-50 !-ml-5 mt-2 hidden md:block w-full min-w-60 rounded-lg bg-white shadow-lg left-10">
                     <ul className="space-y-2 p-2">
                         {accountMMenuItems.map((item) => (
                             <li key={item.id}>
