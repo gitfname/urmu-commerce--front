@@ -42,7 +42,7 @@ const ProductCompare: React.FC = () => {
     // Fetch product by ID
     const fetchProduct = async (productId: number): Promise<Product | null> => {
         try {
-            const response = await fetch(`https://urmu-commerce-prod.runflare.run/products/${productId}`);
+            const response = await fetch(`https://ur-commerce.runflare.run/products/${productId}`);
             if (!response.ok) {
                 throw new Error(`Failed to fetch product ${productId}`);
             }

@@ -25,7 +25,7 @@ function Dashboard() {
             }
 
             <iframe
-                src="https://urum-commerce-admin.runflare.run"
+                src="https://ur-commerce.runflare.run"
                 className="w-full h-[60rem]"
             ></iframe>
         </div>

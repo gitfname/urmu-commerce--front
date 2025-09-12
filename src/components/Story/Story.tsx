@@ -274,7 +274,7 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
 
             {/* Story Modal */}
             {isModalOpen && selectedStory && (
-                <div className="fixed inset-0 bg-black bg-opacity-95 z-50 flex items-center justify-center p-2">
+                <div className="fixed inset-0 bg-black/40 bg-opacity-95 z-50 flex items-center justify-center p-2">
                     <div className={`bg-white lg:rounded-3xl overflow-hidden shadow-2xl ${
                         isSm ? 'w-full h-full' : 'w-[90vw] max-w-4xl h-[90vh]'
                     }`}>
@@ -364,17 +364,7 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                         </SwiperSlide>
                                     ))}
                                     
-                                    {/* Navigation buttons */}
-                                    <div className="story-swiper-button-next absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-90 backdrop-blur-sm rounded-full p-3 cursor-pointer z-10 shadow-lg hover:bg-opacity-100 transition-all duration-200">
-                                        <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </div>
-                                    <div className="story-swiper-button-prev absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-90 backdrop-blur-sm rounded-full p-3 cursor-pointer z-10 shadow-lg hover:bg-opacity-100 transition-all duration-200">
-                                        <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                        </svg>
-                                    </div>
+                                   
                                     
                                     {/* Pagination */}
                                     <div className="story-swiper-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2"></div>

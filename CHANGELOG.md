@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## [2025-01-09 23:00:00] - Bug Fix: Correct Story Swiper Navigation Direction (RTL)
+
+**Date and Time of changes:** 2025-01-09 23:00:00
+
+**Detailed description of changes:**
+- Swapped `story-swiper-button-next` and `story-swiper-button-prev` classes to match RTL behavior
+- Kept arrow icons visually consistent while fixing logical navigation
+- Ensures right button goes to previous and left button goes to next as expected in RTL modals
+
+**Components affected:**
+- src/components/Story/Story.tsx
+- package.json (version bumped to 0.14.01)
+
+----
+
 ## [2025-01-09 22:55:00] - Feature Minor: Add Story View Status Tracking
 
 **Date and Time of changes:** 2025-01-09 22:55:00
