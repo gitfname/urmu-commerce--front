@@ -25,7 +25,7 @@ function Dashboard() {
             }
 
             <iframe
-                src="https://ur-commerce.runflare.run"
+                src="https://admin.narenjitoy.com"
                 className="w-full h-[60rem]"
             ></iframe>
         </div>

@@ -15,6 +15,50 @@
 
 ----
 
+## [2025-09-18 00:00:00] - Bug Fix: Set HeroSlider height to ~500px using rem
+
+**Date and Time of changes:** 2025-09-18 00:00:00
+
+**Detailed description of changes:**
+- Standardized HeroSlider height to 31.25rem (~500px) on desktop and mobile
+- Ensured Swiper containers, slides, and images fill the fixed height
+- Improved visual consistency across breakpoints with `object-cover`
+
+**Components affected:**
+- src/components/HeroSlider/HeroSlider.tsx
+- package.json (version bumped to 0.14.02)
+
+----
+
+## [2025-09-18 00:05:00] - Bug Fix: Add rounded corners to HeroSlider images
+
+**Date and Time of changes:** 2025-09-18 00:05:00
+
+**Detailed description of changes:**
+- Applied `rounded-lg` to desktop and mobile slider images
+- Matches design language and improves visual aesthetics
+
+**Components affected:**
+- src/components/HeroSlider/HeroSlider.tsx
+- package.json (version bumped to 0.14.03)
+
+----
+
+## [2025-09-18 00:10:00] - Bug Fix: Replace static categories with API data on Home
+
+**Date and Time of changes:** 2025-09-18 00:10:00
+
+**Detailed description of changes:**
+- Removed hardcoded categories array usage in `Home.tsx`
+- Integrated existing API-driven `Categories` component in its place
+- Kept `CategoryGrid2.tsx` as presentational (no static data inside)
+
+**Components affected:**
+- src/pages/Home.tsx
+- package.json (version bumped to 0.14.04)
+
+----
+
 ## [2025-01-09 22:55:00] - Feature Minor: Add Story View Status Tracking
 
 **Date and Time of changes:** 2025-01-09 22:55:00

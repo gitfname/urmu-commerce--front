@@ -42,18 +42,18 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     })
 
     return (
-        <div className="mt-9 ">
+        <div >
             {/* Desktop Slider */}
             <div className="heroSlider hidden md:block">
-                <Swiper {...swiperConfig} className="swiper">
+                <Swiper {...swiperConfig} className="swiper h-[31.25rem]">
                     {slidesQuery?.data?.data?.data?.map((slide) => (
-                        <SwiperSlide key={`desktop-${slide.id}`} className="swiper-slide">
-                            <a href={slide.linkUrl || "#"}>
+                        <SwiperSlide key={`desktop-${slide.id}`} className="swiper-slide h-[31.25rem] rounded-lg">
+                            <a href={slide.linkUrl || "#"} className='rounded-lg'>
                                 <img
                                     src={Env.heroBanners + slide.image}
                                     alt={slide.linkUrl}
                                     loading="lazy"
-                                    className=' object-cover w-full'
+                                    className='object-cover w-full h-[31.25rem] '
                                 />
                             </a>
                         </SwiperSlide>
@@ -67,12 +67,12 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
             {/* Mobile Slider */}
             <div className="heroSlider md:hidden">
-                <Swiper {...swiperConfig} className="swiper">
+                <Swiper {...swiperConfig} className="swiper h-[31.25rem]">
                     {slidesQuery?.data?.data?.data?.map((slide) => (
-                        <SwiperSlide key={`mobile-${slide.id}`} className="swiper-slide px-4">
+                        <SwiperSlide key={`mobile-${slide.id}`} className="swiper-slide px-4 h-[31.25rem]">
                             <a href={slide.linkUrl || "#"}>
                                 <img
-                                    className="rounded-lg min-h-28 object-cover"
+                                    className="rounded-lg object-cover w-full h-[31.25rem]"
                                     src={Env.heroBanners + slide.image}
                                     alt={slide.linkUrl}
                                     loading="lazy"
@@ -90,7 +90,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     );
 };
 
-    // Default slides data
+// Default slides data
 
 
 export default HeroSlider;
