@@ -1,5 +1,5 @@
 export const Env = {
-    api_base_url: "https://ur-commerce.runflare.run",
+    api_base_url: "http://localhost:3000",
     productThumbnailBaseUrl: "https://jahanzar2.storage.iran.liara.space/ecommerce/products/thumbnail/",
     weblogArticleThumbnailBaseUrl: "https://jahanzar2.storage.iran.liara.space/ecommerce/weblog/articles/thumbnail/",
     productCategoryImage: "https://jahanzar2.storage.iran.liara.space/ecommerce/product-categories/",

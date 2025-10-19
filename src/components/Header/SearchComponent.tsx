@@ -43,7 +43,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     const debounceTimeoutRef = useRef<any>(null);
 
     // Base URL for images - adjust this to match your backend setup
-    const IMAGE_BASE_URL = 'https://ur-commerce.runflare.run/uploads/'; // Adjust as needed
+    const IMAGE_BASE_URL = 'http://localhost:3000/uploads/'; // Adjust as needed
 
     // Load recent searches from localStorage on component mount
     useEffect(() => {
@@ -105,7 +105,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     // API call to search products
     const searchProducts = async (query: string): Promise<SearchResponse> => {
         const response = await fetch(
-            `https://ur-commerce.runflare.run/products?limit=10&skip=0&title=${encodeURIComponent(query)}`,
+            `http://localhost:3000/products?limit=10&skip=0&title=${encodeURIComponent(query)}`,
             {
                 method: 'GET',
                 headers: {

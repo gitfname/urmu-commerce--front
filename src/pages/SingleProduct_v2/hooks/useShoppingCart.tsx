@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext, type ReactNode } from 'react';
 
-const API_BASE_URL = 'https://ur-commerce.runflare.run';
+const API_BASE_URL = 'http://localhost:3000';
 
 export interface CartItem {
     id: number;

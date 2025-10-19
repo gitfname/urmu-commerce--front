@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { ApiProduct, ProductVariants, VariantAvailability } from '../types/product.types';
 
-const API_BASE_URL = 'https://ur-commerce.runflare.run';
+const API_BASE_URL = 'http://localhost:3000';
 
 export const useProduct = (id: string | undefined) => {
     const [product, setProduct] = useState<ApiProduct | null>(null);
