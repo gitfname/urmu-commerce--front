@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@uidotdev/usehooks';
 import React, { lazy, Suspense } from 'react';
-import CategoryGrid2 from '../components/CategoryGrid2/CategoryGrid2';
+// import CategoryGrid2 from '../components/CategoryGrid2/CategoryGrid2';
 import HeroSlider from '../components/HeroSlider/HeroSlider';
 import MostDiscountedProductsSlider from '../components/MostDiscountedProductsSlider';
 import NewestProductsSlider from '../components/NewestProductsSlider';
@@ -157,86 +157,11 @@ const Home: React.FC = () => {
 
               
 
-                <CategoryGrid2
-                    categories={[
-                        {
-                            id: '1',
-                            name: 'لگو پسرانه',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2021/11/lego-icon-8.png',
-                            href: '#'
-                        },
-                        {
-                            id: '2',
-                            name: 'لگو دخترانه',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2021/11/lego-icon-9.png',
-                            href: '#'
-                        },
-                        {
-                            id: '3',
-                            name: 'ربات حرفه‌ای',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/11/2-min-393x400-min.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '4',
-                            name: 'تفنگ حرفه‌ای',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/1-min.png',
-                            href: '#'
-                        },
-                        {
-                            id: '5',
-                            name: 'اکشن فیگور',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/5-min.png',
-                            href: '#'
-                        },
-                        {
-                            id: '6',
-                            name: 'ماشین فلزی',
-                            image: '	https://asbab-bazi.com/wp-content/uploads/2024/11/110-min-min.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '7',
-                            name: 'ماشین کنترلی',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/10/10.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '8',
-                            name: 'کوادکوپتر',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/10/9.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '9',
-                            name: 'هلیکوپتر کنترلی',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/11/65_71_11zon-1-min.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '10',
-                            name: 'هواپیما کنترلی',
-                            image: '	https://asbab-bazi.com/wp-content/uploads/2024/11/49-min-1-min-1.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '11',
-                            name: 'قایق کنترلی',
-                            image: '		https://asbab-bazi.com/wp-content/uploads/2024/10/8.jpg',
-                            href: '#'
-                        },
-                        {
-                            id: '12',
-                            name: 'عروسک پولیشی',
-                            image: 'https://asbab-bazi.com/wp-content/uploads/2024/05/0-min-400x400.png',
-                            href: '#'
-                        }
-                    ]}
-                />
-
                 <Suspense>
                     <Categories />
                 </Suspense>
+
+                {/* Categories moved above, sourced from API */}
 
                 <ProductSlider
                     title='پرتخفیف ترین'

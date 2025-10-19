@@ -95,7 +95,7 @@ const FloatingContactButton: React.FC = () => {
                 />
             )}
             
-            <div className="fixed bottom-6 right-6 z-[52]">
+            <div className="fixed bottom-6 left-6 z-[52]">
                 {/* Contact Menu */}
                 {isOpen && (
                     <div className="absolute bottom-16 left-0 mb-2 bg-white rounded-lg shadow-lg border p-4 min-w-[280px] z-[52]">

@@ -977,13 +977,13 @@ export const appControllerGetHello = (
     
     
     return axios.get(
-      `http://localhost:3000/`,options
+      `https://ur-commerce.runflare.run/`,options
     );
   }
 
 
 export const getAppControllerGetHelloQueryKey = () => {
-    return [`http://localhost:3000/`] as const;
+    return [`https://ur-commerce.runflare.run/`] as const;
     }
 
     
@@ -1033,13 +1033,13 @@ export const getMyProfileQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/users/my-profile`,options
+      `https://ur-commerce.runflare.run/users/my-profile`,options
     );
   }
 
 
 export const getGetMyProfileQueryQueryKey = () => {
-    return [`http://localhost:3000/users/my-profile`] as const;
+    return [`https://ur-commerce.runflare.run/users/my-profile`] as const;
     }
 
     
@@ -1089,7 +1089,7 @@ export const findManyUsersAndCountQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/users`,{
+      `https://ur-commerce.runflare.run/users`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -1097,7 +1097,7 @@ export const findManyUsersAndCountQuery = (
 
 
 export const getFindManyUsersAndCountQueryQueryKey = (params?: FindManyUsersAndCountQueryParams,) => {
-    return [`http://localhost:3000/users`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/users`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -1147,13 +1147,13 @@ export const findUserByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/users/${id}`,options
+      `https://ur-commerce.runflare.run/users/${id}`,options
     );
   }
 
 
 export const getFindUserByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/users/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/users/${id}`] as const;
     }
 
     
@@ -1204,7 +1204,7 @@ export const updateUserRoleMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/users/update-user-role/${userId}`,
+      `https://ur-commerce.runflare.run/users/update-user-role/${userId}`,
       updateUserRoleDto,options
     );
   }
@@ -1260,7 +1260,7 @@ export const updateMyProfileMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/users/update-my-profile`,
+      `https://ur-commerce.runflare.run/users/update-my-profile`,
       updateMyProfileDto,options
     );
   }
@@ -1316,7 +1316,7 @@ export const sendPhoneVerificationOtpCodeMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/auth/verify-otp-code`,
+      `https://ur-commerce.runflare.run/auth/verify-otp-code`,
       verifyOtpCodeToPhoneDto,options
     );
   }
@@ -1372,7 +1372,7 @@ export const login = (
     
     
     return axios.post(
-      `http://localhost:3000/auth/login`,undefined,options
+      `https://ur-commerce.runflare.run/auth/login`,undefined,options
     );
   }
 
@@ -1427,7 +1427,7 @@ export const signupUserMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/auth/signup`,
+      `https://ur-commerce.runflare.run/auth/signup`,
       signUpDto,options
     );
   }
@@ -1488,7 +1488,7 @@ if(createProductCategoryDto.image !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/product-categories`,
+      `https://ur-commerce.runflare.run/product-categories`,
       formData,options
     );
   }
@@ -1544,7 +1544,7 @@ export const findManyProductCategoriesQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-categories`,{
+      `https://ur-commerce.runflare.run/product-categories`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -1552,7 +1552,7 @@ export const findManyProductCategoriesQuery = (
 
 
 export const getFindManyProductCategoriesQueryQueryKey = (params: FindManyProductCategoriesQueryParams,) => {
-    return [`http://localhost:3000/product-categories`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/product-categories`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -1602,13 +1602,13 @@ export const findProductCategoryByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-categories/${id}`,options
+      `https://ur-commerce.runflare.run/product-categories/${id}`,options
     );
   }
 
 
 export const getFindProductCategoryByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/product-categories/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/product-categories/${id}`] as const;
     }
 
     
@@ -1666,7 +1666,7 @@ if(updateProductCategoryDto.image !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/product-categories/${id}`,
+      `https://ur-commerce.runflare.run/product-categories/${id}`,
       formData,options
     );
   }
@@ -1722,7 +1722,7 @@ export const deleteProductCategoryByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/product-categories/${id}`,options
+      `https://ur-commerce.runflare.run/product-categories/${id}`,options
     );
   }
 
@@ -1803,7 +1803,7 @@ if(createProductDto.isFeatured !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/products`,
+      `https://ur-commerce.runflare.run/products`,
       formData,options
     );
   }
@@ -1859,7 +1859,7 @@ export const findManyAndCountProductsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/products`,{
+      `https://ur-commerce.runflare.run/products`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -1867,7 +1867,7 @@ export const findManyAndCountProductsQuery = (
 
 
 export const getFindManyAndCountProductsQueryQueryKey = (params?: FindManyAndCountProductsQueryParams,) => {
-    return [`http://localhost:3000/products`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/products`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -1917,13 +1917,13 @@ export const findProductByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/products/${id}`,options
+      `https://ur-commerce.runflare.run/products/${id}`,options
     );
   }
 
 
 export const getFindProductByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/products/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/products/${id}`] as const;
     }
 
     
@@ -2005,7 +2005,7 @@ if(updateProductDto.isFeatured !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/products/${id}`,
+      `https://ur-commerce.runflare.run/products/${id}`,
       formData,options
     );
   }
@@ -2061,7 +2061,7 @@ export const deleteProductByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/products/${id}`,options
+      `https://ur-commerce.runflare.run/products/${id}`,options
     );
   }
 
@@ -2128,7 +2128,7 @@ if(createProductBrandDto.categoryIds !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/product-brands`,
+      `https://ur-commerce.runflare.run/product-brands`,
       formData,options
     );
   }
@@ -2184,7 +2184,7 @@ export const findManyProductBrandsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-brands`,{
+      `https://ur-commerce.runflare.run/product-brands`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -2192,7 +2192,7 @@ export const findManyProductBrandsQuery = (
 
 
 export const getFindManyProductBrandsQueryQueryKey = (params?: FindManyProductBrandsQueryParams,) => {
-    return [`http://localhost:3000/product-brands`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/product-brands`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -2242,13 +2242,13 @@ export const findProductBrandByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-brands/${id}`,options
+      `https://ur-commerce.runflare.run/product-brands/${id}`,options
     );
   }
 
 
 export const getFindProductBrandByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/product-brands/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/product-brands/${id}`] as const;
     }
 
     
@@ -2315,7 +2315,7 @@ if(updateProductBrandDto.categoryIds !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/product-brands/${id}`,
+      `https://ur-commerce.runflare.run/product-brands/${id}`,
       formData,options
     );
   }
@@ -2371,7 +2371,7 @@ export const deleteProductBrandByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/product-brands/${id}`,options
+      `https://ur-commerce.runflare.run/product-brands/${id}`,options
     );
   }
 
@@ -2427,7 +2427,7 @@ export const createProductVariantMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/product-variants`,
+      `https://ur-commerce.runflare.run/product-variants`,
       createProductVariantDto,{
     ...options,
         params: {...params, ...options?.params},}
@@ -2485,13 +2485,13 @@ export const findAllVariantsOfProductQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-variants/all-variants-of-product/${productId}`,options
+      `https://ur-commerce.runflare.run/product-variants/all-variants-of-product/${productId}`,options
     );
   }
 
 
 export const getFindAllVariantsOfProductQueryQueryKey = (productId: number,) => {
-    return [`http://localhost:3000/product-variants/all-variants-of-product/${productId}`] as const;
+    return [`https://ur-commerce.runflare.run/product-variants/all-variants-of-product/${productId}`] as const;
     }
 
     
@@ -2542,7 +2542,7 @@ export const checkProductVariantAvailabilityQuery = (
     
     
     return axios.post(
-      `http://localhost:3000/product-variants/check-availability`,
+      `https://ur-commerce.runflare.run/product-variants/check-availability`,
       checkProductVariantAvailabilityDto,{
     ...options,
         params: {...params, ...options?.params},}
@@ -2600,7 +2600,7 @@ export const getVariantPropertiesQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-variants/properties`,{
+      `https://ur-commerce.runflare.run/product-variants/properties`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -2608,7 +2608,7 @@ export const getVariantPropertiesQuery = (
 
 
 export const getGetVariantPropertiesQueryQueryKey = (params: GetVariantPropertiesQueryParams,) => {
-    return [`http://localhost:3000/product-variants/properties`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/product-variants/properties`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -2658,13 +2658,13 @@ export const productVariantsControllerFindOneById = (
     
     
     return axios.get(
-      `http://localhost:3000/product-variants/${id}`,options
+      `https://ur-commerce.runflare.run/product-variants/${id}`,options
     );
   }
 
 
 export const getProductVariantsControllerFindOneByIdQueryKey = (id: number,) => {
-    return [`http://localhost:3000/product-variants/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/product-variants/${id}`] as const;
     }
 
     
@@ -2715,7 +2715,7 @@ export const updateProductVariantMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/product-variants/${id}`,
+      `https://ur-commerce.runflare.run/product-variants/${id}`,
       updateProductVariantDto,options
     );
   }
@@ -2771,7 +2771,7 @@ export const deleteProductVariantMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/product-variants/${id}`,options
+      `https://ur-commerce.runflare.run/product-variants/${id}`,options
     );
   }
 
@@ -2826,7 +2826,7 @@ export const addToMyFavoriteProductsMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/favorite-products/add-to-my-favorites`,undefined,{
+      `https://ur-commerce.runflare.run/favorite-products/add-to-my-favorites`,undefined,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -2883,13 +2883,13 @@ export const findAllMyFavoriteProducts = (
     
     
     return axios.get(
-      `http://localhost:3000/favorite-products/find-all-my-favorites`,options
+      `https://ur-commerce.runflare.run/favorite-products/find-all-my-favorites`,options
     );
   }
 
 
 export const getFindAllMyFavoriteProductsQueryKey = () => {
-    return [`http://localhost:3000/favorite-products/find-all-my-favorites`] as const;
+    return [`https://ur-commerce.runflare.run/favorite-products/find-all-my-favorites`] as const;
     }
 
     
@@ -2939,13 +2939,13 @@ export const checkIsMyFavoriteQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/favorite-products/check-is-my-favorite/${productId}`,options
+      `https://ur-commerce.runflare.run/favorite-products/check-is-my-favorite/${productId}`,options
     );
   }
 
 
 export const getCheckIsMyFavoriteQueryQueryKey = (productId: number,) => {
-    return [`http://localhost:3000/favorite-products/check-is-my-favorite/${productId}`] as const;
+    return [`https://ur-commerce.runflare.run/favorite-products/check-is-my-favorite/${productId}`] as const;
     }
 
     
@@ -2995,7 +2995,7 @@ export const deleteMyFavoriteProductMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/favorite-products/my-favorites/${id}`,options
+      `https://ur-commerce.runflare.run/favorite-products/my-favorites/${id}`,options
     );
   }
 
@@ -3050,7 +3050,7 @@ export const createProductCommentMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/product-comments`,
+      `https://ur-commerce.runflare.run/product-comments`,
       createProductCommentDto,options
     );
   }
@@ -3107,7 +3107,7 @@ export const updateMyCommentMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/product-comments/my-comments/${id}`,
+      `https://ur-commerce.runflare.run/product-comments/my-comments/${id}`,
       updateProductCommentDto,options
     );
   }
@@ -3163,7 +3163,7 @@ export const deleteMyCommentMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/product-comments/my-comments/${id}`,options
+      `https://ur-commerce.runflare.run/product-comments/my-comments/${id}`,options
     );
   }
 
@@ -3218,13 +3218,13 @@ export const findMyCommentsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-comments/my-comments`,options
+      `https://ur-commerce.runflare.run/product-comments/my-comments`,options
     );
   }
 
 
 export const getFindMyCommentsQueryQueryKey = () => {
-    return [`http://localhost:3000/product-comments/my-comments`] as const;
+    return [`https://ur-commerce.runflare.run/product-comments/my-comments`] as const;
     }
 
     
@@ -3274,13 +3274,13 @@ export const findMyCommentsByProductQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-comments/my-comments/product/${productId}`,options
+      `https://ur-commerce.runflare.run/product-comments/my-comments/product/${productId}`,options
     );
   }
 
 
 export const getFindMyCommentsByProductQueryQueryKey = (productId: number,) => {
-    return [`http://localhost:3000/product-comments/my-comments/product/${productId}`] as const;
+    return [`https://ur-commerce.runflare.run/product-comments/my-comments/product/${productId}`] as const;
     }
 
     
@@ -3330,13 +3330,13 @@ export const findAcceptedCommentsByProductQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-comments/product/${productId}/accepted`,options
+      `https://ur-commerce.runflare.run/product-comments/product/${productId}/accepted`,options
     );
   }
 
 
 export const getFindAcceptedCommentsByProductQueryQueryKey = (productId: number,) => {
-    return [`http://localhost:3000/product-comments/product/${productId}/accepted`] as const;
+    return [`https://ur-commerce.runflare.run/product-comments/product/${productId}/accepted`] as const;
     }
 
     
@@ -3386,7 +3386,7 @@ export const findAllCommentsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-comments/admin/all`,{
+      `https://ur-commerce.runflare.run/product-comments/admin/all`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -3394,7 +3394,7 @@ export const findAllCommentsQuery = (
 
 
 export const getFindAllCommentsQueryQueryKey = (params?: FindAllCommentsQueryParams,) => {
-    return [`http://localhost:3000/product-comments/admin/all`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/product-comments/admin/all`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -3445,7 +3445,7 @@ export const updateCommentStatusMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/product-comments/admin/${id}/status`,
+      `https://ur-commerce.runflare.run/product-comments/admin/${id}/status`,
       adminUpdateCommentStatusDto,options
     );
   }
@@ -3501,7 +3501,7 @@ export const deleteCommentMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/product-comments/admin/${id}`,options
+      `https://ur-commerce.runflare.run/product-comments/admin/${id}`,options
     );
   }
 
@@ -3556,13 +3556,13 @@ export const findCommentByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-comments/admin/${id}`,options
+      `https://ur-commerce.runflare.run/product-comments/admin/${id}`,options
     );
   }
 
 
 export const getFindCommentByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/product-comments/admin/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/product-comments/admin/${id}`] as const;
     }
 
     
@@ -3612,13 +3612,13 @@ export const getMyShoppingCartQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/shopping-carts/my-cart`,options
+      `https://ur-commerce.runflare.run/shopping-carts/my-cart`,options
     );
   }
 
 
 export const getGetMyShoppingCartQueryQueryKey = () => {
-    return [`http://localhost:3000/shopping-carts/my-cart`] as const;
+    return [`https://ur-commerce.runflare.run/shopping-carts/my-cart`] as const;
     }
 
     
@@ -3668,13 +3668,13 @@ export const getCartSummaryQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/shopping-carts/cart-summary`,options
+      `https://ur-commerce.runflare.run/shopping-carts/cart-summary`,options
     );
   }
 
 
 export const getGetCartSummaryQueryQueryKey = () => {
-    return [`http://localhost:3000/shopping-carts/cart-summary`] as const;
+    return [`https://ur-commerce.runflare.run/shopping-carts/cart-summary`] as const;
     }
 
     
@@ -3724,7 +3724,7 @@ export const clearShoppingCartMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/shopping-carts/clear`,options
+      `https://ur-commerce.runflare.run/shopping-carts/clear`,options
     );
   }
 
@@ -3780,7 +3780,7 @@ export const addToCartMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/shopping-cart-items/add-to-cart`,
+      `https://ur-commerce.runflare.run/shopping-cart-items/add-to-cart`,
       createShoppingCartItemDto,{
     ...options,
         params: {...params, ...options?.params},}
@@ -3838,13 +3838,13 @@ export const getMyCartItemsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/shopping-cart-items/my-items`,options
+      `https://ur-commerce.runflare.run/shopping-cart-items/my-items`,options
     );
   }
 
 
 export const getGetMyCartItemsQueryQueryKey = () => {
-    return [`http://localhost:3000/shopping-cart-items/my-items`] as const;
+    return [`https://ur-commerce.runflare.run/shopping-cart-items/my-items`] as const;
     }
 
     
@@ -3895,7 +3895,7 @@ export const updateCartItemMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/shopping-cart-items/${id}`,
+      `https://ur-commerce.runflare.run/shopping-cart-items/${id}`,
       updateShoppingCartItemDto,options
     );
   }
@@ -3951,7 +3951,7 @@ export const removeFromCartMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/shopping-cart-items/${id}`,options
+      `https://ur-commerce.runflare.run/shopping-cart-items/${id}`,options
     );
   }
 
@@ -4006,7 +4006,7 @@ export const createWeblogCategoryMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/weblog-categories`,
+      `https://ur-commerce.runflare.run/weblog-categories`,
       createWeblogCategoryDto,options
     );
   }
@@ -4062,7 +4062,7 @@ export const findManyAndCountWeblogCategoriesQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/weblog-categories`,{
+      `https://ur-commerce.runflare.run/weblog-categories`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -4070,7 +4070,7 @@ export const findManyAndCountWeblogCategoriesQuery = (
 
 
 export const getFindManyAndCountWeblogCategoriesQueryQueryKey = (params?: FindManyAndCountWeblogCategoriesQueryParams,) => {
-    return [`http://localhost:3000/weblog-categories`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/weblog-categories`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -4120,13 +4120,13 @@ export const findWeblogCategoryByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/weblog-categories/${id}`,options
+      `https://ur-commerce.runflare.run/weblog-categories/${id}`,options
     );
   }
 
 
 export const getFindWeblogCategoryByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/weblog-categories/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/weblog-categories/${id}`] as const;
     }
 
     
@@ -4177,7 +4177,7 @@ export const updateWeblogCategoryByIdMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/weblog-categories/${id}`,
+      `https://ur-commerce.runflare.run/weblog-categories/${id}`,
       updateWeblogCategoryDto,options
     );
   }
@@ -4233,7 +4233,7 @@ export const deleteWeblogCategoryByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/weblog-categories/${id}`,options
+      `https://ur-commerce.runflare.run/weblog-categories/${id}`,options
     );
   }
 
@@ -4302,7 +4302,7 @@ if(createWeblogArticleDto.thumbnailImage !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/weblog-articles`,
+      `https://ur-commerce.runflare.run/weblog-articles`,
       formData,options
     );
   }
@@ -4358,7 +4358,7 @@ export const findManyAndCountWeblogArticlesQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/weblog-articles`,{
+      `https://ur-commerce.runflare.run/weblog-articles`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -4366,7 +4366,7 @@ export const findManyAndCountWeblogArticlesQuery = (
 
 
 export const getFindManyAndCountWeblogArticlesQueryQueryKey = (params?: FindManyAndCountWeblogArticlesQueryParams,) => {
-    return [`http://localhost:3000/weblog-articles`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/weblog-articles`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -4416,13 +4416,13 @@ export const findWeblogArticleBySlugQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/weblog-articles/by-slug/${slug}`,options
+      `https://ur-commerce.runflare.run/weblog-articles/by-slug/${slug}`,options
     );
   }
 
 
 export const getFindWeblogArticleBySlugQueryQueryKey = (slug: string,) => {
-    return [`http://localhost:3000/weblog-articles/by-slug/${slug}`] as const;
+    return [`https://ur-commerce.runflare.run/weblog-articles/by-slug/${slug}`] as const;
     }
 
     
@@ -4472,13 +4472,13 @@ export const findWeblogArticleByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/weblog-articles/${id}`,options
+      `https://ur-commerce.runflare.run/weblog-articles/${id}`,options
     );
   }
 
 
 export const getFindWeblogArticleByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/weblog-articles/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/weblog-articles/${id}`] as const;
     }
 
     
@@ -4551,7 +4551,7 @@ if(updateWeblogArticleDto.thumbnailImage !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/weblog-articles/${id}`,
+      `https://ur-commerce.runflare.run/weblog-articles/${id}`,
       formData,options
     );
   }
@@ -4607,7 +4607,7 @@ export const deleteWeblogArticleByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/weblog-articles/${id}`,options
+      `https://ur-commerce.runflare.run/weblog-articles/${id}`,options
     );
   }
 
@@ -4662,7 +4662,7 @@ export const createOrderFromCartMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/orders/create-from-cart`,
+      `https://ur-commerce.runflare.run/orders/create-from-cart`,
       createOrderDto,options
     );
   }
@@ -4718,13 +4718,13 @@ export const getMyOrderStatsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/orders/my-stats`,options
+      `https://ur-commerce.runflare.run/orders/my-stats`,options
     );
   }
 
 
 export const getGetMyOrderStatsQueryQueryKey = () => {
-    return [`http://localhost:3000/orders/my-stats`] as const;
+    return [`https://ur-commerce.runflare.run/orders/my-stats`] as const;
     }
 
     
@@ -4774,7 +4774,7 @@ export const getMyOrdersQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/orders/my-orders`,{
+      `https://ur-commerce.runflare.run/orders/my-orders`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -4782,7 +4782,7 @@ export const getMyOrdersQuery = (
 
 
 export const getGetMyOrdersQueryQueryKey = (params: GetMyOrdersQueryParams,) => {
-    return [`http://localhost:3000/orders/my-orders`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/orders/my-orders`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -4832,13 +4832,13 @@ export const getOrderWithItemsByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/orders/find-order-with-items/${orderId}`,options
+      `https://ur-commerce.runflare.run/orders/find-order-with-items/${orderId}`,options
     );
   }
 
 
 export const getGetOrderWithItemsByIdQueryQueryKey = (orderId: number,) => {
-    return [`http://localhost:3000/orders/find-order-with-items/${orderId}`] as const;
+    return [`https://ur-commerce.runflare.run/orders/find-order-with-items/${orderId}`] as const;
     }
 
     
@@ -4888,7 +4888,7 @@ export const getAllOrdersQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/orders/all`,{
+      `https://ur-commerce.runflare.run/orders/all`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -4896,7 +4896,7 @@ export const getAllOrdersQuery = (
 
 
 export const getGetAllOrdersQueryQueryKey = (params: GetAllOrdersQueryParams,) => {
-    return [`http://localhost:3000/orders/all`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/orders/all`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -4946,13 +4946,13 @@ export const getOrderByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/orders/${id}`,options
+      `https://ur-commerce.runflare.run/orders/${id}`,options
     );
   }
 
 
 export const getGetOrderByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/orders/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/orders/${id}`] as const;
     }
 
     
@@ -5003,7 +5003,7 @@ export const updateOrderStatusMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/orders/${id}/status`,
+      `https://ur-commerce.runflare.run/orders/${id}/status`,
       updateOrderStatusDto,options
     );
   }
@@ -5059,7 +5059,7 @@ export const cancelOrderMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/orders/${id}/cancel`,undefined,options
+      `https://ur-commerce.runflare.run/orders/${id}/cancel`,undefined,options
     );
   }
 
@@ -5114,7 +5114,7 @@ export const createSendingWayMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/sending-ways`,
+      `https://ur-commerce.runflare.run/sending-ways`,
       createSendingWayDto,options
     );
   }
@@ -5170,7 +5170,7 @@ export const findManyAndCountSendingWaysQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/sending-ways`,{
+      `https://ur-commerce.runflare.run/sending-ways`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -5178,7 +5178,7 @@ export const findManyAndCountSendingWaysQuery = (
 
 
 export const getFindManyAndCountSendingWaysQueryQueryKey = (params: FindManyAndCountSendingWaysQueryParams,) => {
-    return [`http://localhost:3000/sending-ways`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/sending-ways`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -5228,13 +5228,13 @@ export const findActiveSendingWaysQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/sending-ways/active`,options
+      `https://ur-commerce.runflare.run/sending-ways/active`,options
     );
   }
 
 
 export const getFindActiveSendingWaysQueryQueryKey = () => {
-    return [`http://localhost:3000/sending-ways/active`] as const;
+    return [`https://ur-commerce.runflare.run/sending-ways/active`] as const;
     }
 
     
@@ -5284,13 +5284,13 @@ export const findSendingWayByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/sending-ways/${id}`,options
+      `https://ur-commerce.runflare.run/sending-ways/${id}`,options
     );
   }
 
 
 export const getFindSendingWayByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/sending-ways/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/sending-ways/${id}`] as const;
     }
 
     
@@ -5341,7 +5341,7 @@ export const updateSendingWayMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/sending-ways/${id}`,
+      `https://ur-commerce.runflare.run/sending-ways/${id}`,
       updateSendingWayDto,options
     );
   }
@@ -5397,7 +5397,7 @@ export const deleteSendingWayMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/sending-ways/${id}`,options
+      `https://ur-commerce.runflare.run/sending-ways/${id}`,options
     );
   }
 
@@ -5452,7 +5452,7 @@ export const createPaymentMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/payments/create`,
+      `https://ur-commerce.runflare.run/payments/create`,
       createPaymentDto,options
     );
   }
@@ -5508,7 +5508,7 @@ export const verifyPaymentMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/payments/verify`,
+      `https://ur-commerce.runflare.run/payments/verify`,
       verifyPaymentDto,options
     );
   }
@@ -5565,7 +5565,7 @@ export const paymentCallbackMutation = (
     
     
     return axios.post(
-      `http://localhost:3000/payments/callback/${trackId}`,undefined,{
+      `https://ur-commerce.runflare.run/payments/callback/${trackId}`,undefined,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -5622,7 +5622,7 @@ export const getMyPaymentsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/payments/my-payments`,{
+      `https://ur-commerce.runflare.run/payments/my-payments`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -5630,7 +5630,7 @@ export const getMyPaymentsQuery = (
 
 
 export const getGetMyPaymentsQueryQueryKey = (params: GetMyPaymentsQueryParams,) => {
-    return [`http://localhost:3000/payments/my-payments`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/payments/my-payments`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -5680,13 +5680,13 @@ export const getPaymentByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/payments/${id}`,options
+      `https://ur-commerce.runflare.run/payments/${id}`,options
     );
   }
 
 
 export const getGetPaymentByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/payments/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/payments/${id}`] as const;
     }
 
     
@@ -5744,7 +5744,7 @@ formData.append(`businessLicensePhoto`, createWholeSellersDto.businessLicensePho
 formData.append(`creditCardOrShaba`, createWholeSellersDto.creditCardOrShaba)
 
     return axios.post(
-      `http://localhost:3000/whole-sellers`,
+      `https://ur-commerce.runflare.run/whole-sellers`,
       formData,options
     );
   }
@@ -5800,7 +5800,7 @@ export const findManyAndCountWholeSellersQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/whole-sellers`,{
+      `https://ur-commerce.runflare.run/whole-sellers`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -5808,7 +5808,7 @@ export const findManyAndCountWholeSellersQuery = (
 
 
 export const getFindManyAndCountWholeSellersQueryQueryKey = (params: FindManyAndCountWholeSellersQueryParams,) => {
-    return [`http://localhost:3000/whole-sellers`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/whole-sellers`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -5858,13 +5858,13 @@ export const getMyWholeSellersRequestQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/whole-sellers/my-request`,options
+      `https://ur-commerce.runflare.run/whole-sellers/my-request`,options
     );
   }
 
 
 export const getGetMyWholeSellersRequestQueryQueryKey = () => {
-    return [`http://localhost:3000/whole-sellers/my-request`] as const;
+    return [`https://ur-commerce.runflare.run/whole-sellers/my-request`] as const;
     }
 
     
@@ -5936,7 +5936,7 @@ if(updateWholeSellersDto.creditCardOrShaba !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/whole-sellers/my-request`,
+      `https://ur-commerce.runflare.run/whole-sellers/my-request`,
       formData,options
     );
   }
@@ -5992,13 +5992,13 @@ export const checkMyWholeSellersStatusQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/whole-sellers/check-my-status`,options
+      `https://ur-commerce.runflare.run/whole-sellers/check-my-status`,options
     );
   }
 
 
 export const getCheckMyWholeSellersStatusQueryQueryKey = () => {
-    return [`http://localhost:3000/whole-sellers/check-my-status`] as const;
+    return [`https://ur-commerce.runflare.run/whole-sellers/check-my-status`] as const;
     }
 
     
@@ -6048,13 +6048,13 @@ export const checkWholeSellersStatusByUserIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/whole-sellers/check-status/${userId}`,options
+      `https://ur-commerce.runflare.run/whole-sellers/check-status/${userId}`,options
     );
   }
 
 
 export const getCheckWholeSellersStatusByUserIdQueryQueryKey = (userId: number,) => {
-    return [`http://localhost:3000/whole-sellers/check-status/${userId}`] as const;
+    return [`https://ur-commerce.runflare.run/whole-sellers/check-status/${userId}`] as const;
     }
 
     
@@ -6104,13 +6104,13 @@ export const findWholeSellersRequestByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/whole-sellers/${id}`,options
+      `https://ur-commerce.runflare.run/whole-sellers/${id}`,options
     );
   }
 
 
 export const getFindWholeSellersRequestByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/whole-sellers/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/whole-sellers/${id}`] as const;
     }
 
     
@@ -6160,7 +6160,7 @@ export const deleteWholeSellersRequestByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/whole-sellers/${id}`,options
+      `https://ur-commerce.runflare.run/whole-sellers/${id}`,options
     );
   }
 
@@ -6216,7 +6216,7 @@ export const adminUpdateWholeSellersStatusMutation = (
     
     
     return axios.put(
-      `http://localhost:3000/whole-sellers/admin-update/${id}`,
+      `https://ur-commerce.runflare.run/whole-sellers/admin-update/${id}`,
       adminUpdateWholeSellersDto,options
     );
   }
@@ -6280,7 +6280,7 @@ if(createHeroBannerDto.sortOrder !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/hero-banners`,
+      `https://ur-commerce.runflare.run/hero-banners`,
       formData,options
     );
   }
@@ -6336,7 +6336,7 @@ export const findManyHeroBannersQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/hero-banners`,{
+      `https://ur-commerce.runflare.run/hero-banners`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -6344,7 +6344,7 @@ export const findManyHeroBannersQuery = (
 
 
 export const getFindManyHeroBannersQueryQueryKey = (params: FindManyHeroBannersQueryParams,) => {
-    return [`http://localhost:3000/hero-banners`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/hero-banners`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -6394,13 +6394,13 @@ export const findHeroBannerByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/hero-banners/${id}`,options
+      `https://ur-commerce.runflare.run/hero-banners/${id}`,options
     );
   }
 
 
 export const getFindHeroBannerByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/hero-banners/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/hero-banners/${id}`] as const;
     }
 
     
@@ -6461,7 +6461,7 @@ if(updateHeroBannerDto.sortOrder !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/hero-banners/${id}`,
+      `https://ur-commerce.runflare.run/hero-banners/${id}`,
       formData,options
     );
   }
@@ -6517,7 +6517,7 @@ export const deleteHeroBannerByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/hero-banners/${id}`,options
+      `https://ur-commerce.runflare.run/hero-banners/${id}`,options
     );
   }
 
@@ -6586,7 +6586,7 @@ if(createApplicationBannerDto.group !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/application-banners`,
+      `https://ur-commerce.runflare.run/application-banners`,
       formData,options
     );
   }
@@ -6642,7 +6642,7 @@ export const findManyApplicationBannersQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/application-banners`,{
+      `https://ur-commerce.runflare.run/application-banners`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -6650,7 +6650,7 @@ export const findManyApplicationBannersQuery = (
 
 
 export const getFindManyApplicationBannersQueryQueryKey = (params: FindManyApplicationBannersQueryParams,) => {
-    return [`http://localhost:3000/application-banners`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/application-banners`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -6700,13 +6700,13 @@ export const findApplicationBannerByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/application-banners/${id}`,options
+      `https://ur-commerce.runflare.run/application-banners/${id}`,options
     );
   }
 
 
 export const getFindApplicationBannerByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/application-banners/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/application-banners/${id}`] as const;
     }
 
     
@@ -6773,7 +6773,7 @@ if(updateApplicationBannerDto.group !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/application-banners/${id}`,
+      `https://ur-commerce.runflare.run/application-banners/${id}`,
       formData,options
     );
   }
@@ -6829,7 +6829,7 @@ export const deleteApplicationBannerByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/application-banners/${id}`,options
+      `https://ur-commerce.runflare.run/application-banners/${id}`,options
     );
   }
 
@@ -6890,7 +6890,7 @@ if(createProductBrandCategoryDto.image !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/product-brand-categories`,
+      `https://ur-commerce.runflare.run/product-brand-categories`,
       formData,options
     );
   }
@@ -6946,7 +6946,7 @@ export const findManyProductBrandCategoriesQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-brand-categories`,{
+      `https://ur-commerce.runflare.run/product-brand-categories`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -6954,7 +6954,7 @@ export const findManyProductBrandCategoriesQuery = (
 
 
 export const getFindManyProductBrandCategoriesQueryQueryKey = (params: FindManyProductBrandCategoriesQueryParams,) => {
-    return [`http://localhost:3000/product-brand-categories`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/product-brand-categories`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -7004,13 +7004,13 @@ export const findProductBrandCategoryByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/product-brand-categories/${id}`,options
+      `https://ur-commerce.runflare.run/product-brand-categories/${id}`,options
     );
   }
 
 
 export const getFindProductBrandCategoryByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/product-brand-categories/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/product-brand-categories/${id}`] as const;
     }
 
     
@@ -7071,7 +7071,7 @@ if(updateProductBrandCategoryDto.image !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/product-brand-categories/${id}`,
+      `https://ur-commerce.runflare.run/product-brand-categories/${id}`,
       formData,options
     );
   }
@@ -7127,7 +7127,7 @@ export const deleteProductBrandCategoryByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/product-brand-categories/${id}`,options
+      `https://ur-commerce.runflare.run/product-brand-categories/${id}`,options
     );
   }
 
@@ -7202,7 +7202,7 @@ if(createPopularBrandDto.secondImage !== undefined) {
  }
 
     return axios.post(
-      `http://localhost:3000/popular-brands`,
+      `https://ur-commerce.runflare.run/popular-brands`,
       formData,options
     );
   }
@@ -7258,7 +7258,7 @@ export const findManyPopularBrandsQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/popular-brands`,{
+      `https://ur-commerce.runflare.run/popular-brands`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -7266,7 +7266,7 @@ export const findManyPopularBrandsQuery = (
 
 
 export const getFindManyPopularBrandsQueryQueryKey = (params: FindManyPopularBrandsQueryParams,) => {
-    return [`http://localhost:3000/popular-brands`, ...(params ? [params]: [])] as const;
+    return [`https://ur-commerce.runflare.run/popular-brands`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -7316,13 +7316,13 @@ export const findPopularBrandByIdQuery = (
     
     
     return axios.get(
-      `http://localhost:3000/popular-brands/${id}`,options
+      `https://ur-commerce.runflare.run/popular-brands/${id}`,options
     );
   }
 
 
 export const getFindPopularBrandByIdQueryQueryKey = (id: number,) => {
-    return [`http://localhost:3000/popular-brands/${id}`] as const;
+    return [`https://ur-commerce.runflare.run/popular-brands/${id}`] as const;
     }
 
     
@@ -7395,7 +7395,7 @@ if(updatePopularBrandDto.secondImage !== undefined) {
  }
 
     return axios.put(
-      `http://localhost:3000/popular-brands/${id}`,
+      `https://ur-commerce.runflare.run/popular-brands/${id}`,
       formData,options
     );
   }
@@ -7451,7 +7451,7 @@ export const deletePopularBrandByIdMutation = (
     
     
     return axios.delete(
-      `http://localhost:3000/popular-brands/${id}`,options
+      `https://ur-commerce.runflare.run/popular-brands/${id}`,options
     );
   }
 
