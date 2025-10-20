@@ -143,7 +143,7 @@ const AmazingProducts: React.FC = () => {
 
     // Apply client-side filters that aren't handled by the API
     const filteredProducts = useMemo(() => {
-        let filtered = [...products];
+        const filtered = [...products];
 
         // Apply price-based sorting if needed
         const activeSort = sortOptions.find(option => option.active);
@@ -287,7 +287,7 @@ const AmazingProducts: React.FC = () => {
     }, [filters.selectedCategory, categories]);
 
     return (
-        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-[5rem] md:mt-44" dir="rtl">
+        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-[5rem] md:mt-10" dir="rtl">
             {/* Hero Section for Amazing Products */}
             <div className="mb-8 relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-500 via-pink-500 to-purple-600 p-8 text-white">
                 <div className="absolute inset-0 bg-black opacity-10"></div>

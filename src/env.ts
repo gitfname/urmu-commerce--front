@@ -9,4 +9,6 @@ export const Env = {
     applicationBanners: "https://jahanzar2.storage.iran.liara.space/ecommerce/application-banners/",
     productBrands: "https://jahanzar2.storage.iran.liara.space/ecommerce/product-brands/",
     popularBrands: "https://jahanzar2.storage.iran.liara.space/ecommerce/popular-brands/",
+    stories: "https://jahanzar2.storage.iran.liara.space/ecommerce/stories/",
+    storiesVideos: "https://jahanzar2.storage.iran.liara.space/ecommerce/stories/videos/",
 }

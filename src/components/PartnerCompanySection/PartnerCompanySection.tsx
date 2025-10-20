@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, FreeMode } from 'swiper/modules';
-import type { Swiper as SwiperType } from 'swiper';
-import { getFindManyProductBrandsQueryQueryKey, useFindManyPopularBrandsQuery, useFindManyProductBrandsQuery } from '../../services/api/ecommerce--api';
-import { Env } from '../../env';
 import { Link } from 'react-router-dom';
+import type { Swiper as SwiperType } from 'swiper';
+import { Autoplay, FreeMode } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Env } from '../../env';
+import { getFindManyProductBrandsQueryQueryKey, useFindManyPopularBrandsQuery } from '../../services/api/ecommerce--api';
 
 // Types
 interface PartnerCompany {

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import BottomNavigation from "../components/BottomNavigation/BottomNavigation";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
@@ -9,7 +10,8 @@ interface Props {
 }
 
 function WebsiteLayout({ children }: Props) {
-
+    const location = useLocation();
+    const isSingleProductPage = location.pathname.startsWith('/products/');
 
     return (
         <div dir="rtl" className="relative">
@@ -72,9 +74,7 @@ function WebsiteLayout({ children }: Props) {
                 ]}
 
                 badges={[
-                    '/assets/image/services/symbol-01.png',
-                    '/assets/image/services/symbol-02.png',
-                    '/assets/image/services/symbol-01.png'
+                    'https://trustseal.enamad.ir/logo.aspx?id=651055&Code=370Qn5wZjTvMppfCwL55Jolp6oL7uVbI'
                 ]}
 
                 companyDescription='یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند کالاهایی متنوع، باکیفیت و دارای قیمت مناسب را در مدت زمان ی کوتاه به دست مشتریان خود برساند و ضمانت بازگشت کالا هم داشته باشد؛ ویژگی‌هایی که فروشگاه اینترنتی دیجی‌کالا سال‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق مشتریان ثابت خود را داشته باشد.
@@ -87,7 +87,7 @@ function WebsiteLayout({ children }: Props) {
                 <BottomNavigation />
             </div>
             
-            <FloatingContactButton />
+            {!isSingleProductPage && <FloatingContactButton />}
         </div>
     )
 }

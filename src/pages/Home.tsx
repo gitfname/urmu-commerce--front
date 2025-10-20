@@ -1,13 +1,10 @@
-import { useMediaQuery } from '@uidotdev/usehooks';
 import React, { lazy, Suspense } from 'react';
 // import CategoryGrid2 from '../components/CategoryGrid2/CategoryGrid2';
 import HeroSlider from '../components/HeroSlider/HeroSlider';
 import MostDiscountedProductsSlider from '../components/MostDiscountedProductsSlider';
 import NewestProductsSlider from '../components/NewestProductsSlider';
-import ProductSlider from '../components/ProductSlider/ProductSlider';
+import PopularProductsSlider from '../components/PopularProductsSlider';
 import Story from '../components/Story';
-import { Env } from '../env';
-import { getFindManyApplicationBannersQueryQueryKey, useFindManyApplicationBannersQuery } from '../services/api/ecommerce--api';
 // import PartnerCompanySection from '../components/PartnerCompanySection/PartnerCompanySection';
 // import LatestArticles from '../components/BlogSection/LatestArticles';
 // import Categories from '../components/Categories';
@@ -20,59 +17,14 @@ const Categories = lazy(() => import("../components/Categories"))
 
 
 const Home: React.FC = () => {
-    const isSm = useMediaQuery("only screen and (max-width : 640px)")
-    const isMd = useMediaQuery("only screen and (max-width : 768px)")
-    const isLg = useMediaQuery("only screen and (max-width : 1024px)")
-    const isXl = useMediaQuery("only screen and (max-width : 1280px)")
-
-    const homeBanners1 = useFindManyApplicationBannersQuery({
-        skip: 0,
-        group: "home-banners-1"
-    }, {
-        query: {
-            queryKey: getFindManyApplicationBannersQueryQueryKey({ group: "home-banners-1", skip: 0 }),
-            retry: 2,
-            refetchOnWindowFocus: false
-        }
-    })
+  
 
     return (
         <div className=''>
             <Story />
             <HeroSlider />
             <section className='my-10'>
-                <div className='grid grid-cols-2 gap-5'>
-                    {
-                        homeBanners1?.data?.data?.data?.slice(0, 2).map(banner => (
-                            <a href={banner.linkUrl} key={banner.id}>
-                                <img
-                                    alt={banner.title || ""}
-                                    src={Env.applicationBanners + banner.image}
-                                    className='rounded-xl max-sm:min-h-28 object-cover object-center w-full h-full'
-                                />
-                            </a>
-                        ))
-                    }
-                    
-                    {/* Fallback: If no banners from API, show placeholder images */}
-                    {(!homeBanners1?.data?.data?.data || homeBanners1?.data?.data?.data?.length === 0) && (
-                        <>
-                            <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
-                                <span className='text-gray-500 text-sm'>بنر 1</span>
-                            </div>
-                            <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
-                                <span className='text-gray-500 text-sm'>بنر 2</span>
-                            </div>
-                        </>
-                    )}
-                    
-                    {/* If only one banner, show placeholder for second */}
-                    {homeBanners1?.data?.data?.data?.length === 1 && (
-                        <div className='bg-gray-200 rounded-xl min-h-28 flex items-center justify-center'>
-                            <span className='text-gray-500 text-sm'>بنر 2</span>
-                        </div>
-                    )}
-                </div>
+                
             </section>
 
             <section className='max-w-[1500px] mx-auto px-3 xl:px-5'>
@@ -100,62 +52,9 @@ const Home: React.FC = () => {
 
                 <NewestProductsSlider />
 
-                {/* <CategoryGrid /> */}
 
-                {/* <OffSlider
-                    products={[
-                        {
-                            id: '1',
-                            image: 'assets/image/products/1.webp',
-                            title: 'لپ تاپ لنوو مدل Le740 s plus مخصوص گیم',
-                            subtitle: 'Lenovo Le740 s plus gaming',
-                            currentPrice: '24,400,000',
-                            originalPrice: '27,600,000',
-                            features: [
-                                { icon: '', text: 'طراحی زیبا' },
-                                { icon: '', text: 'کارت گرافیک قدرتمند' },
-                                { icon: '', text: 'حافظه SSD' },
-                                { icon: '', text: 'صفحه نمایش لمسی' }
-                            ],
-                            endDate: 'July 29, 2025 08:00:00',
-                            href: '#'
-                        },
-                        {
-                            id: '2',
-                            image: 'assets/image/products/2.webp',
-                            title: 'لپ تاپ لنوو مدل Le740 s plus مخصوص گیم',
-                            subtitle: 'Lenovo Le740 s plus gaming',
-                            currentPrice: '24,400,000',
-                            originalPrice: '27,600,000',
-                            features: [
-                                { icon: '', text: 'طراحی زیبا' },
-                                { icon: '', text: 'کارت گرافیک قدرتمند' },
-                                { icon: '', text: 'حافظه SSD' },
-                                { icon: '', text: 'صفحه نمایش لمسی' }
-                            ],
-                            endDate: 'July 29, 2025 12:00:00',
-                            href: '#'
-                        },
-                        {
-                            id: '3',
-                            image: 'assets/image/products/3.webp',
-                            title: 'لپ تاپ لنوو مدل Le740 s plus مخصوص گیم',
-                            subtitle: 'Lenovo Le740 s plus gaming',
-                            currentPrice: '24,400,000',
-                            originalPrice: '27,600,000',
-                            features: [
-                                { icon: '', text: 'طراحی زیبا' },
-                                { icon: '', text: 'کارت گرافیک قدرتمند' },
-                                { icon: '', text: 'حافظه SSD' },
-                                { icon: '', text: 'صفحه نمایش لمسی' }
-                            ],
-                            endDate: 'July 29, 2025 21:00:00',
-                            href: '#'
-                        },
-                    ]}
-                /> */}
 
-              
+
 
                 <Suspense>
                     <Categories />
@@ -163,21 +62,7 @@ const Home: React.FC = () => {
 
                 {/* Categories moved above, sourced from API */}
 
-                <ProductSlider
-                    title='پرتخفیف ترین'
-                    titleIcon={
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#dc2626" viewBox="0 0 256 256">
-                            <path d="M204.24,60.23l-144,144a6,6,0,0,1-8.48-8.48l144-144a6,6,0,1,1,8.48,8.49ZM52,100A34,34,0,1,1,76,110,33.78,33.78,0,0,1,52,100Zm2-24a22,22,0,1,0,6.44-15.56A21.86,21.86,0,0,0,54,76ZM214,180A34,34,0,1,1,204,156,33.78,33.78,0,0,1,214,180Zm-12,0a21.87,21.87,0,0,0-6.44-15.56h0A22,22,0,1,0,202,180Z"></path>
-                        </svg>
-                    }
-                    slidesPerView={
-                        isSm ? 1
-                            : isMd ? 1.8
-                                : isLg ? 2.3
-                                    : isXl ? 3.85
-                                        : 4.8
-                    }
-                />
+                <PopularProductsSlider />
 
                 <Suspense>
                     <MostDiscountedProductsSlider />

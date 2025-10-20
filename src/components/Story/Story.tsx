@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { useFindManyStoriesQuery, getFindManyStoriesQueryQueryKey } from '../../services/api/ecommerce--api';
+import { Env } from '../../env';
 
 interface StoryImage {
     id: string;
     image: string;
     description?: string;
+    isVideo?: boolean;
 }
 
 interface StoryItem {
@@ -27,139 +30,49 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [progress, setProgress] = useState(0);
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+    const [videoCompleted, setVideoCompleted] = useState(false);
     const isSm = useMediaQuery("only screen and (max-width : 640px)");
 
-    // Default stories if none provided
-    const defaultStories: StoryItem[] = [
+    // Fetch stories from API
+    const storiesQuery = useFindManyStoriesQuery(
+        { limit: 20, skip: 0 },
         {
-            id: '1',
-            image: '/assets/image/products/1.webp',
-            title: 'محصولات جدید',
-            description: 'جدیدترین محصولات ما را مشاهده کنید',
-            isActive: true,
-            images: [
-                {
-                    id: '1-1',
-                    image: '/assets/image/products/1.webp',
-                    description: 'لپ تاپ جدید با طراحی مدرن'
-                },
-                {
-                    id: '1-2',
-                    image: '/assets/image/products/2.webp',
-                    description: 'کیفیت بالا و قیمت مناسب'
-                },
-                {
-                    id: '1-3',
-                    image: '/assets/image/products/3.webp',
-                    description: 'ارسال رایگان در سراسر کشور'
-                }
-            ]
-        },
-        {
-            id: '2',
-            image: '/assets/image/products/2.webp',
-            title: 'تخفیف ویژه',
-            description: 'تا 50% تخفیف روی محصولات منتخب',
-            isActive: true,
-            images: [
-                {
-                    id: '2-1',
-                    image: '/assets/image/products/2.webp',
-                    description: 'تخفیف 50% روی تمام محصولات'
-                },
-                {
-                    id: '2-2',
-                    image: '/assets/image/products/4.webp',
-                    description: 'فقط تا پایان هفته'
-                }
-            ]
-        },
-        {
-            id: '3',
-            image: '/assets/image/products/3.webp',
-            title: 'پیشنهاد روز',
-            description: 'پیشنهادات ویژه امروز را از دست ندهید',
-            isActive: false,
-            images: [
-                {
-                    id: '3-1',
-                    image: '/assets/image/products/3.webp',
-                    description: 'پیشنهادات ویژه روزانه'
-                },
-                {
-                    id: '3-2',
-                    image: '/assets/image/products/5.webp',
-                    description: 'محصولات با کیفیت بالا'
-                },
-                {
-                    id: '3-3',
-                    image: '/assets/image/products/6.webp',
-                    description: 'خدمات پس از فروش عالی'
-                }
-            ]
-        },
-        {
-            id: '4',
-            image: '/assets/image/products/4.webp',
-            title: 'محصولات محبوب',
-            description: 'محبوب‌ترین محصولات مشتریان',
-            isActive: true,
-            images: [
-                {
-                    id: '4-1',
-                    image: '/assets/image/products/4.webp',
-                    description: 'محبوب‌ترین محصولات'
-                }
-            ]
-        },
-        {
-            id: '5',
-            image: '/assets/image/products/5.webp',
-            title: 'فروش ویژه',
-            description: 'فروش ویژه آخر هفته',
-            isActive: false,
-            images: [
-                {
-                    id: '5-1',
-                    image: '/assets/image/products/5.webp',
-                    description: 'فروش ویژه آخر هفته'
-                },
-                {
-                    id: '5-2',
-                    image: '/assets/image/products/1.webp',
-                    description: 'تخفیف‌های باورنکردنی'
-                }
-            ]
-        },
-        {
-            id: '6',
-            image: '/assets/image/products/6.webp',
-            title: 'محصولات دیجیتال',
-            description: 'بهترین محصولات دیجیتال',
-            isActive: true,
-            images: [
-                {
-                    id: '6-1',
-                    image: '/assets/image/products/6.webp',
-                    description: 'بهترین محصولات دیجیتال'
-                },
-                {
-                    id: '6-2',
-                    image: '/assets/image/products/2.webp',
-                    description: 'تکنولوژی روز دنیا'
-                },
-                {
-                    id: '6-3',
-                    image: '/assets/image/products/3.webp',
-                    description: 'کیفیت تضمین شده'
-                }
-            ]
+            query: {
+                queryKey: getFindManyStoriesQueryQueryKey({ limit: 20, skip: 0 }),
+                retry: 2,
+                refetchOnWindowFocus: false
+            }
         }
-    ];
-
-    const [displayStories, setDisplayStories] = useState<StoryItem[]>(
-        stories.length > 0 ? stories : defaultStories
     );
+
+    // Transform API data to component format
+    const apiStories: StoryItem[] = useMemo(() => 
+        storiesQuery?.data?.data?.data?.map((story) => ({
+            id: story.id.toString(),
+            image: Env.stories + story.thumbnailImage,
+            title: story.title,
+            description: story.title,
+            isActive: true,
+            images: story.videos.map((video, index) => ({
+                id: `${story.id}-${index}`,
+                image: Env.storiesVideos + video,
+                description: story.title,
+                isVideo: true
+            }))
+        })) || [], [storiesQuery?.data?.data?.data]
+    );
+
+    const [displayStories, setDisplayStories] = useState<StoryItem[]>([]);
+
+    // Update displayStories when API data changes
+    useEffect(() => {
+        if (apiStories.length > 0) {
+            setDisplayStories(apiStories);
+        } else if (stories.length > 0) {
+            setDisplayStories(stories);
+        }
+    }, [apiStories, stories]);
 
     const handleStoryClick = (story: StoryItem) => {
         // Update the story object to mark it as inactive (viewed)
@@ -181,16 +94,42 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
         setSelectedStory(null);
         setCurrentImageIndex(0);
         setProgress(0);
+        setIsVideoPlaying(false);
+        setVideoCompleted(false);
     };
 
     const handleSlideChange = (swiper: { activeIndex: number }) => {
         setCurrentImageIndex(swiper.activeIndex);
         setProgress(0);
+        setIsVideoPlaying(false);
+        setVideoCompleted(false);
     };
 
-    // Progress bar effect with auto-close
+    const handleVideoEnded = () => {
+        setVideoCompleted(true);
+        setIsVideoPlaying(false);
+        // Close modal after video ends
+        setTimeout(() => {
+            closeModal();
+        }, 500);
+    };
+
+    const handleVideoPlay = () => {
+        setIsVideoPlaying(true);
+    };
+
+    // Progress bar effect with auto-close (only for images, not videos)
     useEffect(() => {
-        if (isModalOpen && selectedStory) {
+        if (isModalOpen && selectedStory && !isVideoPlaying) {
+            const currentImage = selectedStory.images && selectedStory.images.length > 0 
+                ? selectedStory.images[currentImageIndex] 
+                : null;
+            
+            // Skip progress bar for videos
+            if (currentImage?.isVideo) {
+                return;
+            }
+
             const totalImages = selectedStory.images && selectedStory.images.length > 0 
                 ? selectedStory.images.length 
                 : 1;
@@ -213,7 +152,7 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
 
             return () => clearInterval(interval);
         }
-    }, [isModalOpen, selectedStory, currentImageIndex]);
+    }, [isModalOpen, selectedStory, currentImageIndex, isVideoPlaying]);
 
     const swiperConfig = {
         modules: [Navigation, Pagination, Autoplay],
@@ -234,6 +173,29 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
         speed: 500,
         onSlideChange: handleSlideChange,
     };
+
+    // Show loading state
+    if (storiesQuery.isLoading) {
+        return (
+            <section className="bg-white py-4 px-3 xl:px-5 border-b border-gray-100">
+                <div className="max-w-[1500px] mx-auto">
+                    <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+                        {[...Array(6)].map((_, index) => (
+                            <div key={index} className="flex flex-col items-center gap-2 min-w-[80px]">
+                                <div className="w-16 h-16 rounded-full bg-gray-200 animate-pulse"></div>
+                                <div className="w-12 h-3 bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    // Show empty state if no stories
+    if (displayStories.length === 0) {
+        return null;
+    }
 
     return (
         <>
@@ -283,24 +245,34 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                             <div className="flex gap-1 p-3">
                                 {(selectedStory.images && selectedStory.images.length > 0 
                                     ? selectedStory.images 
-                                    : [{ id: 'default', image: selectedStory.image, description: selectedStory.description }]
-                                ).map((_, index) => (
-                                    <div key={index} className="flex-1 bg-gray-300 rounded-full h-1 overflow-hidden">
-                                        <div 
-                                            className={`h-full transition-all duration-300 ease-out ${
-                                                index === currentImageIndex 
-                                                    ? 'bg-white' 
-                                                    : index < currentImageIndex 
+                                    : [{ id: 'default', image: selectedStory.image, description: selectedStory.description, isVideo: false }]
+                                ).map((image, index) => {
+                                    const isCurrentVideo = index === currentImageIndex && image.isVideo;
+                                    const isVideoCompleted = isCurrentVideo && videoCompleted;
+                                    
+                                    return (
+                                        <div key={index} className="flex-1 bg-gray-300 rounded-full h-1 overflow-hidden">
+                                            <div 
+                                                className={`h-full transition-all duration-300 ease-out ${
+                                                    index === currentImageIndex 
                                                         ? 'bg-white' 
-                                                        : 'bg-transparent'
-                                            }`}
-                                            style={{
-                                                width: index === currentImageIndex ? `${progress}%` : 
-                                                       index < currentImageIndex ? '100%' : '0%'
-                                            }}
-                                        />
-                                    </div>
-                                ))}
+                                                        : index < currentImageIndex 
+                                                            ? 'bg-white' 
+                                                            : 'bg-transparent'
+                                                }`}
+                                                style={{
+                                                    width: isCurrentVideo 
+                                                        ? (isVideoCompleted ? '100%' : '0%')
+                                                        : index === currentImageIndex 
+                                                            ? `${progress}%` 
+                                                            : index < currentImageIndex 
+                                                                ? '100%' 
+                                                                : '0%'
+                                                }}
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -345,21 +317,38 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                 <Swiper {...swiperConfig} className="story-swiper h-full">
                                     {(selectedStory.images && selectedStory.images.length > 0 
                                         ? selectedStory.images 
-                                        : [{ id: 'default', image: selectedStory.image, description: selectedStory.description }]
+                                        : [{ id: 'default', image: selectedStory.image, description: selectedStory.description, isVideo: false }]
                                     ).map((image) => (
                                         <SwiperSlide key={image.id} className="story-swiper-slide">
                                             <div className="relative h-full flex items-center justify-center p-4">
-                                                <img
-                                                    src={image.image}
-                                                    alt={image.description || selectedStory.title}
-                                                    className={`w-full object-cover rounded-lg ${
-                                                        isSm ? 'h-64' : 'h-64'
-                                                    }`}
-                                                    onError={(e) => {
-                                                        const target = e.target as HTMLImageElement;
-                                                        target.src = '/assets/image/products/1.webp';
-                                                    }}
-                                                />
+                                                {image.isVideo ? (
+                                                    <video
+                                                        src={image.image}
+                                                        className={`w-full object-cover rounded-lg ${
+                                                            isSm ? 'h-64' : 'h-64'
+                                                        }`}
+                                                        autoPlay
+                                                        muted
+                                                        playsInline
+                                                        onEnded={handleVideoEnded}
+                                                        onPlay={handleVideoPlay}
+                                                        onError={(e) => {
+                                                            console.error('Video failed to load:', e);
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={image.image}
+                                                        alt={image.description || selectedStory.title}
+                                                        className={`w-full object-cover rounded-lg ${
+                                                            isSm ? 'h-64' : 'h-64'
+                                                        }`}
+                                                        onError={(e) => {
+                                                            const target = e.target as HTMLImageElement;
+                                                            target.src = '/assets/image/products/1.webp';
+                                                        }}
+                                                    />
+                                                )}
                                             </div>
                                         </SwiperSlide>
                                     ))}

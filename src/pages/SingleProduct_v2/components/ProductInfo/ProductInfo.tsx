@@ -14,7 +14,7 @@ interface ProductInfoProps {
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product, breadcrumbs, productFeatures }) => {
     return (
-        <div className="lg:w-5/12">
+        <div>
             <Breadcrumb breadcrumbs={breadcrumbs} />
 
             <div className="text-zinc-700 text-lg md:text-xl">

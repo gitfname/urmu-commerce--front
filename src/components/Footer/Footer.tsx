@@ -86,7 +86,6 @@ const Footer: React.FC<FooterProps> = ({
     sections = [],
     socialLinks = [],
     companyDescription = "",
-    copyrightText = "تمامی حقوق محفوظ است 2023",
     badges = [],
     onBackToTop,
 
@@ -195,8 +194,20 @@ const Footer: React.FC<FooterProps> = ({
                     {badges.length > 0 && (
                         <div className="lg:w-3/12 flex justify-center">
                             {badges.map((badge, index) => (
-                                <a key={index} href="#">
-                                    <img className="w-28 h-auto" src={badge} alt={`Badge ${index + 1}`} />
+                                <a 
+                                    key={index} 
+                                    referrerPolicy="origin" 
+                                    target="_blank" 
+                                    href="https://trustseal.enamad.ir/?id=651055&Code=370Qn5wZjTvMppfCwL55Jolp6oL7uVbI"
+                                >
+                                    <img 
+                                        referrerPolicy="origin" 
+                                        src={badge} 
+                                        alt="" 
+                                        style={{cursor: 'pointer'}} 
+                                        data-code="370Qn5wZjTvMppfCwL55Jolp6oL7uVbI"
+                                        className="w-28 h-auto"
+                                    />
                                 </a>
                             ))}
                         </div>

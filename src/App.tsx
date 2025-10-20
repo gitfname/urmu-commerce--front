@@ -53,6 +53,22 @@ const LoginSignUp = lazy(() => import("./pages/LoginSignUp"))
 function App() {
 
   useEffect(() => { myProfileStore.fetchMyProfile() }, [])
+  
+  useEffect(() => {
+    // Goftino Chat Widget Script
+    const goftinoScript = document.createElement('script');
+    goftinoScript.innerHTML = `
+      !function(){var i="tT8GDR",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
+    `;
+    document.head.appendChild(goftinoScript);
+    
+    return () => {
+      // Clean up the script when component unmounts
+      if (goftinoScript.parentNode) {
+        document.head.removeChild(goftinoScript);
+      }
+    };
+  }, [])
 
   return (
     <Routes>

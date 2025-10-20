@@ -1,74 +1,67 @@
 import React from 'react';
 import {
     ShoppingBag,
-    Users,
     Award,
     Truck,
     Shield,
     Heart,
-    Star,
     CheckCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AboutUs: React.FC = () => {
     const stats = [
-        { number: '۱۰ هزار+', label: 'مشتری راضی' },
-        { number: '۵ هزار+', label: 'محصول فروخته شده' },
-        { number: '۵۰+', label: 'برند همکار' },
-        { number: '۲۴/۷', label: 'پشتیبانی مشتری' }
+        { number: '۲۰ هزار+', label: 'کودک شاد' },
+        { number: '۱۵ هزار+', label: 'اسباب بازی متنوع' },
+        { number: '۲ شعبه', label: 'در شرق تهران' },
+        { number: '۱۲ سال', label: 'سابقه فعالیت' }
     ];
 
     const values = [
         {
             icon: <Shield className="w-8 h-8 text-red-500" />,
-            title: 'تضمین کیفیت',
-            description: 'ما اطمینان حاصل می‌کنیم که هر محصول قبل از رسیدن به شما استانداردهای بالای ما را داشته باشد.'
+            title: 'ایمنی کودکان',
+            description: 'تمامی اسباب بازی‌های ما دارای استانداردهای بین‌المللی ایمنی کودک هستند و به دقت بررسی می‌شوند.'
         },
         {
             icon: <Heart className="w-8 h-8 text-red-500" />,
-            title: 'مشتری محوری',
-            description: 'رضایت شما اولویت ماست. ما برای مشتریانمان فراتر از انتظار تلاش می‌کنیم.'
+            title: 'رشد خلاقیت',
+            description: 'انتخاب اسباب بازی‌هایی که علاوه بر سرگرمی، به رشد ذهنی و خلاقیت کودکان کمک می‌کنند.'
         },
         {
             icon: <Truck className="w-8 h-8 text-red-500" />,
-            title: 'ارسال سریع',
-            description: 'ارسال سریع و قابل اعتماد تا سفارشات شما در اسرع وقت به دستتان برسد.'
+            title: 'تحویل رایگان',
+            description: 'برای خریدهای بالای ۵۰۰ هزار تومان در سطح شهر تهران، ارسال رایگان داریم.'
         },
         {
             icon: <Award className="w-8 h-8 text-red-500" />,
-            title: 'تعالی',
-            description: 'ما در همه کارهایمان، از محصولات تا خدمات، به دنبال تعالی هستیم.'
+            title: 'تنوع محصولات',
+            description: 'بیش از ۱۵ هزار نوع اسباب بازی متنوع برای تمامی سنین، از نوزاد تا نوجوان.'
         }
     ];
 
-    const teamMembers = [
+    // مشخصات شعبه‌ها
+    const branches = [
         {
-            name: 'سارا احمدی',
-            role: 'بنیان‌گذار و مدیرعامل',
-            image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face',
-            description: 'علاقه‌مند به ارائه محصولات باکیفیت به مشتریان در سراسر جهان.'
+            name: 'شعبه افسریه',
+            address: 'تهران، افسریه، ۱۵ متری سوم، نبش کوچه ۲۸، پلاک ۳۹۶',
+            phone: '۰۲۱-۳۳۱۱۲۲۳۳',
+            hours: '۱۰ صبح الی ۲۲:۳۰ (پنجشنبه‌ها: ۱۰ صبح الی ۲۳)'
         },
         {
-            name: 'محمد رضایی',
-            role: 'مدیر عملیات',
-            image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face',
-            description: 'تضمین عملیات روان و تجربه استثنایی مشتری.'
-        },
-        {
-            name: 'فاطمه کریمی',
-            role: 'مدیر محصول',
-            image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face',
-            description: 'انتخاب محصولات ما برای پاسخگویی به نیازها و ترندهای مشتریان.'
+            name: 'شعبه نارمک',
+            address: 'تهران، نارمک، چهار راه تلفن خانه، ضلع جنوب غربی چهارراه، پلاک ۲۶۸',
+            phone: '۰۲۱-۷۷۶۶۵۵۴۴',
+            hours: '۱۰ صبح الی ۲۲:۳۰ (پنجشنبه‌ها: ۱۰ صبح الی ۲۳)'
         }
     ];
 
     const milestones = [
-        { year: '۱۳۹۹', event: 'تأسیس شرکت', description: 'با چشم‌اندازی برای متحول کردن خرید آنلاین شروع کردیم' },
-        { year: '۱۴۰۰', event: 'اولین ۱۰۰۰ مشتری', description: 'به اولین نقطه عطف مهم در رضایت مشتری رسیدیم' },
-        { year: '۱۴۰۱', event: 'توسعه بین‌المللی', description: 'خدمات خود را به کشورهای متعدد گسترش دادیم' },
-        { year: '۱۴۰۲', event: 'شراکت پریمیوم', description: 'با برندهای پیشرو برای ارائه محصولات انحصاری همکاری کردیم' },
-        { year: '۱۴۰۳', event: '۱۰ هزار+ مشتری راضی', description: 'جشن گرفتن جامعه رو به رشد مشتریان راضی ما' }
+        { year: '۱۳۹۱', event: 'تأسیس اولین شعبه', description: 'اولین فروشگاه جزیره اسباب بازی در منطقه افسریه تهران افتتاح شد' },
+        { year: '۱۳۹۴', event: 'افتتاح شعبه دوم', description: 'به دلیل استقبال فراوان، شعبه دوم در نارمک افتتاح شد' },
+        { year: '۱۳۹۵', event: 'راه‌اندازی فروشگاه آنلاین', description: 'برای دسترسی راحت‌تر مشتریان، فروشگاه آنلاین اسباب بازی راه‌اندازی شد' },
+        { year: '۱۳۹۸', event: 'گسترش به ۵ شعبه', description: 'با افتتاح شعب جدید در غرب تهران، به ۵ شعبه رسیدیم' },
+        { year: '۱۴۰۲', event: 'بزرگترین مجموعه اسباب بازی', description: 'با افتتاح دو شعبه جدید، به بزرگترین مجموعه اسباب بازی تهران تبدیل شدیم' }
     ];
 
     return (
@@ -78,12 +71,12 @@ const AboutUs: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-7">
-                            درباره <span className="text-red-500">داستان ما</span>
+                            درباره <span className="text-red-500">جزیره اسباب بازی</span>
                         </h1>
 
                         <p className="text-xl font-normal text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                            ما علاقه‌مندیم که بهترین محصولات را با قیمت‌های بی‌نظیر برای شما فراهم کنیم.
-                            سفر ما با یک ماموریت ساده شروع شد: دسترسی به خرید باکیفیت برای همه.
+                            ما با افتخار بیش از ۱۲ سال است که شادی و لبخند را به کودکان عزیز تهران هدیه می‌دهیم.
+                            هدف ما ارائه باکیفیت‌ترین اسباب بازی‌های ایمن و آموزشی برای کودکان سرزمین‌مان است.
                         </p>
                     </div>
                 </div>
@@ -116,13 +109,13 @@ const AboutUs: React.FC = () => {
                                 <span className="text-red-500">ماموریت</span> ما
                             </h2>
                             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                                ما معتقدیم که خرید باید آسان، لذت‌بخش و برای همه قابل دسترس باشد.
-                                به همین دلیل پلتفرمی ساخته‌ایم که بهترین محصولات،
-                                قیمت‌های رقابتی و خدمات مشتری استثنایی را ترکیب می‌کند.
+                                ما معتقدیم که کودکان حق دارند با اسباب بازی‌های باکیفیت، ایمن و آموزنده بازی کنند.
+                                به همین دلیل تمام تلاش خود را می‌کنیم تا بهترین محصولات را با قیمت‌های مناسب
+                                و خدمات عالی به خانواده‌های ایرانی ارائه دهیم.
                             </p>
                             <p className="text-lg text-gray-600 leading-relaxed">
-                                از انتخاب دقیق محصولات تا ارسال فوق‌العاده سریع،
-                                هر جنبه از کسب‌وکار ما با در نظر گیری شما طراحی شده است.
+                                با ۷ شعبه در سطح تهران و فروشگاه آنلاین، همواره در تلاشیم تا دسترسی به
+                                اسباب بازی‌های استاندارد و با کیفیت را برای همه خانواده‌ها آسان‌تر کنیم.
                             </p>
                         </div>
                         <div className="relative">
@@ -133,7 +126,7 @@ const AboutUs: React.FC = () => {
                             />
                             <div className="absolute -bottom-6 -right-6 bg-red-500 text-white p-6 rounded-lg shadow-lg">
                                 <ShoppingBag className="w-8 h-8 mb-2" />
-                                <div className="font-bold">کیفیت اول</div>
+                                <div className="font-bold">لبخند کودکان</div>
                             </div>
                         </div>
                     </div>
@@ -199,35 +192,43 @@ const AboutUs: React.FC = () => {
                 </div>
             </section>
 
-            {/* Team Section */}
-            {/* <section className="py-20 bg-gray-50">
+            {/* Branches Section */}
+            <section className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            آشنایی با <span className="text-red-500">تیم</span> ما
+                            شعبه‌های <span className="text-red-500">جزیره اسباب بازی</span>
                         </h2>
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            افراد پرشور پشت موفقیت ما
+                            در خدمت شما در شرق تهران هستیم
                         </p>
                     </div>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                                <img
-                                    src={member.image}
-                                    alt={member.name}
-                                    className="w-full h-64 object-cover"
-                                />
-                                <div className="p-6">
-                                    <h3 className="text-xl font-semibold text-gray-900 mb-1">{member.name}</h3>
-                                    <div className="text-red-500 font-medium mb-3">{member.role}</div>
-                                    <p className="text-gray-600">{member.description}</p>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {branches.map((branch, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                                <div className="flex items-center justify-center mb-4 w-16 h-16 bg-red-100 text-red-500 rounded-full mx-auto">
+                                    <span className="text-xl font-bold">{index + 1}</span>
+                                </div>
+                                <h3 className="text-xl font-semibold text-gray-900 mb-3 text-center">{branch.name}</h3>
+                                <div className="space-y-2 text-gray-600">
+                                    <p className="flex items-start">
+                                        <span className="font-semibold ml-2">آدرس:</span> 
+                                        <span>{branch.address}</span>
+                                    </p>
+                                    <p className="flex items-center">
+                                        <span className="font-semibold ml-2">تلفن:</span> 
+                                        <span>{branch.phone}</span>
+                                    </p>
+                                    <p className="flex items-center">
+                                        <span className="font-semibold ml-2">ساعات کاری:</span> 
+                                        <span>{branch.hours}</span>
+                                    </p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </section> */}
+            </section>
 
             {/* Why Choose Us Section */}
             <section className="py-20 bg-white">
@@ -242,16 +243,16 @@ const AboutUs: React.FC = () => {
                         </div>
                         <div>
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                                چرا <span className="text-red-500">ما</span> را انتخاب کنید؟
+                                چرا <span className="text-red-500">جزیره اسباب بازی</span> را انتخاب کنید؟
                             </h2>
                             <div className="space-y-4">
                                 {[
-                                    'انتخاب دقیق محصولات',
-                                    'قیمت‌های رقابتی و تخفیف‌های منظم',
-                                    'ارسال سریع و قابل اعتماد',
-                                    'پشتیبانی عالی مشتری',
-                                    'پردازش امن پرداخت',
-                                    'ضمانت بازگشت ۳۰ روزه'
+                                    'بیش از ۱۵ هزار مدل اسباب بازی متنوع',
+                                    'تمامی محصولات دارای استاندارد بین‌المللی ایمنی کودکان',
+                                    '۷ شعبه فعال در مناطق مختلف تهران',
+                                    'مشاوره تخصصی برای انتخاب اسباب بازی مناسب سن کودک',
+                                    'گارانتی اصالت و سلامت کالا',
+                                    'برگزاری جشنواره‌ها و کارگاه‌های آموزشی رایگان برای کودکان'
                                 ].map((feature, index) => (
                                     <div key={index} className="flex items-center">
                                         <CheckCircle className="w-5 h-5 text-red-500 ml-3 flex-shrink-0" />
@@ -268,16 +269,22 @@ const AboutUs: React.FC = () => {
             <section className="py-20 bg-red-500">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                        آماده برای شروع خرید هستید؟
+                        به دنیای شگفت‌انگیز اسباب بازی‌ها خوش آمدید!
                     </h2>
 
                     <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
-                        به هزاران مشتری راضی بپیوندید و محصولات شگفت‌انگیز را با قیمت‌های بی‌نظیر کشف کنید.
+                        از نزدیک‌ترین شعبه شهر اسباب بازی دیدن کنید یا همین الان به صورت آنلاین خرید کنید.
+                        هدیه‌های ویژه برای مشتریان جدید!
                     </p>
 
-                    <Link to="/search" className="bg-white text-red-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
-                        همین الان خرید کنید
-                    </Link>
+                    <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+                        <Link to="/search" className="bg-white text-red-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
+                            مشاهده محصولات
+                        </Link>
+                        <Link to="/ContactUs" className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/10 transition-colors">
+                            آدرس شعبه‌ها
+                        </Link>
+                    </div>
                 </div>
             </section>
         </div>

@@ -1,5 +1,208 @@
 # CHANGELOG
 
+## [2025-09-18 01:30:00] - Feature Minor: Add soft shadow and border hover effects to CategoryGrid2
+
+**Date and Time of changes:** 2025-09-18 01:30:00
+
+**Detailed description of changes:**
+- Added soft shadow (shadow-lg shadow-gray-300/50) on hover
+- Added subtle border (border-2 border-gray-200) on hover
+- Enhanced transition with duration-300 and ease-out for smooth animation
+- Improved visual feedback for category images
+
+**Components affected:**
+- website/src/components/CategoryGrid2/CategoryGrid2.tsx
+- package.json (version bumped to 0.17.05)
+
+----
+
+## [2025-09-18 01:25:00] - Feature Minor: Set CategoryGrid2 images to 250x250px desktop and 150px mobile
+
+**Date and Time of changes:** 2025-09-18 01:25:00
+
+**Detailed description of changes:**
+- Updated CategoryGrid2 image dimensions to 250x250px on desktop and 150px on mobile
+- Added object-cover to maintain aspect ratio
+- Improved category image consistency across different screen sizes
+
+**Components affected:**
+- website/src/components/CategoryGrid2/CategoryGrid2.tsx
+- package.json (version bumped to 0.17.04)
+
+----
+
+## [2025-09-18 01:20:00] - Feature Minor: Set ProductSlider images to 200x200px on desktop
+
+**Date and Time of changes:** 2025-09-18 01:20:00
+
+**Detailed description of changes:**
+- Updated ProductSlider image dimensions to 200x200px on desktop
+- Added object-cover to maintain aspect ratio
+- Improved product image consistency across the slider
+
+**Components affected:**
+- website/src/components/ProductSlider/ProductSlider.tsx
+- package.json (version bumped to 0.17.03)
+
+----
+
+## [2025-09-18 01:15:00] - Bug Fix: Update mobile HeroSlider height and image object-fit
+
+**Date and Time of changes:** 2025-09-18 01:15:00
+
+**Detailed description of changes:**
+- Changed mobile HeroSlider height from 31.25rem to 300px
+- Updated image object-fit from object-cover to object-fill for mobile
+- Maintains desktop slider height at 31.25rem with object-cover
+- Improves mobile display consistency
+
+**Components affected:**
+- website/src/components/HeroSlider/HeroSlider.tsx
+- package.json (version bumped to 0.17.02)
+
+----
+
+## [2025-09-18 01:10:00] - Bug Fix: Hide PopularProductsSlider when no products available
+
+**Date and Time of changes:** 2025-09-18 01:10:00
+
+**Detailed description of changes:**
+- Added conditional rendering to PopularProductsSlider component
+- Component returns null if no products are available or still loading
+- Prevents empty slider from being displayed on the page
+- Improves user experience by hiding unnecessary sections
+
+**Components affected:**
+- website/src/components/PopularProductsSlider.tsx
+- package.json (version bumped to 0.17.01)
+
+----
+
+## [2025-09-18 01:05:00] - Feature Minor: Add PopularProductsSlider component
+
+**Date and Time of changes:** 2025-09-18 01:05:00
+
+**Detailed description of changes:**
+- Created PopularProductsSlider component based on MostDiscountedProductsSlider
+- Added API query with isFeatured: true parameter to fetch featured products
+- Replaced hardcoded ProductSlider in Home page with new PopularProductsSlider
+- Component displays popular/featured products with proper API integration
+- Maintains same responsive design and functionality as other product sliders
+
+**Components affected:**
+- website/src/components/PopularProductsSlider.tsx (new)
+- website/src/pages/Home.tsx
+- package.json (version bumped to 0.17.00)
+
+----
+
+## [2025-09-18 00:40:00] - Feature Minor: Add PingIPanalitycs component with 300s cooldown
+
+**Date and Time of changes:** 2025-09-18 00:40:00
+
+**Detailed description of changes:**
+- Created PingIPanalitycs component to call /ip-analytics/ping endpoint
+- Component calls API only once when rendered using useEffect
+- Implemented 300-second cooldown using localStorage
+- Stores last call timestamp in 'ping_analytics_last_call' key
+- Skips API call if within cooldown period
+- Component returns null (no UI rendering)
+
+**Components affected:**
+- website/src/components/PingIPanalitycs.tsx
+- package.json (version bumped to 0.16.02)
+
+----
+
+## [2025-09-18 00:35:00] - Bug Fix: Separate URLs for story images and videos
+
+**Date and Time of changes:** 2025-09-18 00:35:00
+
+**Detailed description of changes:**
+- Updated Story component to use separate URLs for images and videos
+- Story thumbnails now use Env.stories URL
+- Story videos now use Env.storiesVideos URL
+- Proper separation of image and video resources for better organization
+
+**Components affected:**
+- website/src/components/Story/Story.tsx
+- website/src/env.ts
+- package.json (version bumped to 0.16.01)
+
+----
+
+## [2025-09-18 00:30:00] - Feature Minor: Add video support to Story component
+
+**Date and Time of changes:** 2025-09-18 00:30:00
+
+**Detailed description of changes:**
+- Added video support to Story component with proper video handling
+- Videos now auto-play and close modal after completion
+- Progress bar shows completion state for videos (0% during play, 100% when done)
+- Added video state management (isVideoPlaying, videoCompleted)
+- Videos are muted and play inline for better mobile experience
+- Progress bar timer is disabled during video playback
+- Modal automatically closes 500ms after video ends
+
+**Components affected:**
+- website/src/components/Story/Story.tsx
+- package.json (version bumped to 0.16.00)
+
+----
+
+## [2025-09-18 00:25:00] - Bug Fix: Configure axios base URL for API requests
+
+**Date and Time of changes:** 2025-09-18 00:25:00
+
+**Detailed description of changes:**
+- Added axios base URL configuration in main.tsx
+- Fixed API requests going to localhost instead of actual API server
+- Stories API now properly connects to https://ur-commerce.runflare.run/stories
+- All API endpoints now use correct base URL from Env configuration
+
+**Components affected:**
+- website/src/main.tsx
+- package.json (version bumped to 0.15.02)
+
+----
+
+## [2025-09-18 00:20:00] - Bug Fix: Remove all static data from Story component
+
+**Date and Time of changes:** 2025-09-18 00:20:00
+
+**Detailed description of changes:**
+- Completely removed all static/fake data from Story component
+- Made component fully API-driven with no fallback static data
+- Added loading state with skeleton animation
+- Added empty state handling (returns null if no stories)
+- Component now only displays data from /stories API endpoint
+
+**Components affected:**
+- website/src/components/Story/Story.tsx
+- package.json (version bumped to 0.15.01)
+
+----
+
+## [2025-09-18 00:15:00] - Feature Minor: Connect Story component to /stories API endpoint
+
+**Date and Time of changes:** 2025-09-18 00:15:00
+
+**Detailed description of changes:**
+- Added stories API endpoint with useFindManyStoriesQuery hook
+- Updated Story component to fetch data from /stories GET endpoint
+- Transformed API response to match component interface (videos as images)
+- Added stories URL to Env configuration
+- Replaced static data with dynamic API data
+- Maintained fallback to default stories if API fails
+
+**Components affected:**
+- website/src/services/api/ecommerce--api.ts
+- website/src/components/Story/Story.tsx
+- website/src/env.ts
+- package.json (version bumped to 0.15.00)
+
+----
+
 ## [2025-01-09 23:00:00] - Bug Fix: Correct Story Swiper Navigation Direction (RTL)
 
 **Date and Time of changes:** 2025-01-09 23:00:00

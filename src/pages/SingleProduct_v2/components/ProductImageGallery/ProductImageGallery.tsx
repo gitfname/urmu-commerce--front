@@ -33,7 +33,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
     onFavoriteToggle
 }) => {
     return (
-        <div className="lg:w-4/12">
+        <div className="lg:w-full">
             <div className="flex gap-x-4 max-md:hidden">
                 <RenderIfLoggedIn>
                     <TooltipWrapper text={isFavorite ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه مندی ها"}>
