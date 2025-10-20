@@ -68,6 +68,28 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
         grabCursor: true,
         loop: false,
         speed: 800,
+        breakpoints: {
+            320: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 15,
+            },
+            768: {
+                slidesPerView: 2.5,
+                spaceBetween: 16,
+            },
+            1024: {
+                slidesPerView: 5,
+                spaceBetween: 16,
+            },
+        },
     };
 
     const formatPrice = (price: number): string => {
@@ -124,8 +146,8 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                 <div className="product-slider1 px-1">
                     <Swiper {...swiperConfig} className="card-wrapper swiper-wrapper py-2">
                         {products.map((product) => (
-                            <SwiperSlide key={product.id} className="card swiper-slide my-2 p-2 md:p-4 bg-white rounded-2xl drop-shadow-lg h-[29rem]">
-                                <a href={product.href || '#'} className='h-full grid grid-cols-1 grid-rows-[max-content_1fr]'>
+                            <SwiperSlide key={product.id} className="card swiper-slide my-2 p-2 md:p-4 bg-white rounded-2xl drop-shadow-lg h-auto group hover:shadow-2xl hover:shadow-red-500/20 hover:-translate-y-2 transition-all duration-500 ease-out hover:scale-[1.02]">
+                                <a href={product.href || '#'} className='h-full grid grid-cols-1 lg:grid-rows-[max-content_1fr]'>
                                     {/* discount - category */}
                                     <div className="flex justify-between">
                                         <div className='flex items-center gap-1.5'>
@@ -157,7 +179,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                                                     <div>
                                                         <button
                                                             onClick={(e) => handleWishlistClick(e, product.id)}
-                                                            className="bg-gray-200 rounded-full p-1 hover:fill-red-500 transition"
+                                                            className="bg-gray-200 rounded-full p-1 hover:fill-red-500 hover:bg-red-100 hover:scale-110 transition-all duration-300 ease-out"
                                                         >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#2b2b2b" viewBox="0 0 256 256">
                                                                 <path d="M178,34c-21,0-39.26,9.47-50,25.34C117.26,43.47,99,34,78,34A60.07,60.07,0,0,0,18,94c0,29.2,18.2,59.59,54.1,90.31a334.68,334.68,0,0,0,53.06,37,6,6,0,0,0,5.68,0,334.68,334.68,0,0,0,53.06-37C219.8,153.59,238,123.2,238,94A60.07,60.07,0,0,0,178,34ZM128,209.11C111.59,199.64,30,149.72,30,94A48.05,48.05,0,0,1,78,46c20.28,0,37.31,10.83,44.45,28.27a6,6,0,0,0,11.1,0C140.69,56.83,157.72,46,178,46a48.05,48.05,0,0,1,48,48C226,149.72,144.41,199.64,128,209.11Z"></path>
@@ -174,7 +196,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                                                     <div>
                                                         <button
                                                             onClick={(e) => handleCompareClick(e, product.id)}
-                                                            className="bg-gray-200 rounded-full p-1 hover:fill-zinc-500 transition"
+                                                            className="bg-gray-200 rounded-full p-1 hover:fill-zinc-500 hover:bg-zinc-100 hover:scale-110 transition-all duration-300 ease-out"
                                                         >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#2b2b2b" viewBox="0 0 256 256">
                                                                 <path d="M236.24,179.76a6,6,0,0,1,0,8.48l-24,24a6,6,0,0,1-8.48-8.48L217.52,190H200.94a70.16,70.16,0,0,1-57-29.31l-41.71-58.4A58.11,58.11,0,0,0,55.06,78H32a6,6,0,0,1,0-12H55.06a70.16,70.16,0,0,1,57,29.31l41.71,58.4A58.11,58.11,0,0,0,200.94,178h16.58l-13.76-13.76a6,6,0,0,1,8.48-8.48Zm-92.06-74.41a5.91,5.91,0,0,0,3.48,1.12,6,6,0,0,0,4.89-2.51l1.19-1.67A58.11,58.11,0,0,1,200.94,78h16.58L203.76,91.76a6,6,0,1,0,8.48,8.48l24-24a6,6,0,0,0,0-8.48l-24-24a6,6,0,0,0-8.48,8.48L217.52,66H200.94a70.16,70.16,0,0,0-57,29.31L142.78,97A6,6,0,0,0,144.18,105.35Zm-32.36,45.3a6,6,0,0,0-8.37,1.39l-1.19,1.67A58.11,58.11,0,0,1,55.06,178H32a6,6,0,0,0,0,12H55.06a70.16,70.16,0,0,0,57-29.31l1.19-1.67A6,6,0,0,0,111.82,150.65Z"></path>
@@ -188,10 +210,10 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                                     </div>
 
                                     {/* image */}
-                                    <div className="image-box mb-6">
-                                        <div>
+                                    <div className="image-box  overflow-hidden rounded-xl">
+                                        <div className="group-hover:scale-110 transition-transform duration-500 ease-out">
                                             <img
-                                                className="max-w-52 mx-auto"
+                                                className="w-[120px] h-[120px] md:w-[200px] md:h-[200px] object-cover mx-auto"
                                                 src={product.image}
                                                 alt={product.alt || product.name}
                                                 loading="lazy"
@@ -200,7 +222,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                                     </div>
 
                                     {/* content */}
-                                    <div className="space-y-10">
+                                    <div className="space-y-10 flex flex-col justify-evenly ">
                                         <span className="mb-2 h-8 md:h-10 flex justify-between">
                                             <div className="space-y-2">
                                                 <p className="text-sm font-semibold text-zinc-800 line-clamp-2">
@@ -222,7 +244,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                                             </div> */}
                                         </span>
 
-                                        <div className="bg-gray-100 rounded-xl py-2 px-2 flex justify-between items-center">
+                                        <div className="bg-gray-100 rounded-xl py-2 px-2 flex  justify-between items-center group-hover:bg-gradient-to-r group-hover:from-gray-50 group-hover:to-gray-100 transition-all duration-500 ease-out">
                                             <div className="flex flex-col gap-y-2">
                                                 {
                                                     product.discount
@@ -247,12 +269,12 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                                             <div>
                                                 <button
                                                     onClick={(e) => handleBuyClick(e, product.id)}
-                                                    className="flex items-center gap-x-1 text-sm py-2 px-2 rounded-lg text-white bg-red-500 hover:bg-red-400 transition shadow-lg shadow-red-500/50"
+                                                    className="flex items-center gap-x-1 lg:text-sm text-xs py-2 px-2 rounded-lg text-white bg-red-500 hover:bg-red-400 hover:scale-105 hover:shadow-xl hover:shadow-red-500/60 transition-all duration-300 ease-out group-hover:animate-pulse"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#ededed" viewBox="0 0 256 256">
                                                         <path d="M136,120v56a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0ZM239.86,98.11,226,202.12A16,16,0,0,1,210.13,216H45.87A16,16,0,0,1,30,202.12l-13.87-104A16,16,0,0,1,32,80H68.37L122,18.73a8,8,0,0,1,12,0L187.63,80H224a16,16,0,0,1,15.85,18.11ZM89.63,80h76.74L128,36.15ZM224,96H32L45.87,200H210.13Zm-51.16,23.2-5.6,56A8,8,0,0,0,174.4,184a7.44,7.44,0,0,0,.81,0,8,8,0,0,0,7.95-7.2l5.6-56a8,8,0,0,0-15.92-1.6Zm-89.68,0a8,8,0,0,0-15.92,1.6l5.6,56a8,8,0,0,0,8,7.2,7.44,7.44,0,0,0,.81,0,8,8,0,0,0,7.16-8.76Z"></path>
                                                     </svg>
-                                                    خرید محصول
+                                                    <span className="hidden md:inline">خرید محصول</span>
                                                 </button>
                                             </div>
                                         </div>

@@ -79,13 +79,10 @@ const Profile: React.FC = () => {
         }
     ];
 
-    const handleLogout = () => {
-        // Add logout logic here
-        console.log('Logout clicked');
-    };
+     
 
     return (
-        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-32 md:mt-36">
+        <main className="max-w-[1500px] mx-auto px-3 md:px-5 mt-0 md:mt-0">
             <div className="my-5 lg:my-10">
                 <div className="md:flex gap-5">
                     {/* Sidebar */}

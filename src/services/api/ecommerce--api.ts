@@ -8245,3 +8245,65 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
 
       return useMutation(mutationOptions );
     }
+
+// Stories API
+export interface StoryResponse {
+  id: number;
+  title: string;
+  thumbnailImage: string;
+  videos: string[];
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StoriesApiResponse {
+  data: StoryResponse[];
+  count: number;
+}
+
+export const findManyStoriesQuery = (
+  params: { limit?: number; skip?: number },
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<StoriesApiResponse>> => {
+  return axios.get('/stories', {
+    ...options,
+    params,
+  });
+};
+
+export const getFindManyStoriesQueryQueryKey = (params: { limit?: number; skip?: number }) => {
+  return ['findManyStoriesQuery', params] as const;
+};
+
+export const useFindManyStoriesQuery = <TData = Awaited<ReturnType<typeof findManyStoriesQuery>>, TError = AxiosError<unknown>>(
+  params: { limit?: number; skip?: number },
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof findManyStoriesQuery>>, TError, TData>;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getFindManyStoriesQueryQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const getFindManyStoriesQueryQueryOptions = <TData = Awaited<ReturnType<typeof findManyStoriesQuery>>, TError = AxiosError<unknown>>(
+  params: { limit?: number; skip?: number },
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof findManyStoriesQuery>>, TError, TData>;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getFindManyStoriesQueryQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof findManyStoriesQuery>>> = ({ signal }) => findManyStoriesQuery(params, { signal, ...axiosOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof findManyStoriesQuery>>, TError, TData> & { queryKey: QueryKey };
+};

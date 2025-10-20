@@ -45,44 +45,47 @@ const ContactUs: React.FC = () => {
         {
             icon: <Phone className="w-6 h-6 text-red-500" />,
             title: 'تماس تلفنی',
-            details: ['۰۲۱-۱۲۳۴۵۶۷۸', '۰۹۱۲-۱۲۳۴۵۶۷'],
-            description: 'پاسخگویی در روزهای کاری از ۹ صبح تا ۶ عصر'
+            details: ['۰۲۱-۳۳۱۱۲۲۳۳', '۰۲۱-۷۷۶۶۵۵۴۴'],
+            description: 'پاسخگویی در ساعات کاری فروشگاه'
         },
         {
             icon: <Mail className="w-6 h-6 text-red-500" />,
             title: 'ایمیل',
-            details: ['info@yourstore.com', 'support@yourstore.com'],
+            details: ['info@toyisland.ir', 'support@toyisland.ir'],
             description: 'پاسخ در کمتر از ۲۴ ساعت'
         },
         {
             icon: <MapPin className="w-6 h-6 text-red-500" />,
-            title: 'آدرس دفتر مرکزی',
-            details: ['تهران، خیابان ولیعصر، پلاک ۱۲۳'],
-            description: 'بازدید با هماهنگی قبلی'
+            title: 'آدرس شعبه‌ها',
+            details: [
+                'شعبه افسریه: تهران، افسریه، ۱۵ متری سوم، نبش کوچه ۲۸، پلاک ۳۹۶',
+                'شعبه نارمک: تهران، نارمک، چهار راه تلفن خانه، ضلع جنوب غربی چهارراه، پلاک ۲۶۸'
+            ],
+            description: 'مراجعه حضوری در ساعات کاری'
         },
         {
             icon: <Clock className="w-6 h-6 text-red-500" />,
             title: 'ساعات کاری',
-            details: ['شنبه تا چهارشنبه: ۹:۰۰ - ۱۸:۰۰', 'پنج‌شنبه: ۹:۰۰ - ۱۳:۰۰'],
-            description: 'پشتیبانی آنلاین ۲۴/۷'
+            details: ['شنبه تا جمعه: ۱۰:۰۰ الی ۲۲:۳۰', 'پنج‌شنبه‌ها: ۱۰:۰۰ الی ۲۳:۰۰'],
+            description: 'پشتیبانی آنلاین در ساعات کاری فروشگاه'
         }
     ];
 
     const supportCategories = [
         {
             icon: <MessageCircle className="w-8 h-8 text-red-500" />,
-            title: 'سوالات عمومی',
-            description: 'سوالات درباره محصولات، قیمت‌ها و خدمات'
+            title: 'مشاوره اسباب بازی',
+            description: 'کمک در انتخاب اسباب بازی مناسب سن و علاقه کودک شما'
         },
         {
             icon: <Headphones className="w-8 h-8 text-red-500" />,
-            title: 'پشتیبانی فنی',
-            description: 'مشکلات فنی، مسائل حساب کاربری و وب‌سایت'
+            title: 'سفارش و ارسال',
+            description: 'سوالات مربوط به خرید، سفارش آنلاین و ارسال محصولات'
         },
         {
             icon: <Shield className="w-8 h-8 text-red-500" />,
-            title: 'شکایات و پیشنهادات',
-            description: 'بازخورد شما برای بهبود خدمات ما مهم است'
+            title: 'پیشنهادات و انتقادات',
+            description: 'نظرات شما برای بهبود خدمات جزیره اسباب بازی مهم است'
         }
     ];
 
@@ -164,7 +167,7 @@ const ContactUs: React.FC = () => {
                 subject: '',
                 message: ''
             });
-        } catch (error) {
+        } catch {
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
@@ -178,11 +181,11 @@ const ContactUs: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-7">
-                            <span className="text-red-500">تماس</span> با ما
+                            تماس با <span className="text-red-500">جزیره اسباب بازی</span>
                         </h1>
                         <p className="text-xl font-normal text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                            ما اینجا هستیم تا به سوالات شما پاسخ دهیم و بهترین تجربه خرید را برای شما فراهم کنیم.
-                            با ما در ارتباط باشید و از خدمات پشتیبانی حرفه‌ای ما بهره‌مند شوید.
+                            ما اینجا هستیم تا به سوالات شما درباره اسباب بازی‌های کودکان پاسخ دهیم و بهترین تجربه خرید را برای شما و فرزندان دلبندتان فراهم کنیم.
+                            با ما در ارتباط باشید و از مشاوره تخصصی در انتخاب اسباب بازی مناسب سن کودک خود بهره‌مند شوید.
                         </p>
                     </div>
                 </div>
@@ -224,7 +227,7 @@ const ContactUs: React.FC = () => {
                             چگونه می‌توانیم <span className="text-red-500">کمکتان</span> کنیم؟
                         </h2>
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            تیم پشتیبانی ما آماده پاسخگویی به انواع سوالات و درخواست‌های شماست
+                            تیم متخصص ما در جزیره اسباب بازی آماده راهنمایی و پاسخگویی به سوالات شما درباره انتخاب و خرید اسباب بازی مناسب است
                         </p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
@@ -253,7 +256,7 @@ const ContactUs: React.FC = () => {
                             پیام خود را <span className="text-red-500">ارسال</span> کنید
                         </h2>
                         <p className="text-lg text-gray-600">
-                            فرم زیر را پر کنید و ما در اسرع وقت با شما تماس خواهیم گرفت
+                            فرم زیر را پر کنید و کارشناسان جزیره اسباب بازی در اسرع وقت با شما تماس خواهند گرفت
                         </p>
                     </div>
 
@@ -261,7 +264,7 @@ const ContactUs: React.FC = () => {
                         {submitStatus === 'success' && (
                             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
                                 <CheckCircle className="w-5 h-5 text-green-500 ml-3" />
-                                <span className="text-green-700">پیام شما با موفقیت ارسال شد. ما به زودی با شما تماس خواهیم گرفت.</span>
+                                <span className="text-green-700">پیام شما با موفقیت ارسال شد. کارشناسان جزیره اسباب بازی به زودی با شما تماس خواهند گرفت.</span>
                             </div>
                         )}
 
@@ -345,12 +348,12 @@ const ContactUs: React.FC = () => {
                                         }`}
                                 >
                                     <option value="">موضوع پیام را انتخاب کنید</option>
-                                    <option value="general">سوال عمومی</option>
-                                    <option value="support">پشتیبانی فنی</option>
+                                    <option value="consultation">مشاوره انتخاب اسباب بازی</option>
+                                    <option value="age-group">اسباب بازی مناسب رده سنی</option>
                                     <option value="order">سوال درباره سفارش</option>
-                                    <option value="complaint">شکایت</option>
+                                    <option value="delivery">ارسال و تحویل</option>
+                                    <option value="product-quality">کیفیت محصول</option>
                                     <option value="suggestion">پیشنهاد</option>
-                                    <option value="partnership">همکاری</option>
                                 </select>
                                 {errors.subject && (
                                     <p className="mt-1 text-sm text-red-600">{errors.subject}</p>

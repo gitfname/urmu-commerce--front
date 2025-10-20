@@ -1,24 +1,20 @@
 // SingleProductPage.tsx
-import { useShoppingCart } from './hooks/useShoppingCart';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ServicesGrid from '../../components/ServicesGrid/ServicesGrid';
 import ProductImageGallery from './components/ProductImageGallery/ProductImageGallery';
 import ProductInfo from './components/ProductInfo/ProductInfo';
-import VariantSelector from './components/VariantSelector/VariantSelector';
-import PurchaseBox from './components/PurchaseBox/PurchaseBox';
 import ProductTabs from './components/ProductTabs/ProductTabs';
-import { useProduct, useProductVariants, useFavorites } from './hooks/useProduct';
-import { formatPrice, calculateFinalPrice, calculateDiscountAmount } from './utils/product.utils';
-import type { SingleProductPageProps, VariantAvailability, ProductImage, ProductFeature } from './types/product.types';
-import ServicesGrid from '../../components/ServicesGrid/ServicesGrid';
+import PurchaseBox from './components/PurchaseBox/PurchaseBox';
+import VariantSelector from './components/VariantSelector/VariantSelector';
+import { useFavorites, useProduct, useProductVariants } from './hooks/useProduct';
+import { useShoppingCart } from './hooks/useShoppingCart';
+import type { ProductFeature, ProductImage, SingleProductPageProps, VariantAvailability } from './types/product.types';
+import { calculateDiscountAmount, calculateFinalPrice } from './utils/product.utils';
 
 const API_BASE_URL = 'https://ur-commerce.runflare.run';
 
-const SingleProductPage: React.FC<SingleProductPageProps> = ({
-    breadcrumbs = [],
-    reviews = [],
-    questions = []
-}) => {
+const SingleProductPage: React.FC<SingleProductPageProps> = () => {
     const { id } = useParams<{ id: string }>();
 
     const { addToCart, updateCartItem, cartLoading, cartItems } = useShoppingCart();
@@ -207,31 +203,35 @@ const SingleProductPage: React.FC<SingleProductPageProps> = ({
             <div className="my-8 lg:my-10 lg:px-5">
                 <div className="bg-white shadow-box-sm rounded-xl py-5 px-2 sm:px-6">
                     <div className="flex flex-col lg:flex-row gap-8">
-                        <ProductImageGallery
-                            productImages={productImages}
-                            currentImageIndex={currentImageIndex}
-                            onImageChange={handleImageChange}
-                            hasDiscount={hasDiscount}
-                            currentDiscount={currentDiscount}
-                            productId={product.id}
-                            productTitle={product.title}
-                            thumbnailImage={product.thumbnailImage}
-                            isFavorite={isFavorite}
-                            favoriteLoading={favoriteLoading}
-                            onFavoriteToggle={toggleFavorite}
-                        />
+                        <div className="order-2 lg:order-1 lg:w-full">
+                            <ProductImageGallery
+                                productImages={productImages}
+                                currentImageIndex={currentImageIndex}
+                                onImageChange={handleImageChange}
+                                hasDiscount={hasDiscount}
+                                currentDiscount={currentDiscount}
+                                productId={product.id}
+                                productTitle={product.title}
+                                thumbnailImage={product.thumbnailImage}
+                                isFavorite={isFavorite}
+                                favoriteLoading={favoriteLoading}
+                                onFavoriteToggle={toggleFavorite}
+                            />
+                        </div>
 
-                        <ProductInfo
-                            product={product}
-                            breadcrumbs={[
-                                { title: "خانه", href: "/" },
-                                { title: "محصولات", href: "/search" },
-                                { title: product?.title || "", href: location.href, isActive: true },
-                            ]}
-                            productFeatures={productFeatures}
-                        />
+                        <div className="order-1 lg:order-2 lg:w-full">
+                            <ProductInfo
+                                product={product}
+                                breadcrumbs={[
+                                    { title: "خانه", href: "/" },
+                                    { title: "محصولات", href: "/search" },
+                                    { title: product?.title || "", href: location.href, isActive: true },
+                                ]}
+                                productFeatures={productFeatures}
+                            />
+                        </div>
 
-                        <div className="lg:w-3/12">
+                        <div className="order-3 lg:w-full">
                             <VariantSelector
                                 variants={variants}
                                 selectedVariants={selectedVariants}

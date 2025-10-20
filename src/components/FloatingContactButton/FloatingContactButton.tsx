@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface ContactOption {
     id: string;
@@ -20,7 +21,7 @@ const FloatingContactButton: React.FC = () => {
                     <path d="M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96.6C107.81,116.39,96,139.32,96,160a16,16,0,0,0,16,16c20.68,0,43.61-11.81,63.4-21.39a16,16,0,0,1,16.81-.84l.12,0,47.15,21.12A16,16,0,0,1,231.88,175.08Z"/>
                 </svg>
             ),
-            href: 'tel:021-77916067',
+            href: 'tel:02177916067',
             bgColor: 'bg-green-500'
         },
         {
@@ -31,7 +32,7 @@ const FloatingContactButton: React.FC = () => {
                     <path d="M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96.6C107.81,116.39,96,139.32,96,160a16,16,0,0,0,16,16c20.68,0,43.61-11.81,63.4-21.39a16,16,0,0,1,16.81-.84l.12,0,47.15,21.12A16,16,0,0,1,231.88,175.08Z"/>
                 </svg>
             ),
-            href: 'tel:09107660844',
+            href: 'tel:02133159655',
             bgColor: 'bg-orange-500'
         },
         {
@@ -53,7 +54,7 @@ const FloatingContactButton: React.FC = () => {
                     <path d="M128,24A104,104,0,0,0,24,128c0,57.6,46.4,104,104,104s104-46.4,104-104S185.6,24,128,24Zm47.5,68.5L175.5,155.5c-1.4,7.5-7.1,13.8-14.6,15.4l-32.1,6.4c-7.5,1.4-14.6-2.3-18.3-9.1l-16.8-30.6c-3.7-6.8-1.4-15.2,5.4-18.9l8.9-4.8c1.8-1,3.9-1.2,5.9-0.6l20.8,8.4c6.8,2.7,14.1,0.9,18.9-4.7l16.8-16.8c4.8-4.8,6.6-12.1,4.7-18.9l-8.4-20.8c-0.6-2,0-4.1,0.6-5.9l4.8-8.9c3.7-6.8,12.1-9.1,18.9-5.4l30.6,16.8c6.8,3.7,10.5,10.8,9.1,18.3L175.5,92.5Z"/>
                 </svg>
             ),
-            href: 'https://t.me/Mohammad_hp1997',
+            href: 'https://t.me/narenjitoy',
             bgColor: 'bg-blue-400'
         },
         {
@@ -95,14 +96,15 @@ const FloatingContactButton: React.FC = () => {
                 />
             )}
             
-            <div className="fixed bottom-6 left-6 z-[52]">
+            <div className="fixed lg:bottom-16 bottom-[70px] left-6 z-[52]">
                 {/* Contact Menu */}
                 {isOpen && (
                     <div className="absolute bottom-16 left-0 mb-2 bg-white rounded-lg shadow-lg border p-4 min-w-[280px] z-[52]">
                         <div className="space-y-3">
                             {contactOptions.map((option) => (
-                                <button
+                                <Link
                                     key={option.id}
+                                    to={option.href}
                                     onClick={() => handleOptionClick(option.href)}
                                     className="flex items-center gap-3 w-full p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-right"
                                 >
@@ -110,7 +112,7 @@ const FloatingContactButton: React.FC = () => {
                                         {option.icon}
                                     </div>
                                     <span className="text-sm text-gray-700 font-medium">{option.title}</span>
-                                </button>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -119,7 +121,7 @@ const FloatingContactButton: React.FC = () => {
             {/* Floating Button */}
             <button
                 onClick={toggleMenu}
-                className={`${isOpen ? 'w-14 h-14' : 'w-20 h-20'} bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg flex flex-col items-center justify-center transition-all duration-200 hover:scale-110 gap-1`}
+                className={`${isOpen ? 'w-14 h-14' : 'size-[60px]'} bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg flex flex-col items-center justify-center transition-all duration-200 hover:scale-110 gap-1`}
                 aria-label="تماس با ما"
             >
                 {isOpen ? (
@@ -131,7 +133,7 @@ const FloatingContactButton: React.FC = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
                             <path d="M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96.6C107.81,116.39,96,139.32,96,160a16,16,0,0,0,16,16c20.68,0,43.61-11.81,63.4-21.39a16,16,0,0,1,16.81-.84l.12,0,47.15,21.12A16,16,0,0,1,231.88,175.08Z"/>
                         </svg>
-                        <span className="text-xs font-medium leading-tight">تماس با ما</span>
+                        <span className="text-[10px] font-medium leading-tight">تماس با ما</span>
                     </>
                 )}
             </button>
