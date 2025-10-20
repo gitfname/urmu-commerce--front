@@ -12,7 +12,7 @@ import { formatPrice, calculateFinalPrice, calculateDiscountAmount } from './uti
 import type { SingleProductPageProps, VariantAvailability, ProductImage, ProductFeature } from './types/product.types';
 import ServicesGrid from '../../components/ServicesGrid/ServicesGrid';
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://ur-commerce.runflare.run';
 
 const SingleProductPage: React.FC<SingleProductPageProps> = ({
     breadcrumbs = [],

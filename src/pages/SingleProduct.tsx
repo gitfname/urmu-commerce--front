@@ -110,7 +110,7 @@ const SingleProductPage: React.FC<SingleProductPageProps> = ({
     const [favoriteLoading, setFavoriteLoading] = useState(false);
 
     // API Base URL
-    const API_BASE_URL = 'http://localhost:3000';
+    const API_BASE_URL = 'https://ur-commerce.runflare.run';
 
     // Fetch product data
     useEffect(() => {
