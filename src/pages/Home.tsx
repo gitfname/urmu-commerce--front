@@ -17,14 +17,16 @@ const Categories = lazy(() => import("../components/Categories"))
 
 
 const Home: React.FC = () => {
-  
+
 
     return (
         <div className=''>
             <Story />
+
             <HeroSlider />
+
             <section className='my-10'>
-                
+
             </section>
 
             <section className='max-w-[1500px] mx-auto px-3 xl:px-5'>
@@ -51,10 +53,6 @@ const Home: React.FC = () => {
                 /> */}
 
                 <NewestProductsSlider />
-
-
-
-
 
                 <Suspense>
                     <Categories />

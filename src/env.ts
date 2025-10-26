@@ -9,4 +9,6 @@ export const Env = {
     applicationBanners: "https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/application-banners/",
     productBrands: "https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/product-brands/",
     popularBrands: "https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/popular-brands/",
+    stories: "https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/stories/thumbnails/",
+    storiesVideos: "https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/stories/videos/"
 }

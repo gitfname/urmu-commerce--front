@@ -47,7 +47,7 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
     );
 
     // Transform API data to component format
-    const apiStories: StoryItem[] = useMemo(() => 
+    const apiStories: StoryItem[] = useMemo(() =>
         storiesQuery?.data?.data?.data?.map((story) => ({
             id: story.id.toString(),
             image: Env.stories + story.thumbnailImage,
@@ -77,12 +77,12 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
     const handleStoryClick = (story: StoryItem) => {
         // Update the story object to mark it as inactive (viewed)
         const updatedStory = { ...story, isActive: false };
-        
+
         // Update the display stories to reflect the change
-        setDisplayStories(prev => 
+        setDisplayStories(prev =>
             prev.map(s => s.id === story.id ? updatedStory : s)
         );
-        
+
         setSelectedStory(updatedStory);
         setCurrentImageIndex(0);
         setProgress(0);
@@ -121,17 +121,17 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
     // Progress bar effect with auto-close (only for images, not videos)
     useEffect(() => {
         if (isModalOpen && selectedStory && !isVideoPlaying) {
-            const currentImage = selectedStory.images && selectedStory.images.length > 0 
-                ? selectedStory.images[currentImageIndex] 
+            const currentImage = selectedStory.images && selectedStory.images.length > 0
+                ? selectedStory.images[currentImageIndex]
                 : null;
-            
+
             // Skip progress bar for videos
             if (currentImage?.isVideo) {
                 return;
             }
 
-            const totalImages = selectedStory.images && selectedStory.images.length > 0 
-                ? selectedStory.images.length 
+            const totalImages = selectedStory.images && selectedStory.images.length > 0
+                ? selectedStory.images.length
                 : 1;
 
             const interval = setInterval(() => {
@@ -208,11 +208,10 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                 className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer group"
                                 onClick={() => handleStoryClick(story)}
                             >
-                                <div className={`relative w-16 h-16 rounded-full p-0.5 transition-all duration-300 group-hover:scale-110 ${
-                                    story.isActive 
-                                        ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500' 
+                                <div className={`relative w-16 h-16 rounded-full p-0.5 transition-all duration-300 group-hover:scale-110 ${story.isActive
+                                        ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500'
                                         : 'bg-gray-200'
-                                }`}>
+                                    }`}>
                                     <div className="w-full h-full rounded-full overflow-hidden bg-white p-0.5">
                                         <img
                                             src={story.image}
@@ -237,36 +236,34 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
             {/* Story Modal */}
             {isModalOpen && selectedStory && (
                 <div className="fixed inset-0 bg-black/40 bg-opacity-95 z-50 flex items-center justify-center p-2">
-                    <div className={`bg-white lg:rounded-3xl overflow-hidden shadow-2xl ${
-                        isSm ? 'w-full h-full' : 'w-[90vw] max-w-4xl h-[90vh]'
-                    }`}>
+                    <div className={`bg-white lg:rounded-3xl overflow-hidden shadow-2xl ${isSm ? 'w-full h-full' : 'w-[90vw] max-w-4xl h-[90vh]'
+                        }`}>
                         {/* Progress Bar */}
                         <div className="absolute top-0 left-0 right-0 z-20">
                             <div className="flex gap-1 p-3">
-                                {(selectedStory.images && selectedStory.images.length > 0 
-                                    ? selectedStory.images 
+                                {(selectedStory.images && selectedStory.images.length > 0
+                                    ? selectedStory.images
                                     : [{ id: 'default', image: selectedStory.image, description: selectedStory.description, isVideo: false }]
                                 ).map((image, index) => {
                                     const isCurrentVideo = index === currentImageIndex && image.isVideo;
                                     const isVideoCompleted = isCurrentVideo && videoCompleted;
-                                    
+
                                     return (
                                         <div key={index} className="flex-1 bg-gray-300 rounded-full h-1 overflow-hidden">
-                                            <div 
-                                                className={`h-full transition-all duration-300 ease-out ${
-                                                    index === currentImageIndex 
-                                                        ? 'bg-white' 
-                                                        : index < currentImageIndex 
-                                                            ? 'bg-white' 
+                                            <div
+                                                className={`h-full transition-all duration-300 ease-out ${index === currentImageIndex
+                                                        ? 'bg-white'
+                                                        : index < currentImageIndex
+                                                            ? 'bg-white'
                                                             : 'bg-transparent'
-                                                }`}
+                                                    }`}
                                                 style={{
-                                                    width: isCurrentVideo 
+                                                    width: isCurrentVideo
                                                         ? (isVideoCompleted ? '100%' : '0%')
-                                                        : index === currentImageIndex 
-                                                            ? `${progress}%` 
-                                                            : index < currentImageIndex 
-                                                                ? '100%' 
+                                                        : index === currentImageIndex
+                                                            ? `${progress}%`
+                                                            : index < currentImageIndex
+                                                                ? '100%'
                                                                 : '0%'
                                                 }}
                                             />
@@ -284,10 +281,10 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                         src={selectedStory.image}
                                         alt={selectedStory.title}
                                         className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                            const target = e.target as HTMLImageElement;
-                                            target.src = '/assets/image/products/1.webp';
-                                        }}
+                                        // onError={(e) => {
+                                        //     const target = e.target as HTMLImageElement;
+                                        //     target.src = '/assets/image/products/1.webp';
+                                        // }}
                                     />
                                 </div>
                                 <div>
@@ -295,8 +292,8 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                         {selectedStory.title}
                                     </h3>
                                     <p className="text-sm text-gray-500">
-                                        {currentImageIndex + 1} از {(selectedStory.images && selectedStory.images.length > 0 
-                                            ? selectedStory.images.length 
+                                        {currentImageIndex + 1} از {(selectedStory.images && selectedStory.images.length > 0
+                                            ? selectedStory.images.length
                                             : 1)}
                                     </p>
                                 </div>
@@ -315,8 +312,8 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                         <div className="relative flex-1 flex flex-col lg:h-[60vh] h-[50vh]">
                             <div className="flex-1 relative">
                                 <Swiper {...swiperConfig} className="story-swiper h-full">
-                                    {(selectedStory.images && selectedStory.images.length > 0 
-                                        ? selectedStory.images 
+                                    {(selectedStory.images && selectedStory.images.length > 0
+                                        ? selectedStory.images
                                         : [{ id: 'default', image: selectedStory.image, description: selectedStory.description, isVideo: false }]
                                     ).map((image) => (
                                         <SwiperSlide key={image.id} className="story-swiper-slide">
@@ -324,9 +321,8 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                                 {image.isVideo ? (
                                                     <video
                                                         src={image.image}
-                                                        className={`w-full object-cover rounded-lg ${
-                                                            isSm ? 'h-64' : 'h-64'
-                                                        }`}
+                                                        className={`w-full object-cover rounded-lg ${isSm ? 'h-64' : 'h-64'
+                                                            }`}
                                                         autoPlay
                                                         muted
                                                         playsInline
@@ -340,9 +336,8 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                                     <img
                                                         src={image.image}
                                                         alt={image.description || selectedStory.title}
-                                                        className={`w-full object-cover rounded-lg ${
-                                                            isSm ? 'h-64' : 'h-64'
-                                                        }`}
+                                                        className={`w-full object-cover rounded-lg ${isSm ? 'h-64' : 'h-64'
+                                                            }`}
                                                         onError={(e) => {
                                                             const target = e.target as HTMLImageElement;
                                                             target.src = '/assets/image/products/1.webp';
@@ -352,9 +347,9 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                             </div>
                                         </SwiperSlide>
                                     ))}
-                                    
-                                   
-                                    
+
+
+
                                     {/* Pagination */}
                                     <div className="story-swiper-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2"></div>
                                 </Swiper>
@@ -376,12 +371,12 @@ const Story: React.FC<StoryProps> = ({ stories = [] }) => {
                                     {selectedStory.description}
                                 </p>
                             )}
-                            
+
                             {/* Action Buttons */}
                             <div className="flex gap-3 mt-3">
-                                <button className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 px-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm">
+                                {/* <button className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 px-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm">
                                     مشاهده محصولات
-                                </button>
+                                </button> */}
                                 <button className="flex-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 py-2.5 px-4 rounded-xl hover:from-gray-200 hover:to-gray-300 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm">
                                     اشتراک‌گذاری
                                 </button>
