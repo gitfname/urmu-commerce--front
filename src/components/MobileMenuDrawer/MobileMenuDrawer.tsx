@@ -52,6 +52,7 @@ const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({
 }) => {
     const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
     const [processedCategories, setProcessedCategories] = useState<Category[]>([]);
+    const [activeTab, setActiveTab] = useState<'menu' | 'categories'>('menu');
     const drawerRef = useRef<HTMLDivElement>(null);
 
     const { pathname } = useLocation()
@@ -251,64 +252,79 @@ const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({
                     </button>
                 </div>
 
-                {/* Mobile Toggle Theme Placeholder */}
-                <div className="mb-4">
-                    {/* Theme toggle can be added here */}
+                {/* Tabs */}
+                <div className="mb-4 flex border-b border-gray-200">
+                    <button
+                        onClick={() => setActiveTab('menu')}
+                        className={`flex-1 py-3 text-center text-sm font-medium transition-colors ${
+                            activeTab === 'menu'
+                                ? 'border-b-2 border-red-500 text-red-500'
+                                : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                        type="button"
+                    >
+                        منو
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('categories')}
+                        className={`flex-1 py-3 text-center text-sm font-medium transition-colors ${
+                            activeTab === 'categories'
+                                ? 'border-b-2 border-red-500 text-red-500'
+                                : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                        type="button"
+                    >
+                        دسته‌بندی محصولات
+                    </button>
                 </div>
 
                 <div className="overflow-y-auto">
-                    <ul className="space-y-2">
-                        {/* Menu Items */}
-                        {menuItems.map((item) => {
-                            if (typeof item === "undefined") return <></>;
+                    {/* Menu Tab Content */}
+                    {activeTab === 'menu' && (
+                        <ul className="space-y-2">
+                            {/* Menu Items */}
+                            {menuItems.map((item) => {
+                                if (typeof item === "undefined") return <></>;
 
-                            return <li key={item.id}>
-                                <Link
-                                    className={`flex items-center justify-between rounded-lg px-4 py-3 text-zinc-700 hover:text-red-500 hover:bg-gray-100 transition ${item.isHighlighted ? 'bg-gray-100 hover:bg-gray-200 border' : ''
-                                        }`}
-                                    to={item.href}
-                                >
-                                    <span className="flex items-center gap-x-2">
-                                        {item.icon}
-                                        <span className="text-sm">{item.title}</span>
-                                    </span>
-                                </Link>
-                            </li>
-                        })}
+                                return <li key={item.id}>
+                                    <Link
+                                        className={`flex items-center justify-between rounded-lg px-4 py-3 text-zinc-700 hover:text-red-500 hover:bg-gray-100 transition ${item.isHighlighted ? 'bg-gray-100 hover:bg-gray-200 border' : ''
+                                            }`}
+                                        to={item.href}
+                                    >
+                                        <span className="flex items-center gap-x-2">
+                                            {item.icon}
+                                            <span className="text-sm">{item.title}</span>
+                                        </span>
+                                    </Link>
+                                </li>
+                            })}
+                        </ul>
+                    )}
 
-                        {/* Shop Divider */}
-                        <li>
-                            <div className="flex items-center">
-                                <div className="h-px w-full flex-grow rounded-full bg-gray-100"></div>
-                                <div className="p-2 text-gray-300">
-                                    <span className="flex items-center gap-x-2">
-                                        {ShopIcon}
-                                    </span>
-                                </div>
-                                <div className="h-px w-full flex-grow rounded-full bg-gray-100"></div>
-                            </div>
-                        </li>
+                    {/* Categories Tab Content */}
+                    {activeTab === 'categories' && (
+                        <ul className="space-y-2">
+                            {/* Categories Loading State */}
+                            {categoriesTreeQuery.isLoading && (
+                                <li>
+                                    <div className="flex items-center justify-center py-8">
+                                        <div className="text-sm text-gray-500">در حال بارگذاری دسته‌بندی‌ها...</div>
+                                    </div>
+                                </li>
+                            )}
 
-                        {/* Categories Loading State */}
-                        {categoriesTreeQuery.isLoading && (
-                            <li>
-                                <div className="flex items-center justify-center py-8">
-                                    <div className="text-sm text-gray-500">در حال بارگذاری دسته‌بندی‌ها...</div>
-                                </div>
-                            </li>
-                        )}
+                            {/* Categories Error State */}
+                            {categoriesTreeQuery.isError && (
+                                <li>
+                                    <div className="flex items-center justify-center py-8">
+                                        <div className="text-sm text-red-500">خطا در بارگذاری دسته‌بندی‌ها</div>
+                                    </div>
+                                </li>
+                            )}
 
-                        {/* Categories Error State */}
-                        {categoriesTreeQuery.isError && (
-                            <li>
-                                <div className="flex items-center justify-center py-8">
-                                    <div className="text-sm text-red-500">خطا در بارگذاری دسته‌بندی‌ها</div>
-                                </div>
-                            </li>
-                        )}
-
-                        {/* Categories */}
-                        {!categoriesTreeQuery.isLoading && !categoriesTreeQuery.isError && (categories || processedCategories).map((category) => (
+                            {/* Categories */}
+                            {!categoriesTreeQuery.isLoading && !categoriesTreeQuery.isError && (categories || processedCategories).map((category) => (
                             <li key={category.id.toString()}>
                                 <div className="border-b pb-2">
                                     <div className="space-y-2">
@@ -396,8 +412,9 @@ const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({
                                     </div>
                                 </div>
                             </li>
-                        ))}
-                    </ul>
+                            ))}
+                        </ul>
+                    )}
                 </div>
             </div>
         </>

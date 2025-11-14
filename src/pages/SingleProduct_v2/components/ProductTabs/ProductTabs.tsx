@@ -25,7 +25,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
             {/* Tabs Navigation */}
             <div className="flex gap-x-8 mt-20 pb-2 border-b">
                 <button
-                    className={`transition ${activeTab === 'specifications' ? 'text-zinc-800' : 'text-zinc-600 hover:text-zinc-800'}`}
+                    className={`transition max-md:hidden ${activeTab === 'specifications' ? 'text-zinc-800' : 'text-zinc-600 hover:text-zinc-800'}`}
                     onClick={() => onTabChange('specifications')}
                 >
                     مشخصات
@@ -48,7 +48,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
 
             {/* Tab Content */}
             {activeTab === 'specifications' && (
-                <div className="p-4" id="proper">
+                <div className="p-4 max-md:hidden " id="proper">
                     <span className="border-b-red-300 border-b text-zinc-800">
                         مشخصات محصول
                     </span>

@@ -40,7 +40,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
     title = 'پرفروش ترین',
     titleIcon,
     products = [],
-    viewAllHref = '#',
+    viewAllHref = '/search',
     viewAllText = 'مشاهده همه',
     autoplay = true,
     autoplayDelay = 4000,

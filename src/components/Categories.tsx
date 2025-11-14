@@ -4,7 +4,7 @@ import CategoryGrid2 from "./CategoryGrid2/CategoryGrid2"
 
 function Categories() {
     const categories = useFindManyProductCategoriesQuery({
-        limit: 12,
+        limit: 100,
         skip: 0,
         isPrimary: true
     }, {

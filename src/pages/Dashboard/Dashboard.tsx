@@ -13,7 +13,7 @@ function Dashboard() {
     )
 
     return (
-        <div className="max-md:mt-20 mt-40 relative">
+        <div className="max-md:mt-20  relative">
             {
                 !show
                     ?

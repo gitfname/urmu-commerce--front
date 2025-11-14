@@ -7,6 +7,7 @@ import ProductInfo from './components/ProductInfo/ProductInfo';
 import ProductTabs from './components/ProductTabs/ProductTabs';
 import PurchaseBox from './components/PurchaseBox/PurchaseBox';
 import VariantSelector from './components/VariantSelector/VariantSelector';
+import Breadcrumb from './components/Breadcrumb/Breadcrumb';
 import { useFavorites, useProduct, useProductVariants } from './hooks/useProduct';
 import { useShoppingCart } from './hooks/useShoppingCart';
 import type { ProductFeature, ProductImage, SingleProductPageProps, VariantAvailability } from './types/product.types';
@@ -203,6 +204,14 @@ const SingleProductPage: React.FC<SingleProductPageProps> = () => {
             <div className="my-8 lg:my-10 lg:px-5">
                 <div className="bg-white shadow-box-sm rounded-xl py-5 px-2 sm:px-6">
                     <div className="flex flex-col lg:flex-row gap-8">
+                        {/* Breadcrumb with order-1 for mobile */}
+                        <div className="order-1 lg:hidden w-full">
+                            <Breadcrumb breadcrumbs={[
+                                { title: "خانه", href: "/" },
+                                { title: "محصولات", href: "/search" },
+                                { title: product?.title || "", href: location.href, isActive: true },
+                            ]} />
+                        </div>
                         <div className="order-2 lg:order-1 lg:w-full">
                             <ProductImageGallery
                                 productImages={productImages}
@@ -219,7 +228,7 @@ const SingleProductPage: React.FC<SingleProductPageProps> = () => {
                             />
                         </div>
 
-                        <div className="order-1 lg:order-2 lg:w-full">
+                        <div className="order-3 lg:order-2 lg:w-full">
                             <ProductInfo
                                 product={product}
                                 breadcrumbs={[
@@ -231,7 +240,7 @@ const SingleProductPage: React.FC<SingleProductPageProps> = () => {
                             />
                         </div>
 
-                        <div className="order-3 lg:w-full">
+                        <div className="order-4 lg:order-3 lg:w-full">
                             <VariantSelector
                                 variants={variants}
                                 selectedVariants={selectedVariants}

@@ -12,7 +12,7 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ breadcrumbs }) => (
-    <div className="mb-7 text-sm flex items-center gap-x-2 opacity-90">
+    <div className="mb-7 text-sm flex items-center gap-x-2 opacity-90 ov">
         {breadcrumbs.map((breadcrumb, index) => (
             <React.Fragment key={index}>
                 <a
