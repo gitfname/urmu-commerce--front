@@ -68,7 +68,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                 )}
                 <img
                     className="w-10/12 lg:w-full mx-auto border-2 rounded-xl mt-3"
-                    src={"https://jahanzar2.storage.iran.liara.space/ecommerce/products/images/" + (productImages[currentImageIndex]?.src || thumbnailImage)}
+                    src={"https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/products/images/" + (productImages[currentImageIndex]?.src || thumbnailImage)}
                     alt={productImages[currentImageIndex]?.alt || productTitle}
                 />
             </div>
@@ -79,7 +79,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                         <div key={index} className="flex-shrink-0">
                             <img
                                 className={`opacity-50 hover:opacity-95 transition-all cursor-pointer w-16 h-16 object-cover border-2 rounded-lg hover:border-red-400 ${currentImageIndex === index ? 'opacity-95 border-red-400' : ''}`}
-                                src={"https://jahanzar2.storage.iran.liara.space/ecommerce/products/images/" + image.src}
+                                src={"https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/products/images/" + image.src}
                                 alt={image.alt}
                                 onClick={() => onImageChange(index)}
                             />

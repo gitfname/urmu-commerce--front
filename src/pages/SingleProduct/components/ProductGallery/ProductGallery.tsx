@@ -39,7 +39,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
             {/* Main Image */}
             <img
                 className="w-10/12 lg:w-full mx-auto border-2 rounded-xl mt-3"
-                src={"https://jahanzar2.storage.iran.liara.space/ecommerce/products/images/" + images[currentImageIndex]?.src}
+                src={"https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/products/images/" + images[currentImageIndex]?.src}
                 alt={images[currentImageIndex]?.alt}
             />
 
@@ -49,7 +49,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
                     <div key={index} className="">
                         <img
                             className={`opacity-50 hover:opacity-95 transition-all cursor-pointer w-10/12 lg:w-12/12 border-2 rounded-lg hover:border-red-400 ${currentImageIndex === index ? 'opacity-95 border-red-400' : ''}`}
-                            src={"https://jahanzar2.storage.iran.liara.space/ecommerce/products/images/" + image.src}
+                            src={"https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/products/images/" + image.src}
                             alt={image.alt}
                             onClick={() => handleImageChange(index)}
                         />

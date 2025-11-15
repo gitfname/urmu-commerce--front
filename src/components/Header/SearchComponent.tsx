@@ -289,7 +289,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
                                                 onClick={() => handleSearchResultClick(item.name)}
                                             >
                                                 <img
-                                                    src={"https://jahanzar2.storage.iran.liara.space/ecommerce/products/thumbnail/" + item.imageUrl}
+                                                    src={"https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/products/thumbnail/" + item.imageUrl}
                                                     alt={item.name}
                                                     className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
                                                     onError={(e) => {

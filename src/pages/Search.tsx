@@ -354,7 +354,7 @@ const ProductSearch: React.FC = () => {
     };
 
     const getImageUrl = (imageName: string) => {
-        return `https://jahanzar2.storage.iran.liara.space/ecommerce/products/thumbnail/${imageName}`;
+        return `https://narenjitoy--bucket.storage.c2.liara.space/ecommerce/products/thumbnail/${imageName}`;
     };
 
 
